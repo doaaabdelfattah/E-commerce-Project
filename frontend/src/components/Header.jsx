@@ -1,8 +1,17 @@
 import React from "react";
 import { MdEmail } from "react-icons/md";
-import { FaPhone, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
+import {
+  FaPhone,
+  FaTwitter,
+  FaFacebook,
+  FaLinkedin,
+  FaUser,
+  FaLock,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Header = () => {
+  const user = false;
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#FAF9F7] md-lg:hidden ">
@@ -16,7 +25,7 @@ const Header = () => {
                 </span>
                 <span>support@gmail.com</span>
               </li>
-              <li className="flex relative justify-center items-center gap-2 after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] hover:text-[#BC9B80]">
+              <li className="flex relative justify-center items-center gap-2 hover:text-[#BC9B80]">
                 <span>
                   <FaPhone />
                 </span>
@@ -28,17 +37,41 @@ const Header = () => {
               <div className="flex justify-center items-center gap-10 ">
                 {/* - - Social Links - - */}
                 <div className="flex justify-center items-center gap-4 text-[1.5rem]">
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                   <a className="hover:text-[#BC9B80]" href="#">
                     <FaFacebook />
                   </a>
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                   <a className="hover:text-[#BC9B80]" href="#">
                     <FaTwitter />
                   </a>
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                   <a className="hover:text-[#BC9B80] " href="#">
                     <FaLinkedin />
                   </a>
                 </div>
-                {/* - -   - - */}
+                {/* - -  User Name - - */}
+                {user ? (
+                  <Link
+                    className="flex cursor-pointer justify-center items-center gap-2"
+                    to="/dashboard"
+                  >
+                    <span>
+                      <FaUser />
+                    </span>
+                    <span> Doaa Abdelfattah </span>
+                  </Link>
+                ) : (
+                  <Link
+                    className="flex cursor-pointer justify-center items-center gap-2"
+                    to="/login"
+                  >
+                    <span>
+                      <FaLock />
+                    </span>
+                    <span>Login </span>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
