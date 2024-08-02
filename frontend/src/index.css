@@ -3,5 +3,22 @@
 @tailwind utilities;
 
 * {
-  font-family: "Playfair Display", serif;
+  font-family: "Poppins", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
+  /* font-family: "Playfair Display", serif; */
+}
+
+.custom-before::before {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 3px;
+  background-color: #bc9b80;
+  top: 100%;
+  left: 0%;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-before:hover::before {
+  width: 100%;
 }
