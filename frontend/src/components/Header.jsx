@@ -23,8 +23,10 @@ const Header = () => {
   const wishlist = 4;
   const categories = Array.from(
     { length: 5 },
-    (_, i) => `category Nu. ${i + 1}`
+    (_, i) => `Category Nu. ${i + 1}`
   );
+  const [searchValue, setSearchValue] = useState("");
+  const [category, setCategory] = useState("");
 
   return (
     <div className="w-full bg-white">
@@ -213,10 +215,10 @@ const Header = () => {
           onClick={() => setshowSideBar(true)}
           className={`fixed duration-500 transition-all ${
             showSideBar ? "invisible" : "visible"
-          } w-screen h-screen md-lg:block  bg-[rgba(188,155,128,0.55)] mt-5 top-0 left-0 z-20`}
+          } w-screen h-screen md-lg:block  bg-[rgba(188,155,128,0.55)] mt-5 top-0 left-0 z-50`}
         ></div>
         <div
-          className={`w-[300px] z-[999] transition-all duration-500 fixed ${
+          className={`w-[300px] z-[100] transition-all duration-500 fixed ${
             showSideBar
               ? "-left-[300px]"
               : "left-0 top-0 overflow-auto bg-white h-screen py-6 px-8 "
@@ -322,7 +324,7 @@ const Header = () => {
 
       {/* =============== Second Line Main HEADER ============= */}
 
-      <div className="w-[85%] border-t-2 lg:w-[90%] mx-auto">
+      <div className="w-[85%] border-t-[1.5px] lg:w-[90%] mx-auto">
         <div className="flex w-full flex-wrap md-lg:gap-8">
           {/* Part ONE I All Categories Button */}
           <div className="w-3/12 md-lg:w-full">
@@ -342,10 +344,12 @@ const Header = () => {
                   <MdKeyboardArrowDown />
                 </span>
               </div>
+
+              {/* Category list */}
               <div
                 className={`${
                   showCategory ? "h-[0]" : "h-fit"
-                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[999] w-full bg-[#FAF9F7]`}
+                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
               >
                 <ul className="py-2 m-[10px] font-medium">
                   {categories.map((category, index) => (
@@ -357,6 +361,45 @@ const Header = () => {
                     </li>
                   ))}
                 </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Middle Section (Search / Select) */}
+
+          <div className="w-9/12 pl-8 md-lg:pl-0 md-lg:full">
+            <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
+              <div className="w-10/12 md-lg:w-full">
+                <div className=" flex border h-[60px] mt-5 relative items-center gap-6">
+                  {/* - - Select menu - -  */}
+                  <div className=" pl-4 relative after:absolute after:h-[30px] after:w-[1px]  after:-right-[15px] after:bg-[#afafaf] md:hidden">
+                    <select
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="font-semibold text-slate-600 px-2 h-full outline-0 border-none"
+                      name=""
+                      id=""
+                    >
+                      <option value=""> Select Category </option>
+                      {categories.map((category, index) => (
+                        <option key={index} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* - - - search input - - -  */}
+                  <input
+                    className="border-0 bg-transparent w-full text-slate-500 relative outline-0 px-3 h-full"
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    type="text"
+                    name=""
+                    id=""
+                    placeholder="What do you need?"
+                  />
+                  <button className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300">
+                    Search
+                  </button>
+                </div>
               </div>
             </div>
           </div>
