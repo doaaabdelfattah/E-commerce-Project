@@ -12,12 +12,20 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
+import { IoIosList } from "react-icons/io";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Header = () => {
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
+  const [showCategory, setshowCategory] = useState(true);
   const user = true;
   const wishlist = 4;
+  const categories = Array.from(
+    { length: 5 },
+    (_, i) => `category Nu. ${i + 1}`
+  );
+
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#FAF9F7] md-lg:hidden ">
@@ -87,10 +95,10 @@ const Header = () => {
       {/*  ============== Main HEADER ======== */}
 
       <div className="w-white mt-6 pt-4">
-        <div className="w-[85%] h-[100px] lg:w[90%] mx-auto">
+        <div className="w-[85%] h-[120px] md-lg:h[120px] lg:w[90%] mx-auto">
           <div className=" md-lg:h[100px] flex justify-between items-center flex-wrap">
             {/* ===== Left part ====== */}
-            <div className="md-lg:w-full w-3/12 md-lg:pt-4">
+            <div className="md-lg:w-full w-3/12 ">
               <div className="flex justify-between items-center">
                 <Link to="/">
                   <img
@@ -203,12 +211,12 @@ const Header = () => {
       <div className="hidden md-lg:block">
         <div
           onClick={() => setshowSideBar(true)}
-          className={`fixed duration-300 transition-all ${
+          className={`fixed duration-500 transition-all ${
             showSideBar ? "invisible" : "visible"
           } w-screen h-screen md-lg:block  bg-[rgba(188,155,128,0.55)] mt-5 top-0 left-0 z-20`}
         ></div>
         <div
-          className={`w-[300px] z-[999] transition-all duration-300 fixed ${
+          className={`w-[300px] z-[999] transition-all duration-500 fixed ${
             showSideBar
               ? "-left-[300px]"
               : "left-0 top-0 overflow-auto bg-white h-screen py-6 px-8 "
@@ -312,15 +320,43 @@ const Header = () => {
         </div>
       </div>
 
-      {/* =============== Second Line ============= */}
+      {/* =============== Second Line Main HEADER ============= */}
 
       <div className="w-[85%] border-t-2 lg:w-[90%] mx-auto">
         <div className="flex w-full flex-wrap md-lg:gap-8">
-          {/* Part ONE I */}
+          {/* Part ONE I All Categories Button */}
           <div className="w-3/12 md-lg:w-full">
             <div className="bg-white relative">
-              <div className="h-[50px] mt-5 rounded-md  flex justify-center cursor-pointer transition-all duration-300 custom-before pt-2">
-                <div></div>
+              {/* Category Button */}
+              <div
+                onClick={() => setshowCategory(!showCategory)}
+                className=" duration-500 transition-all text-[#1F212A] h-[60px] mt-5 flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-semibold cursor-pointer bg-[#FAF9F7] custom-before pt-2"
+              >
+                <div className="flex justify-center items-center gap-3">
+                  <span className="text-2xl">
+                    <IoIosList />
+                  </span>
+                  <span>All Categories</span>
+                </div>
+                <span className="text-2xl">
+                  <MdKeyboardArrowDown />
+                </span>
+              </div>
+              <div
+                className={`${
+                  showCategory ? "h-[0]" : "h-fit"
+                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[999] w-full bg-[#FAF9F7]`}
+              >
+                <ul className="py-2 m-[10px] font-medium">
+                  {categories.map((category, index) => (
+                    <li
+                      key={index}
+                      className="flex justify-start m-[10px] relative custom-before gap-2 items-center py-[6px] px-[24px]"
+                    >
+                      <Link className="block">{category}</Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>

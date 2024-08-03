@@ -12,13 +12,28 @@
   content: "";
   position: absolute;
   width: 0%;
-  height: 3px;
+  height: 2px;
   background-color: #bc9b80;
   top: 100%;
   left: 0%;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s;
 }
 
 .custom-before:hover::before {
+  width: 100%;
+}
+
+.fill-custom-before::before {
+  content: "";
+  position: absolute;
+  width: 0%; /* Start with 0 width */
+  height: 100%; /* Cover the full height of the parent */
+  top: 0;
+  left: 0; /* Start from the left edge */
+  background-color: #bc9b80;
+  transition: width 0.3s ease-in-out;
+}
+
+.fill-custom-before:hover::before {
   width: 100%;
 }
