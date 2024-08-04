@@ -10,9 +10,10 @@ const starContainerStyle = {
   gap: "4px",
 };
 const textStyle = {
-  lineHeight: "1",
-  fontSize: "1.3rem",
+  // lineHeight: "1",
+  fontSize: "1.2rem",
   margin: "0",
+  color: "#475569",
 };
 
 // ============== Start Component ==============

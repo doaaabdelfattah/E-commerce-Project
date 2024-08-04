@@ -69,7 +69,7 @@ const Shop = () => {
               </h2>
 
               {/* - - Select Category - -  */}
-              <div className="py-2">
+              <div className="py-2 mb-5">
                 {categories.map((category, index) => (
                   <div className="flex justify-start items-center gap-2 py-1 px-4">
                     <input type="checkbox" id={category} />
@@ -81,7 +81,7 @@ const Shop = () => {
               </div>
 
               {/* - - - - Price Range - - - - */}
-              <div className="py-2 flex flex-col gap-5">
+              <div className="border-t-2 py-8 flex flex-col gap-5 mb-5">
                 <h2 className="text-3xl text-slate-600 mb-3 font-semibold">
                   Price
                 </h2>
@@ -94,27 +94,31 @@ const Shop = () => {
                   renderTrack={({ props, children }) => (
                     <div
                       {...props}
-                      className=" w-full h-[6px] bg-slate-200 rounded-full cursor-pointer"
+                      className=" w-[80%] h-[5px] bg-slate-200 rounded-full cursor-pointer"
                     >
                       {children}
                     </div>
                   )}
                   renderThumb={({ props }) => (
                     <div
-                      className="w-[15px] h-[15px] rounded-full bg-[#BC9B80]"
+                      className="w-[20px] h-[20px] rounded-full 
+                      bg-white border-[#BC9B80] border-2"
                       {...props}
                     />
                   )}
                 />
+                <span className="text-slate-600">
+                  Price Range:{" "}
+                  <span className="text-[#BC9B80]">
+                    ${Math.floor(priceValues[0])} - $
+                    {Math.floor(priceValues[1])}
+                  </span>
+                </span>
               </div>
-
-              <span className="text-slate-600 font-semibold text-lg ">
-                ${Math.floor(priceValues[0])} - ${Math.floor(priceValues[1])}
-              </span>
 
               {/* - - - - - Rating - - - - - */}
 
-              <div className="flex flex-col gap-4 py-5">
+              <div className="flex flex-col gap-4 py-5 border-t-2">
                 <h2 className="text-3xl text-slate-600 mb-1 font-semibold">
                   Rating
                 </h2>
