@@ -127,6 +127,7 @@ const Header = () => {
                 <ul className="flex justify-start items-start gap-8 uppercase md-lg:hidden text-lg ">
                   <li>
                     <Link
+                      to="/"
                       className={`p-2 block ${
                         pathname === "/" ? "text-[#BC9B80]" : "text-slate-600"
                       } hover:text-[#BC9B80]`}
@@ -136,6 +137,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/shop"
                       className={`p-2 block ${
                         pathname === "/shop"
                           ? "text-[#BC9B80]"
@@ -235,6 +237,7 @@ const Header = () => {
           <ul className="m-4 pt-3 flex flex-col h-[60%] justify-start items-start gap-5 uppercase text-lg ">
             <li>
               <Link
+                to="/"
                 className={`py-2 block ${
                   pathname === "/" ? "text-[#BC9B80]" : "text-slate-600"
                 } hover:text-[#BC9B80]`}
@@ -244,6 +247,7 @@ const Header = () => {
             </li>
             <li>
               <Link
+                to="/shop"
                 className={`py-2 block ${
                   pathname === "/shop" ? "text-[#BC9B80]" : "text-slate-600"
                 } hover:text-[#BC9B80]`}
@@ -325,7 +329,7 @@ const Header = () => {
       {/* =============== Second Line Main HEADER ============= */}
 
       <div className="w-[85%] border-t-[1.5px] lg:w-[90%] mx-auto">
-        <div className="flex w-full flex-wrap md-lg:gap-8">
+        <div className="flex w-full flex-wrap md-lg:gap-4">
           {/* Part ONE I All Categories Button */}
           <div className="w-3/12 md-lg:w-full">
             <div className="bg-white relative">
@@ -367,10 +371,10 @@ const Header = () => {
 
           {/* Middle Section (Search / Select) */}
 
-          <div className="w-9/12 pl-8 md-lg:pl-0 md-lg:full">
+          <div className="w-9/12 flex-1 pl-8 md-lg:pl-0 md-lg:full">
             <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
-              <div className="w-10/12 md-lg:w-full">
-                <div className=" flex border h-[60px] mt-5 relative items-center gap-6">
+              <div className="w-full">
+                <div className="flex border h-[60px] mt-5 relative items-center gap-6">
                   {/* - - Select menu - -  */}
                   <div className=" pl-4 relative after:absolute after:h-[30px] after:w-[1px]  after:-right-[15px] after:bg-[#afafaf] md:hidden">
                     <select
