@@ -4,8 +4,6 @@ import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
-import { FaStar } from "react-icons/fa6";
-import { FaRegStar } from "react-icons/fa6";
 
 import StarRating from "../utils/StarRating";
 const Shop = () => {
@@ -114,127 +112,24 @@ const Shop = () => {
                 ${Math.floor(priceValues[0])} - ${Math.floor(priceValues[1])}
               </span>
 
-              {/* Rating */}
+              {/* - - - - - Rating - - - - - */}
 
               <div className="flex flex-col gap-4 py-5">
                 <h2 className="text-3xl text-slate-600 mb-1 font-semibold">
                   Rating
                 </h2>
                 <div className="flex flex-col gap-3">
+                  {/* - - -  stars - - - */}
                   <div>
-                    <StarRating max={5} />
+                    <StarRating
+                      max={5}
+                      color="#F97316"
+                      size="30"
+                      onSetRating={setRating}
+                    />
                   </div>
-
-                  {/*- - - - 🔅 5 stars - - -  */}
-                  <div
-                    onClick={() => setRating(5)}
-                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
-                  >
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                  </div>
-                  {/* - - - - - 4 stars - - - - */}
-                  <div
-                    onClick={() => setRating(4)}
-                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
-                  >
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                  </div>
-                  {/* - - - - - 3 stars - - - - */}
-                  <div
-                    onClick={() => setRating(3)}
-                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
-                  >
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-
-                    <span>
-                      <FaRegStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                  </div>
-                  {/* - - - - - 2 stars - - - - */}
-                  <div
-                    onClick={() => setRating(2)}
-                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
-                  >
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                  </div>
-                  {/* - - - - - 1 star - - - - */}
-                  <div
-                    onClick={() => setRating(1)}
-                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
-                  >
-                    <span>
-                      <FaStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                    <span>
-                      <FaRegStar />
-                    </span>
-                  </div>
-                  {/* End Stars ====== */}
                 </div>
               </div>
-
               {/* - - - Products - - - - */}
             </div>
           </div>

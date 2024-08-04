@@ -1,0 +1,110 @@
+
+========================= 5 stars ==========================     
+                  
+{/*- - - - 🔅 5 stars - - - */}
+<div
+  onClick={() => setRating(5)}
+  className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+</div>
+{/* - - - - - 4 stars - - - - */}
+<div
+  onClick={() => setRating(4)}
+  className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+</div>
+{/* - - - - - 3 stars - - - - */}
+<div
+  onClick={() => setRating(3)}
+  className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+
+  <span>
+    <FaRegStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+</div>
+{/* - - - - - 2 stars - - - - */}
+<div
+  onClick={() => setRating(2)}
+  className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+</div>
+{/* - - - - - 1 star - - - - */}
+<div
+  onClick={() => setRating(1)}
+  className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+>
+  <span>
+    <FaStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+  <span>
+    <FaRegStar />
+  </span>
+</div>
+{/* End Stars ====== */}
