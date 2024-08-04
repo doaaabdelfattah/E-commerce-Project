@@ -123,8 +123,8 @@ const Shop = () => {
                   <div>
                     <StarRating
                       max={5}
-                      color="#F97316"
-                      size="30"
+                      color="#BC9B80"
+                      size="35"
                       onSetRating={setRating}
                     />
                   </div>
