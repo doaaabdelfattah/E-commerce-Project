@@ -7,6 +7,7 @@ import { Range } from "react-range";
 import { FaStar } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa6";
 
+import StarRating from "../utils/StarRating";
 const Shop = () => {
   const [filter, setFilter] = useState(true);
   const [priceValues, setPriceValues] = useState([50, 3000]);
@@ -116,10 +117,14 @@ const Shop = () => {
               {/* Rating */}
 
               <div className="flex flex-col gap-4 py-5">
-                <h2 className="text-3xl text-slate-600 mb-3 font-semibold">
+                <h2 className="text-3xl text-slate-600 mb-1 font-semibold">
                   Rating
                 </h2>
                 <div className="flex flex-col gap-3">
+                  <div>
+                    <StarRating max={5} />
+                  </div>
+
                   {/*- - - - 🔅 5 stars - - -  */}
                   <div
                     onClick={() => setRating(5)}
@@ -226,6 +231,7 @@ const Shop = () => {
                       <FaRegStar />
                     </span>
                   </div>
+                  {/* End Stars ====== */}
                 </div>
               </div>
 
