@@ -24,7 +24,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="w-full md:mt-6 lg:mt-6">
+    <div className="w-[87%] m-auto relative">
       <div className="w-full lg:w-[90%] mx-auto">
         <div className="w-full flex flex-wrap md:gap-8 lg:gap-8">
           <div className="w-full">
