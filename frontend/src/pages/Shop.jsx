@@ -6,10 +6,18 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
 
 import StarRating from "../utils/StarRating";
+import Products from "../components/Product";
+import { TiThList } from "react-icons/ti";
+import { BsFillGridFill } from "react-icons/bs";
+import { FaThList } from "react-icons/fa";
+import ShopProducts from "../components/product/ShopProducts";
+import Pagination from "../components/Pagination";
+
 const Shop = () => {
   const [filter, setFilter] = useState(true);
   const [priceValues, setPriceValues] = useState([50, 3000]);
   const [rating, setRating] = useState(0);
+  const [styleView, setStyleView] = useState("grid");
 
   const categories = Array.from(
     { length: 5 },
@@ -135,6 +143,53 @@ const Shop = () => {
                 </div>
               </div>
               {/* - - - Products - - - - */}
+              <div className="py-5 flex flex-col gap-4 md:hidden">
+                {/* <Products title="Latest Products" /> */}
+              </div>
+            </div>
+
+            {/* =========== Middle Part ===================== */}
+            <div className="w-9/12 md-lg:w-8/12 md:w-full">
+              <div className="pl-8 md:pl-0">
+                <div className="py-4 bg-white mb-10 px-5 rounded-sm flex justify-between border items-start">
+                  <h2 className="text-slate-600 font-medium">14 products</h2>
+                  <div className="flex justify-center items-center gap-3">
+                    <select
+                      className="p-1 border outline-0 text-slate-600 "
+                      name=""
+                      id=""
+                    >
+                      <option value=""> Sort By</option>
+                      <option value="low-to-high"> Low to High Price </option>
+                      <option value="high-to-low"> High to Low price</option>
+                    </select>
+                    <div className="flex justify-center items-center gao-4 md-lg:hidden">
+                      <div
+                        onClick={() => setStyleView("grid")}
+                        className={`${
+                          styleView === "grid" && "bg-slate-300"
+                        } p-2 text-slate-600 hover:bg-slate-300 cursor-pointer rounded-sm`}
+                      >
+                        <BsFillGridFill />
+                      </div>
+                      <div
+                        onClick={() => setStyleView("list")}
+                        className={`${
+                          styleView === "list" && "bg-slate-300"
+                        } p-2 text-slate-600 hover:bg-slate-300 cursor-pointer rounded-sm`}
+                      >
+                        <FaThList />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pb-8">
+                  <ShopProducts style={styleView} />
+                </div>
+
+                <div></div>
+              </div>
             </div>
           </div>
         </div>
