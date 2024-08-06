@@ -13,7 +13,7 @@ const ShopProducts = ({ style }) => {
       } gap-3`}
     >
       {/* =========== main container =============== */}
-      {[1, 2, 3, 4, 5].map((p, i) => (
+      {[1, 2, 3, 4, 5, 6].map((p, i) => (
         <div
           key={i}
           className={`flex transition-all duration-700 hover:shadow-md hover:-translate-y-3 ${
@@ -26,8 +26,8 @@ const ShopProducts = ({ style }) => {
           <div
             className={
               style === "grid"
-                ? "w-full relative group h-[350px] md:h-[270px] xs:h-[170px] overflow-hidden"
-                : "md-lg:w-full relative group h-[320px] md:h-[270px] overflow-hidden"
+                ? "w-full relative group min-h-[300px] md:h-[270px] xs:h-[170px] overflow-hidden"
+                : "md-lg:w-full relative group min-h-[320px] md:h-[270px] overflow-hidden"
             }
           >
             <img

@@ -26,7 +26,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
-  const user = true;
+  const user = false;
   const wishlist = 4;
   const categories = Array.from(
     { length: 5 },
@@ -87,7 +87,7 @@ const Header = () => {
                 ) : (
                   <Link
                     className="flex cursor-pointer justify-center items-center gap-2"
-                    to="/LoginpopUp"
+                    to="/Login"
                   >
                     <span>
                       <FaLock />
@@ -308,7 +308,7 @@ const Header = () => {
                 <span>
                   <FaUser />
                 </span>
-                <span>  </span>
+                <span> </span>
               </Link>
             ) : (
               <Link

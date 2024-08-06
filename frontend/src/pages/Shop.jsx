@@ -6,12 +6,11 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
 
 import StarRating from "../utils/StarRating";
-import Products from "../components/Product";
-import { TiThList } from "react-icons/ti";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
 import ShopProducts from "../components/product/ShopProducts";
 import Pagination from "../components/Pagination";
+import Products from "../components/product/Products";
 
 const Shop = () => {
   const [filter, setFilter] = useState(true);
@@ -144,7 +143,7 @@ const Shop = () => {
               </div>
               {/* - - - Products - - - - */}
               <div className="py-5 flex flex-col gap-4 md:hidden">
-                {/* <Products title="Latest Products" /> */}
+                <Products title="Latest Products" />
               </div>
             </div>
 
@@ -188,7 +187,15 @@ const Shop = () => {
                   <ShopProducts style={styleView} />
                 </div>
 
-                <div></div>
+                <div>
+                  <Pagination
+                    pageNumber={1}
+                    setPageNumber={20}
+                    totalItem={4}
+                    perPage={5}
+                    btnShowItem={5}
+                  />
+                </div>
               </div>
             </div>
           </div>
