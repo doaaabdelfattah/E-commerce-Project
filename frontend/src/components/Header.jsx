@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-
-
-import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
+import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 import {
   FaPhone,
   FaTwitter,
@@ -27,7 +25,7 @@ const Header = () => {
   const closeLoginPopup = () => setIsLoginOpen(false);
   const navigate = useNavigate();
   const handleCartClick = () => {
-    navigate('/cart');
+    navigate("/cart");
   };
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
@@ -172,26 +170,20 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-  <ScrollLink
-    to="footer"
-    spy={true}
-    smooth={true}
-    duration={500}
-    className={`p-2  cursor-pointer block ${
-      pathname === "/about" ? "text-[#BC9B80]" : "text-slate-600"
-    } hover:text-[#BC9B80]`}
-  >
-    about us
-  </ScrollLink>
-</li>
-<li>
-      <div className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px] text-[#1F212A] hover:text-[#BC9B80]">
-        <span onClick={handleCartClick} className="text-3xl">
-          <FiShoppingCart />
-        </span>
-      </div>
-
-</li>
+                    <ScrollLink
+                      to="footer"
+                      spy={true}
+                      smooth={true}
+                      duration={500}
+                      className={`p-2  cursor-pointer block ${
+                        pathname === "/about"
+                          ? "text-[#BC9B80]"
+                          : "text-slate-600"
+                      } hover:text-[#BC9B80]`}
+                    >
+                      about us
+                    </ScrollLink>
+                  </li>
                 </ul>
                 {/* - - Icons - - */}
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
@@ -207,7 +199,7 @@ const Header = () => {
                     </div>
                     {/* Shopping Cart */}
                     <div className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px] text-[#1F212A] hover:text-[#BC9B80]">
-                      <span  onClick={handleCartClick} className="text-3xl">
+                      <span onClick={handleCartClick} className="text-3xl">
                         <FiShoppingCart />
                       </span>
                       <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
@@ -370,7 +362,7 @@ const Header = () => {
                   {categories.map((category, index) => (
                     <li
                       key={index}
-                      className="flex justify-start m-[10px] relative custom-before gap-2 items-center py-[6px] px-[24px]"
+                      className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
                     >
                       <Link className="block">{category}</Link>
                     </li>
