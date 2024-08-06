@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { motion } from 'framer-motion';
+
+
 
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
 import {
@@ -20,6 +21,10 @@ import { IoIosList } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Header = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const openLoginPopup = () => setIsLoginOpen(true);
+  const closeLoginPopup = () => setIsLoginOpen(false);
   const navigate = useNavigate();
   const handleCartClick = () => {
     navigate('/cart');
@@ -88,7 +93,7 @@ const Header = () => {
                 ) : (
                   <Link
                     className="flex cursor-pointer justify-center items-center gap-2"
-                    to="/login"
+                    to="/LoginpopUp"
                   >
                     <span>
                       <FaLock />
@@ -315,12 +320,12 @@ const Header = () => {
                 <span>
                   <FaUser />
                 </span>
-                <span> Doaa Abdelfattah </span>
+                <span>  </span>
               </Link>
             ) : (
               <Link
                 className="flex cursor-pointer justify-center items-center gap-2"
-                to="/login"
+                to="/"
               >
                 <span>
                   <FaLock />
