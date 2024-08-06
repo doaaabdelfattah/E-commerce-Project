@@ -9,7 +9,7 @@ import { Element } from "react-scroll";
 const Footer = () => {
   return (
     <Element name="footer">
-      <footer className="bg-[#f3f6fa]">
+      <footer className="bg-[#FAF9F7]">
         <div className="w-[85%] flex flex-wrap mx-auto border-b py-16 md-lg:pb-10 sm:pb-6">
           <div className="w-3/12 lg:w-4/12 sm:w-full">
             <div className="flex flex-col gap-3">
@@ -85,14 +85,14 @@ const Footer = () => {
                   type="text"
                   placeholder="Enter Your Email"
                 />
-                <button className="h-full absolute right-0 bg-[#059473] text-white uppercase px-4 font-bold text-sm">
+                <button className="h-full absolute right-0 bg-[#BC9B80] text-white uppercase px-4 font-bold text-sm">
                   Subscribe
                 </button>
               </div>
               <ul className="flex justify-start items-center gap-3">
                 <li>
                   <a
-                    className="w-[38px] h-[38px] hover:bg-[#059473] hover:text-white flex justify-center items-center bg-white rounded-full"
+                    className="w-[38px] h-[38px] hover:bg-[#BC9B80] hover:text-white flex justify-center items-center bg-white rounded-full"
                     href="#"
                   >
                     <FaFacebookF />{" "}
@@ -101,7 +101,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="w-[38px] h-[38px] hover:bg-[#059473] hover:text-white flex justify-center items-center bg-white rounded-full"
+                    className="w-[38px] h-[38px] hover:bg-[#BC9B80] hover:text-white flex justify-center items-center bg-white rounded-full"
                     href="#"
                   >
                     <FaTwitter />{" "}
@@ -109,7 +109,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    className="w-[38px] h-[38px] hover:bg-[#059473] hover:text-white flex justify-center items-center bg-white rounded-full"
+                    className="w-[38px] h-[38px] hover:bg-[#BC9B80] hover:text-white flex justify-center items-center bg-white rounded-full"
                     href="#"
                   >
                     <FaLinkedin />{" "}
@@ -117,7 +117,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    className="w-[38px] h-[38px] hover:bg-[#059473] hover:text-white flex justify-center items-center bg-white rounded-full"
+                    className="w-[38px] h-[38px] hover:bg-[#BC9B80] hover:text-white flex justify-center items-center bg-white rounded-full"
                     href="#"
                   >
                     <FaGithub />{" "}

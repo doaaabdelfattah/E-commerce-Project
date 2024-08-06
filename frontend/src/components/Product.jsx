@@ -58,7 +58,7 @@ function Products() {
       id: 6,
       name: "Product 6",
       price: 600,
-      image: "http://localhost:3000/images/products/6.webp",
+      image: "http://localhost:3000/images/products/2.webp",
     },
   ];
 

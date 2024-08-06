@@ -19,10 +19,6 @@ import { IoIosList } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Header = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-
-  const openLoginPopup = () => setIsLoginOpen(true);
-  const closeLoginPopup = () => setIsLoginOpen(false);
   const navigate = useNavigate();
   const handleCartClick = () => {
     navigate("/cart");
