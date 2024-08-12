@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchCategories } from "../redux/reducers/categoriesSlice";
+
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-
 import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 import {
   FaPhone,
@@ -19,6 +22,13 @@ import { IoIosList } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.categories);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   const navigate = useNavigate();
   const handleCartClick = () => {
     navigate("/cart");
@@ -26,12 +36,10 @@ const Header = () => {
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
+
   const user = false;
   const wishlist = 4;
-  const categories = Array.from(
-    { length: 5 },
-    (_, i) => `Category Nu. ${i + 1}`
-  );
+
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
 
@@ -383,6 +391,7 @@ const Header = () => {
                       id=""
                     >
                       <option value=""> Select Category </option>
+
                       {categories.map((category, index) => (
                         <option key={index} value={category}>
                           {category}
