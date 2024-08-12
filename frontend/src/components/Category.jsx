@@ -2,14 +2,24 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../redux/reducers/categoriesSlice";
 
 const Banner = () => {
-  const category = Array.from({ length: 5 }, (_, i) => `Category Nu. ${i + 1}`);
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.categories);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  // const category = Array.from({ length: 5 }, (_, i) => `Category Nu. ${i + 1}`);
 
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 5,
+      items: 4,
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
@@ -43,7 +53,7 @@ const Banner = () => {
           transitionDuration={500}
           responsive={responsive}
         >
-          {category.map((img, index) => (
+          {categories.map((img, index) => (
             <Link className="h-fit block" key={index} to="#">
               <div className="w-full h-full relative custom-hover-effect transform transition-all duration-500 p-3">
                 <img

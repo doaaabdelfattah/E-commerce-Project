@@ -1,8 +1,10 @@
-import axios { axios } from 'axios';
+import axios from "axios";
 
-const test = 'https://dummyjson.com/products'
-const baseUrl = axios.create({
-  baseUrl: test
+const fakeApi = "https://fakestoreapi.com";
+// const test = "https://dummyjson.com/products";
+
+const api = axios.create({
+  baseURL: fakeApi, // Correct key is 'baseURL'
 });
 
-export default baseUrl;
+export default api;
