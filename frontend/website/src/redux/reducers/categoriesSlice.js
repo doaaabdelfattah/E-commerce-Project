@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
+import { api2 } from '../../api/api';
 
 
 // Initial state with a more structured format
@@ -9,7 +9,7 @@ const initialState = {
 
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
   try {
-    const response = await api.get('products/categories');
+    const response = await api2.get('api/categories_add/');
     console.log('API response:', response.data); // Log API response
     return response.data;
   } catch (error) {
@@ -30,8 +30,8 @@ const categoriesSlice = createSlice({
 
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log('Action payload:', action.payload); // Log action payload
-        state.categories = action.payload;
+        console.log('Action payload:', action.payload.data); // Log action payload
+        state.categories = action.payload.data;
       });
   },
 });

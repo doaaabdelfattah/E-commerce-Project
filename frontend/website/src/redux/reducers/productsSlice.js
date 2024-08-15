@@ -5,18 +5,20 @@ import api from "../../api/api";
 // Initial state 
 const initialState = {
   products: [],
+  status: 'idle'
 };
 
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  try {
-    const response = await api.get('products');
-    console.log('API response:', response.data); // Log API response
-    return response.data;
-  } catch (error) {
-    console.error('API error:', error.message); // Log any errors
-    return error.message;
-  }
-});
+export const fetchProducts = createAsyncThunk('products/fetchProducts',
+  async () => {
+    try {
+      const response = await api.get('products');
+      console.log('API response:', response.data); // Log API response
+      return response.data;
+    } catch (error) {
+      console.error('API error:', error.message); // Log any errors
+      return error.message;
+    }
+  });
 
 
 

@@ -108,3 +108,52 @@
   </span>
 </div>
 {/* End Stars ====== */}
+
+
+
+
+
+
+
+
+
+
+<div className="flex gap-8">
+      <Carousel
+        autoPlay={false}
+        infinite={false}
+        arrows={false}
+        transitionDuration={500}
+        renderButtonGroupOutside={true}
+        customButtonGroup={<ButtonGroup />}
+        responsive={responsive}
+      >
+        {products.map((product) => (
+          <div key={product.id} className="product-item">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="product-image"
+            />
+            <h3>{product.name}</h3>
+            <p>${product.price}</p>
+          </div>
+        ))}
+      </Carousel>
+      <div className="flex flex-col justify-start gap-2">
+        {products.map((product) => (
+          <Link key={product.id} to={`/product/${product.id}`}>
+            <div className="product-link">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="product-image"
+              />
+              <h3>{product.name}</h3>
+              <p>${product.price}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
