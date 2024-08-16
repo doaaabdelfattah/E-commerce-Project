@@ -7,6 +7,9 @@ const api = axios.create({
 const api2 = axios.create({
   baseURL: "http://127.0.0.1:8000",
 });
+const api3 = axios.create({
+  baseURL: "https://api.escuelajs.co",
+});
 
 export default api;
-export { api2 };
+export { api2, api3 };

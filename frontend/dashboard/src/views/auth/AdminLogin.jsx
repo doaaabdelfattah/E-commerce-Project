@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { adminLogin } from "../../redux/reducers/authSlice";
 
 const AdminLogin = () => {
+  const dispatch = useDispatch();
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -16,7 +20,8 @@ const AdminLogin = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
+    dispatch(adminLogin(user));
+    // console.log(user);
   };
   return (
     <div className="min-w-screen min-h-screen bg-[#FAF9F7] flex justify-center items-center">
