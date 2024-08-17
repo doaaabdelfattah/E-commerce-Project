@@ -24,6 +24,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 const Header = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
+  console.log("Categories in Header:", categories); // Log API response
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -368,7 +369,7 @@ const Header = () => {
                       key={index}
                       className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
                     >
-                      <Link className="block">{category}</Link>
+                      <Link className="block">{category.name}</Link>
                     </li>
                   ))}
                 </ul>
@@ -393,8 +394,8 @@ const Header = () => {
                       <option value=""> Select Category </option>
 
                       {categories.map((category, index) => (
-                        <option key={index} value={category}>
-                          {category}
+                        <option key={index} value={category.name}>
+                          {category.name}
                         </option>
                       ))}
                     </select>
