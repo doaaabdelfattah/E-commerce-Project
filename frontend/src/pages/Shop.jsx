@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
-
+import { useDispatch } from "react-redux";
+// import { fetchProducts } from "../redux/reducers/productsSlice"; <dont need it anymore>
+import { sortProductsByPriceAsc, sortProductsByPriceDesc, fetchSortedProducts } from "../redux/reducers/sortedProductSlice";
 import StarRating from "../utils/StarRating";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
@@ -17,11 +19,36 @@ const Shop = () => {
   const [priceValues, setPriceValues] = useState([50, 3000]);
   const [rating, setRating] = useState(0);
   const [styleView, setStyleView] = useState("grid");
+  const dispatch = useDispatch();
+  const [isSorted, setIsSorted] = useState(false);
+
+  useEffect(() => {
+    console.log("Fetching products...");
+    dispatch(fetchSortedProducts());
+  }, [dispatch]);
+
+  const handleSortChange = (e) => {
+    const selectedValue = e.target.value;
+    console.log("Selected sort order:", selectedValue);
+    if (selectedValue === "ascending") {
+      console.log("Sorting products by ascending price...");
+      dispatch(sortProductsByPriceAsc());
+      setIsSorted(true);
+    } else if (selectedValue === "descending") {
+      console.log("Sorting products by descending price...");
+      dispatch(sortProductsByPriceDesc());
+      setIsSorted(true);
+    } else {
+      console.log("Resetting sort...");
+      setIsSorted(false);
+    }
+  };
 
   const categories = Array.from(
     { length: 5 },
     (_, i) => `Category Nu. ${i + 1}`
   );
+
   return (
     <div>
       <Header />
@@ -78,7 +105,7 @@ const Shop = () => {
               {/* - - Select Category - -  */}
               <div className="py-2 mb-5">
                 {categories.map((category, index) => (
-                  <div className="flex justify-start items-center gap-2 py-1 px-4">
+                  <div className="flex justify-start items-center gap-2 py-1 px-4" key={index}>
                     <input type="checkbox" id={category} />
                     <label className="text-slate-500" htmlFor={category}>
                       {category}
@@ -153,15 +180,16 @@ const Shop = () => {
                 <div className="py-4 bg-white mb-10 px-5 rounded-sm flex justify-between border items-start">
                   <h2 className="text-slate-600 font-medium">14 products</h2>
                   <div className="flex justify-center items-center gap-3">
-                    <select
+                    <select onChange={handleSortChange} 
                       className="p-1 border outline-0 text-slate-600 "
                       name=""
                       id=""
                     >
                       <option value=""> Sort By</option>
-                      <option value="low-to-high"> Low to High Price </option>
-                      <option value="high-to-low"> High to Low price</option>
+                      <option value="ascending"> Low to High Price </option>
+                      <option value="descending"> High to Low price</option>
                     </select>
+                    
                     <div className="flex justify-center items-center gao-4 md-lg:hidden">
                       <div
                         onClick={() => setStyleView("grid")}
@@ -184,7 +212,7 @@ const Shop = () => {
                 </div>
 
                 <div className="pb-8">
-                  <ShopProducts style={styleView} />
+                  <ShopProducts style={styleView} isSorted={isSorted} />
                 </div>
 
                 <div>

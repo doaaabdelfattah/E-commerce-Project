@@ -1,26 +1,31 @@
-import React from "react";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import React, { useState, useEffect } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaEye, FaRegHeart } from "react-icons/fa";
 import { RiShoppingCartLine } from "react-icons/ri";
-
 import Rating from "../Rating";
-
 import { fetchProducts } from "../../redux/reducers/productsSlice";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchSortedProducts, sortProductsByPriceAsc, sortProductsByPriceDesc } from "../../redux/reducers/sortedProductSlice";
 
-const ShopProducts = ({ style }) => {
+const ShopProducts = ({ style, isSorted }) => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
+  const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
 
   useEffect(() => {
+    console.log("Fetching products...");
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  const productsToDisplay = isSorted ? sortedProductsArray : products;
+
+  useEffect(() => {
+    console.log("Products to display:", productsToDisplay);
+  }, [productsToDisplay]);
+
   return (
     <div className="w-full flex justify-center flex-wrap gap-5">
-      {products.map((product, index) => (
+      {productsToDisplay.map((product, index) => (
         <div
           key={index}
           className={`border group w-[300px] transition-all duration-500 hover:shadow-md hover:-mt-3 cursor-pointer ${
@@ -28,6 +33,7 @@ const ShopProducts = ({ style }) => {
               ? ""
               : "flex flex-col justify-start items-start md-lg:flex-row md-lg:justify-start md-lg:items-start"
           }`}
+          onClick={() => console.log("Product clicked:", product)}
         >
           <div
             className={`relative p-[25px] overflow-hidden ${
