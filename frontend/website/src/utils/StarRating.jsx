@@ -63,7 +63,7 @@ function Star({ onRate, full, onHover, outHover, color, size }) {
       role="button"
       style={starStyle}
       onMouseEnter={onHover}
-      onMouseleave={outHover}
+      onMouseLeave={outHover}
     >
       {full ? (
         <svg
