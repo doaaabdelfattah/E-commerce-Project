@@ -5,29 +5,48 @@ import { RiShoppingCartLine } from "react-icons/ri";
 import Rating from "../Rating";
 import { fetchProducts } from "../../redux/reducers/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSortedProducts, sortProductsByPriceAsc, sortProductsByPriceDesc } from "../../redux/reducers/sortedProductSlice";
+import {
+  fetchSortedProducts,
+  sortProductsByPriceAsc,
+  sortProductsByPriceDesc,
+} from "../../redux/reducers/sortedProductSlice";
+import { addToCart, selectAllCart } from "../../redux/reducers/cartSlice";
 
 const ShopProducts = ({ style, isSorted }) => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
+  const cart = useSelector(selectAllCart);
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
 
   useEffect(() => {
-    console.log("Fetching products...");
+    // console.log("Fetching products...");
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  const handleClickAddToCart = (e, product) => {
+    e.stopPropagation();
+    dispatch(
+      addToCart({
+        productId: product.id,
+        quantity: 1,
+      })
+    );
+    console.log("carts items in handle:", cart);
+  };
+  useEffect(() => {
+    console.log("Cart items updated:", cart);
+  }, [cart]);
   const productsToDisplay = isSorted ? sortedProductsArray : products;
 
   useEffect(() => {
-    console.log("Products to display:", productsToDisplay);
+    // console.log("Products to display:", productsToDisplay);
   }, [productsToDisplay]);
 
   return (
     <div className="w-full flex justify-center flex-wrap gap-5">
       {productsToDisplay.map((product, index) => (
         <div
-          key={index}
+          key={product.id}
           className={`border group w-[300px] transition-all duration-500 hover:shadow-md hover:-mt-3 cursor-pointer ${
             style === "grid"
               ? ""
@@ -59,7 +78,10 @@ const ShopProducts = ({ style, isSorted }) => {
               <li className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all">
                 <FaEye />
               </li>
-              <li className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all">
+              <li
+                className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all"
+                onClick={(e) => handleClickAddToCart(e, product)}
+              >
                 <RiShoppingCartLine />
               </li>
             </ul>
@@ -77,6 +99,14 @@ const ShopProducts = ({ style, isSorted }) => {
               <span className="text-lg mt-3">{product.price}$</span>
               <div className="flex">
                 <Rating rating={product.rating.rate} />
+              </div>
+              <div className="h-[50px]">
+                <button
+                  onClick={(e) => handleClickAddToCart(e, product)}
+                  className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300"
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
           </div>

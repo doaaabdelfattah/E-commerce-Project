@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
-import { Toaster } from 'react-hot-toast'
+// import { Toaster } from 'react-hot-toast'
 const App = lazy(() => import('./App'))
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -16,7 +16,7 @@ root.render(
     <Provider store={store} >
       <Suspense>
         <App />
-        <Toaster
+        {/* <Toaster
           toastOptions={{
             position: 'top-right',
             style: {
@@ -24,7 +24,7 @@ root.render(
               color: 'white'
             }
           }
-          } />
+          } /> */}
       </Suspense>
     </Provider>
   </BrowserRouter>

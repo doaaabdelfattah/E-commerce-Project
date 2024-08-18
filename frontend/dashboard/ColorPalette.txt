@@ -14,3 +14,9 @@ Light Biege #FAF9F7 [background]
 
 
 Orange #F97316
+
+
+=========
+Dashboard
+dark color #242E41
+grey #F8FBFC

@@ -6,7 +6,11 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
 import { useDispatch } from "react-redux";
 // import { fetchProducts } from "../redux/reducers/productsSlice"; <dont need it anymore>
-import { sortProductsByPriceAsc, sortProductsByPriceDesc, fetchSortedProducts } from "../redux/reducers/sortedProductSlice";
+import {
+  sortProductsByPriceAsc,
+  sortProductsByPriceDesc,
+  fetchSortedProducts,
+} from "../redux/reducers/sortedProductSlice";
 import StarRating from "../utils/StarRating";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
@@ -23,7 +27,7 @@ const Shop = () => {
   const [isSorted, setIsSorted] = useState(false);
 
   useEffect(() => {
-    console.log("Fetching products...");
+    // console.log("Fetching products...");
     dispatch(fetchSortedProducts());
   }, [dispatch]);
 
@@ -105,7 +109,10 @@ const Shop = () => {
               {/* - - Select Category - -  */}
               <div className="py-2 mb-5">
                 {categories.map((category, index) => (
-                  <div className="flex justify-start items-center gap-2 py-1 px-4" key={index}>
+                  <div
+                    className="flex justify-start items-center gap-2 py-1 px-4"
+                    key={index}
+                  >
                     <input type="checkbox" id={category} />
                     <label className="text-slate-500" htmlFor={category}>
                       {category}
@@ -180,7 +187,8 @@ const Shop = () => {
                 <div className="py-4 bg-white mb-10 px-5 rounded-sm flex justify-between border items-start">
                   <h2 className="text-slate-600 font-medium">14 products</h2>
                   <div className="flex justify-center items-center gap-3">
-                    <select onChange={handleSortChange} 
+                    <select
+                      onChange={handleSortChange}
                       className="p-1 border outline-0 text-slate-600 "
                       name=""
                       id=""
@@ -189,7 +197,7 @@ const Shop = () => {
                       <option value="ascending"> Low to High Price </option>
                       <option value="descending"> High to Low price</option>
                     </select>
-                    
+
                     <div className="flex justify-center items-center gao-4 md-lg:hidden">
                       <div
                         onClick={() => setStyleView("grid")}

@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { adminLogin } from "../../redux/reducers/authSlice";
 
 const AdminLogin = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
@@ -23,6 +24,9 @@ const AdminLogin = () => {
     dispatch(adminLogin(user));
     // console.log(user);
   };
+
+  useEffect(() => {});
+
   return (
     <div className="min-w-screen min-h-screen bg-[#FAF9F7] flex justify-center items-center">
       <div className="w-[500px] p-3 text-slate-100 ">

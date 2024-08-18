@@ -12,7 +12,7 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts',
   async () => {
     try {
       const response = await api.get('products');
-      console.log('API response:', response.data); // Log API response
+      // console.log('API response:', response.data); // Log API response
       return response.data;
     } catch (error) {
       console.error('API error:', error.message); // Log any errors
@@ -30,7 +30,7 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        console.log('Action payload:', action.payload); // Log action payload
+        // console.log('Action payload:', action.payload); // Log action payload
         state.products = action.payload;
       });
   },

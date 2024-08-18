@@ -20,11 +20,12 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoIosList } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
-  console.log("Categories in Header:", categories); // Log API response
+  // console.log("Categories in Header:", categories); // Log API response
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -40,6 +41,15 @@ const Header = () => {
 
   const user = false;
   const wishlist = 4;
+
+  // ========================== Cart
+  const cart = useSelector((state) => state.cart.items);
+  console.log("cart in header", cart);
+  const totalQuantity = useSelector(selectTotalQuantity);
+  console.log("Total quantity:", totalQuantity);
+  // const cartQuantity = useSelector(selectTotalQuantity(cart));
+
+  // console.log("CartQ:", cartQuantity);
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
@@ -208,7 +218,7 @@ const Header = () => {
                         <FiShoppingCart />
                       </span>
                       <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                        {wishlist}
+                        {totalQuantity}
                       </div>
                     </div>
                   </div>

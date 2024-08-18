@@ -10,7 +10,7 @@ const initialState = {
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
   try {
     const response = await api.get('products/categories');
-    console.log('API response:', response.data); // Log API response
+    // console.log('API response:', response.data); // Log API response
     return response.data;
   } catch (error) {
     console.error('API error:', error.message); // Log any errors
@@ -30,7 +30,7 @@ const categoriesSlice = createSlice({
 
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log('Action payload:', action.payload); // Log action payload
+        // console.log('Action payload:', action.payload); // Log action payload
         state.categories = action.payload;
       });
   },

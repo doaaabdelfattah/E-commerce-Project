@@ -6,7 +6,7 @@ import Shop from "./pages/Shop";
 import Shipping from "./pages/Shipping";
 import Register from "./pages/register";
 import Login from "./pages/login";
-
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/shipping" element={<Shipping />} />
+        <Route path="/:slug" element={<ProductDetails />} />
       </Routes>
     </BrowserRouter>
   );
