@@ -21,11 +21,19 @@ const ProductDetails = () => {
     <div>
       <Header />
       {productDetails ? (
-        <div className="flex justify-center items-center ">
-          <h1 className="text-3xl">{productDetails.title}</h1>
-          <p>Product number: {productDetails.id}</p>
-          <p>Description: {productDetails.description}</p>
-          {/* Add other product details as needed */}
+        <div className="mx-auto w-[85%] flex justify-center items-center mt-[100px]">
+          <div className="grid grid-cols-2 gap-7 mt-9 mx-auto px-[20px]">
+            <div className="flex justify-center">
+              <img
+                src={productDetails.image}
+                alt=""
+                className="w-full px-4"
+              ></img>
+            </div>
+            <div className="">
+              <h1 className="text-6xl">{productDetails.title}</h1>
+            </div>
+          </div>
         </div>
       ) : (
         <p>Loading product details...</p>
