@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { fetchCategories } from "../redux/reducers/categoriesSlice";
+import { fetchProductsByCategory } from "../redux/reducers/productsSlice";
 
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -36,13 +35,19 @@ const Header = () => {
 
   const user = false;
   const wishlist = 4;
+  //const [currentCategory, setCurrentCategory] = useState('All Categories');
+
+  const handleCategoryClick = (category) => {
+   // setCurrentCategory(category); 
+    dispatch(fetchProductsByCategory(category));
+  };
+
+  const [searchValue, setSearchValue] = useState("");
+  const [category, setCategory] = useState("All Categories");
 
   // ========================== Cart
   const cart = useSelector((state) => state.cart.items);
   const totalQuantity = useSelector(selectTotalQuantity);
-
-  const [searchValue, setSearchValue] = useState("");
-  const [category, setCategory] = useState("");
 
   return (
     <div className="w-full bg-white">
@@ -348,9 +353,9 @@ const Header = () => {
               >
                 <div className="flex justify-center items-center gap-3">
                   <span className="text-2xl">
-                    <IoIosList />
+                   
                   </span>
-                  <span>All Categories</span>
+                  <span>All categories</span>
                 </div>
                 <span className="text-2xl">
                   <MdKeyboardArrowDown />
@@ -363,13 +368,19 @@ const Header = () => {
                   showCategory ? "h-[0]" : "h-fit"
                 } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
               >
-                <ul className="py-2 m-[10px] font-medium">
+
+                <ul className="py-2 m-[10px] font-medium"> 
+                 
                   {categories.map((category, index) => (
                     <li
+                    
+                      onClick={() => handleCategoryClick(category)
+
+                      }
                       key={index}
                       className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
-                    >
-                      <Link className="block">{category}</Link>
+                    > 
+                    <Link className="block">{category}</Link>
                     </li>
                   ))}
                 </ul>
@@ -386,7 +397,11 @@ const Header = () => {
                   {/* - - Select menu - -  */}
                   <div className=" pl-4 relative after:absolute after:h-[30px] after:w-[1px]  after:-right-[15px] after:bg-[#afafaf] md:hidden">
                     <select
-                      onChange={(e) => setCategory(e.target.value)}
+                      onChange={(e) => {
+                        const category = e.target.value;
+                        setCategory(category);
+                        handleCategoryClick(category);
+                      }}
                       className="font-semibold text-slate-600 px-2 h-full outline-0 border-none"
                       name=""
                       id=""

@@ -1,28 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
-
-// Initial state 
 const initialState = {
   products: [],
-  status: 'idle'
+  status: 'idle',
 };
 
-export const fetchProducts = createAsyncThunk('products/fetchProducts',
-  async () => {
-    try {
-      const response = await api.get('products');
-      // console.log('API response:', response.data); // Log API response
-      return response.data;
-    } catch (error) {
-      console.error('API error:', error.message); // Log any errors
-      return error.message;
-    }
-  });
+// Fetch all products
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
+  const response = await api.get('products');
+  return response.data;
+});
 
+// Fetch products by category
+export const fetchProductsByCategory = createAsyncThunk('products/fetchProductsByCategory', async (category, { dispatch }) => {
+  if (!category) {
+    //  unwrap() will throw an error, which can be caught and handled appropriately.
+    return dispatch(fetchProducts()).unwrap();
+  } else {
+    // Fetch products by category
+    const response = await api.get(`products/category/${category}`);
+    return response.data;
+  }
+});
 
-
-// Slice
 const productsSlice = createSlice({
   name: 'products',
   initialState,
@@ -30,7 +31,9 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        // console.log('Action payload:', action.payload); // Log action payload
+        state.products = action.payload;
+      })
+      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
         state.products = action.payload;
       });
   },

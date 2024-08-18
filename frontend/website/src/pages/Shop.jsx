@@ -185,7 +185,7 @@ const Shop = () => {
             <div className="w-9/12 md-lg:w-8/12 md:w-full">
               <div className="pl-8 md:pl-0">
                 <div className="py-4 bg-white mb-10 px-5 rounded-sm flex justify-between border items-start">
-                  <h2 className="text-slate-600 font-medium">14 products</h2>
+                  <h2 className="text-slate-600 font-medium">products: </h2>
                   <div className="flex justify-center items-center gap-3">
                     <select
                       onChange={handleSortChange}

@@ -5,13 +5,16 @@ import Rating from "../Rating";
 import { fetchProducts } from "../../redux/reducers/productsSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsByCategory } from "../../redux/reducers/productsSlice";
 
 const FeaturedProducts = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
 
+
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchProductsByCategory());
   }, [dispatch]);
 
   return (
@@ -56,7 +59,7 @@ const FeaturedProducts = () => {
 
             <div className="py-3 text-slate-600 p-4 mt-2">
               <h2 className="font-semibold text-slate-600 text-lg ">
-                {" "}
+                {""}
                 {product.title}
               </h2>
               <div className="flex justify-start flex-col items-start gap-3">
@@ -72,5 +75,4 @@ const FeaturedProducts = () => {
     </div>
   );
 };
-
 export default FeaturedProducts;
