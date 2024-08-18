@@ -9,6 +9,7 @@ import { fetchCategories } from "../redux/reducers/categoriesSlice";
 const Banner = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
+  console.log("category in banner:", categories);
 
   useEffect(() => {
     dispatch(fetchCategories());

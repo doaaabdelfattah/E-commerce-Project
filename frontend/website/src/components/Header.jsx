@@ -5,7 +5,7 @@ import { fetchCategories } from "../redux/reducers/categoriesSlice";
 
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import {
   FaPhone,
   FaTwitter,
@@ -25,11 +25,6 @@ import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
-  // console.log("Categories in Header:", categories); // Log API response
-
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
 
   const navigate = useNavigate();
   const handleCartClick = () => {
@@ -44,12 +39,7 @@ const Header = () => {
 
   // ========================== Cart
   const cart = useSelector((state) => state.cart.items);
-  console.log("cart in header", cart);
   const totalQuantity = useSelector(selectTotalQuantity);
-  console.log("Total quantity:", totalQuantity);
-  // const cartQuantity = useSelector(selectTotalQuantity(cart));
-
-  // console.log("CartQ:", cartQuantity);
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
@@ -379,7 +369,7 @@ const Header = () => {
                       key={index}
                       className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
                     >
-                      <Link className="block">{category.name}</Link>
+                      <Link className="block">{category}</Link>
                     </li>
                   ))}
                 </ul>
@@ -404,8 +394,8 @@ const Header = () => {
                       <option value=""> Select Category </option>
 
                       {categories.map((category, index) => (
-                        <option key={index} value={category.name}>
-                          {category.name}
+                        <option key={index} value={category}>
+                          {category}
                         </option>
                       ))}
                     </select>

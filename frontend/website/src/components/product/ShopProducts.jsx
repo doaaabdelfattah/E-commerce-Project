@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { CiHeart } from "react-icons/ci";
+import React, { useEffect } from "react";
 import { FaEye, FaRegHeart } from "react-icons/fa";
 import { RiShoppingCartLine } from "react-icons/ri";
 import Rating from "../Rating";
-import { fetchProducts } from "../../redux/reducers/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchSortedProducts,
-  sortProductsByPriceAsc,
-  sortProductsByPriceDesc,
-} from "../../redux/reducers/sortedProductSlice";
+import { Link } from "react-router-dom";
 import { addToCart, selectAllCart } from "../../redux/reducers/cartSlice";
 
 const ShopProducts = ({ style, isSorted }) => {
@@ -17,11 +11,6 @@ const ShopProducts = ({ style, isSorted }) => {
   const { products } = useSelector((state) => state.products);
   const cart = useSelector(selectAllCart);
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
-
-  useEffect(() => {
-    // console.log("Fetching products...");
-    dispatch(fetchProducts());
-  }, [dispatch]);
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
@@ -31,13 +20,14 @@ const ShopProducts = ({ style, isSorted }) => {
         quantity: 1,
       })
     );
-    console.log("carts items in handle:", cart);
   };
+
+  // ========= debugging code :
   useEffect(() => {
     console.log("Cart items updated:", cart);
   }, [cart]);
-  const productsToDisplay = isSorted ? sortedProductsArray : products;
 
+  const productsToDisplay = isSorted ? sortedProductsArray : products;
   useEffect(() => {
     // console.log("Products to display:", productsToDisplay);
   }, [productsToDisplay]);
@@ -59,11 +49,13 @@ const ShopProducts = ({ style, isSorted }) => {
               style === "grid" ? "" : "md-lg:w-[50%]"
             }`}
           >
-            <img
-              className="sm:w-full w-full h-[240px]"
-              src={product.image}
-              alt={product.title}
-            />
+            <Link to={`/${product.id}`}>
+              <img
+                className="sm:w-full w-full h-[240px]"
+                src={product.image}
+                alt={product.title}
+              />
+            </Link>
 
             <ul
               className={`flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3 ${
