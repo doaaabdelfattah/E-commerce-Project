@@ -32,13 +32,9 @@ const Header = () => {
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
-
   const user = false;
   const wishlist = 4;
-  //const [currentCategory, setCurrentCategory] = useState('All Categories');
-
   const handleCategoryClick = (category) => {
-   // setCurrentCategory(category); 
     dispatch(fetchProductsByCategory(category));
   };
 
@@ -352,9 +348,7 @@ const Header = () => {
                 className=" duration-500 transition-all text-[#1F212A] h-[60px] mt-5 flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-semibold cursor-pointer bg-[#FAF9F7] custom-before pt-2"
               >
                 <div className="flex justify-center items-center gap-3">
-                  <span className="text-2xl">
-                   
-                  </span>
+                  <span className="text-2xl"></span>
                   <span>All categories</span>
                 </div>
                 <span className="text-2xl">
@@ -368,19 +362,14 @@ const Header = () => {
                   showCategory ? "h-[0]" : "h-fit"
                 } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
               >
-
-                <ul className="py-2 m-[10px] font-medium"> 
-                 
+                <ul className="py-2 m-[10px] font-medium">
                   {categories.map((category, index) => (
                     <li
-                    
-                      onClick={() => handleCategoryClick(category)
-
-                      }
+                      onClick={() => handleCategoryClick(category)}
                       key={index}
                       className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
-                    > 
-                    <Link className="block">{category}</Link>
+                    >
+                      <Link className="block">{category}</Link>
                     </li>
                   ))}
                 </ul>

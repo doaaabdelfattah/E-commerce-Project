@@ -13,6 +13,8 @@ import { fetchProducts } from "./redux/reducers/productsSlice";
 import { fetchCategories } from "./redux/reducers/categoriesSlice";
 import ScrollToTop from "./utils/ScrollToTop";
 import CartTab from "./components/CartTab";
+
+import ProductOfCategory from "./pages/productOfCategory";
 function App() {
   // ======= Centralized Data Fetching for products
   const dispatch = useDispatch();
@@ -24,12 +26,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <CartTab />
+      {/* <CartTab /> */}
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/category/:category" element={<ProductOfCategory />} />
         <Route path="/register" element={<Register />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/shipping" element={<Shipping />} />

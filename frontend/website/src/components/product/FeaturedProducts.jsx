@@ -27,7 +27,7 @@ const FeaturedProducts = () => {
       </div>
 
       <div className="w-full flex justify-center flex-wrap  gap-5">
-        {products.slice(0, 5).map((product, index) => (
+        {products.slice(0, 8).map((product, index) => (
           <div
             key={index}
             className="border group w-[300px] transition-all  duration-500 hover:shadow-md hover:-mt-3 cursor-pointer"

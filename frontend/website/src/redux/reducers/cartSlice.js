@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // Initial state with a more structured format
 const initialState = {
   items: [],
+  statusTab: false,
 };
 
 // Slice
@@ -36,6 +37,9 @@ const cartSlice = createSlice({
         }
       }
     },
+    toggleStatusTab(state) {
+      state.statusTab = !state.statusTab
+    }
   },
 });
 
@@ -47,5 +51,5 @@ export const selectTotalQuantity = (state) => {
 };
 
 // Exporting actions and reducer
-export const { addToCart, changeQuantity } = cartSlice.actions;
+export const { addToCart, changeQuantity, toggleStatusTab } = cartSlice.actions;
 export default cartSlice.reducer;
