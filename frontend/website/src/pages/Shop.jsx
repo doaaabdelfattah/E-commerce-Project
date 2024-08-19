@@ -123,17 +123,17 @@ const Shop = () => {
                 {categories.map((category, index) => (
                   <div
                     className="flex justify-start items-center gap-2 py-1 px-4"
-                    key={index}
+                    key={category.id}
                   >
                     <input
                       type="radio"
-                      id={category}
+                      id={category.id}
                       name="category"
-                      checked={selectedCategory === category}
-                      onChange={() => handleCategoryClick(category)}
+                      checked={selectedCategory === category.name}
+                      onChange={() => handleCategoryClick(category.name)}
                     />
-                    <label className="text-slate-500" htmlFor={category}>
-                      {category}
+                    <label className="text-slate-500" htmlFor={category.name}>
+                      {category.name}
                     </label>
                   </div>
                 ))}

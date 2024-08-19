@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsByCategory } from "../redux/reducers/productsSlice";
 
@@ -17,13 +17,14 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
-import { IoIosList } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
+import CategoryList from "./CategoryList";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.categories);
+  const categories = useSelector((state) => state.categories.categories);
+  console.log("Categories:", categories);
 
   const navigate = useNavigate();
   const handleCartClick = () => {
@@ -44,6 +45,12 @@ const Header = () => {
   // ========================== Cart
   const cart = useSelector((state) => state.cart.items);
   const totalQuantity = useSelector(selectTotalQuantity);
+
+  //================ Categories Array
+
+  // Extract category names
+  const categoryNames = categories.map((category) => category.name);
+  console.log("names:", categoryNames);
 
   return (
     <div className="w-full bg-white">
@@ -363,13 +370,12 @@ const Header = () => {
                 } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
               >
                 <ul className="py-2 m-[10px] font-medium">
-                  {categories.map((category, index) => (
+                  {categories.map((category) => (
                     <li
-                      onClick={() => handleCategoryClick(category)}
-                      key={index}
+                      key={category.id}
                       className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
                     >
-                      <Link className="block">{category}</Link>
+                      <Link className="block">{category.name}</Link>
                     </li>
                   ))}
                 </ul>
@@ -398,8 +404,8 @@ const Header = () => {
                       <option value=""> Select Category </option>
 
                       {categories.map((category, index) => (
-                        <option key={index} value={category}>
-                          {category}
+                        <option key={category.id} value={category.name}>
+                          {category.name}
                         </option>
                       ))}
                     </select>

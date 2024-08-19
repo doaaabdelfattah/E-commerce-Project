@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 const api2 = axios.create({
-  baseURL: "localhost:5000/",
+  baseURL: "http://localhost:5000/api/v1",
 });
 
 export default api;
