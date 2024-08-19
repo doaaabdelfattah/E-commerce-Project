@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
 import { addToCart } from "../redux/reducers/cartSlice.js";
 import Footer from "../components/Footer";
-import FeaturedProducts from "../components/product/FeaturedProducts.jsx";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
@@ -45,7 +44,7 @@ const ProductDetails = () => {
     <div>
       <Header />
       {productDetails ? (
-        <div className="mx-auto w-[85%] h-screen mt-[100px]">
+        <div className="mx-auto w-[85%] md-lg:h-fit md-lg:mb-5 md-lg:pb-10 h-screen mt-[100px]">
           <div className="grid grid-cols-2 md-lg:flex md-lg:flex-col  mt-9 mx-auto px-[20px]">
             <div className="flex justify-center items-center">
               <img
@@ -56,10 +55,10 @@ const ProductDetails = () => {
             </div>
 
             <div className="p-[70px] bg-[#FAF9F7] ">
-              <h1 className="text-5xl font-bold md:text-3lg">
+              <h1 className="text-4xl font-bold md-lg:text-3xl">
                 {productDetails.title}
               </h1>
-              <h3 className="pt-3 mb-5 hover:text-[#BC9B80]">
+              <h3 className="pt-3 overflow-hidden mb-5 hover:text-[#BC9B80]">
                 <Link to="">{productDetails.category}</Link>
               </h3>
               {/* ============ */}
@@ -87,7 +86,8 @@ const ProductDetails = () => {
                   </p>
                 </div>
               </div>
-              <div className="h-[50px] gap-5 mt-10 md-lg:flex-wrap flex justify-center">
+              {/* ======== add to cart buttons */}
+              <div className="h-[50px] md-lg:mb-5 gap-5 mt-10 md-lg:flex-wrap flex justify-center">
                 <div className=" bg-white p-2  text-black flex gap-2 justify-center items-center">
                   <button
                     className=" h-full w-10 font-bold text-xl flex justify-center hover:text-[#BC9B80] items-center"

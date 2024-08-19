@@ -17,6 +17,7 @@ import { FaThList } from "react-icons/fa";
 import ShopProducts from "../components/product/ShopProducts";
 import Pagination from "../components/Pagination";
 import Products from "../components/product/Products";
+import CartTab from "../components/CartTab";
 
 const Shop = () => {
   const [filter, setFilter] = useState(true);
@@ -55,6 +56,7 @@ const Shop = () => {
 
   return (
     <div>
+      {/* <CartTab></CartTab> */}
       <Header />
 
       {/* ================== Banner =============== */}
