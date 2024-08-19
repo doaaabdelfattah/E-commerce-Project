@@ -56,7 +56,7 @@ const Shop = () => {
 
   return (
     <div>
-      {/* <CartTab></CartTab> */}
+      <CartTab></CartTab>
       <Header />
 
       {/* ================== Banner =============== */}

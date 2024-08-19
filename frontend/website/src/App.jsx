@@ -8,14 +8,14 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import ProductDetails from "./pages/ProductDetails";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchProducts } from "./redux/reducers/productsSlice";
 import { fetchCategories } from "./redux/reducers/categoriesSlice";
 import ScrollToTop from "./utils/ScrollToTop";
+import CartTab from "./components/CartTab";
 function App() {
   // ======= Centralized Data Fetching for products
   const dispatch = useDispatch();
-  // const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -24,6 +24,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <CartTab />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
