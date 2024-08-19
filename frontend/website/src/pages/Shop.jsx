@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
 import { useDispatch } from "react-redux";
-// import { fetchProducts } from "../redux/reducers/productsSlice"; <dont need it anymore>
+import { useSelector } from "react-redux";
+import { fetchCategories } from "../redux/reducers/categoriesSlice";
+import { fetchProducts} from "../redux/reducers/productsSlice";
 import {
   sortProductsByPriceAsc,
   sortProductsByPriceDesc,
@@ -18,6 +20,7 @@ import ShopProducts from "../components/product/ShopProducts";
 import Pagination from "../components/Pagination";
 import Products from "../components/product/Products";
 import CartTab from "../components/CartTab";
+import {fetchProductsByCategory } from "../redux/reducers/productsSlice";
 
 const Shop = () => {
   const [filter, setFilter] = useState(true);
@@ -26,11 +29,27 @@ const Shop = () => {
   const [styleView, setStyleView] = useState("grid");
   const dispatch = useDispatch();
   const [isSorted, setIsSorted] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchProductsByCategory());
+  }, [dispatch]);
 
   useEffect(() => {
     // console.log("Fetching products...");
     dispatch(fetchSortedProducts());
   }, [dispatch]);
+
+  const handleCategoryClick = (category) => {
+    dispatch(fetchProductsByCategory(category));
+    setSelectedCategory(category);
+  };
 
   const handleSortChange = (e) => {
     const selectedValue = e.target.value;
@@ -48,11 +67,9 @@ const Shop = () => {
       setIsSorted(false);
     }
   };
+ 
 
-  const categories = Array.from(
-    { length: 5 },
-    (_, i) => `Category Nu. ${i + 1}`
-  );
+  const { categories } = useSelector((state) => state.categories);
 
   return (
     <div>
@@ -111,11 +128,18 @@ const Shop = () => {
               {/* - - Select Category - -  */}
               <div className="py-2 mb-5">
                 {categories.map((category, index) => (
+                  
                   <div
                     className="flex justify-start items-center gap-2 py-1 px-4"
                     key={index}
                   >
-                    <input type="checkbox" id={category} />
+                     <input
+              type="radio"
+              id={category}
+              name="category"
+              checked={selectedCategory === category}
+              onChange={() => handleCategoryClick(category)}
+            />
                     <label className="text-slate-500" htmlFor={category}>
                       {category}
                     </label>

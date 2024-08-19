@@ -1,21 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../redux/reducers/categoriesSlice";
+import { fetchProductsByCategory } from "../redux/reducers/productsSlice";
 
 const Banner = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
-  console.log("category in banner:", categories);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  // const category = Array.from({ length: 5 }, (_, i) => `Category Nu. ${i + 1}`);
+  const handleCategoryClick = (category) => {
+    dispatch(fetchProductsByCategory(category));
+    navigate(`/category/${category}`);
+  };
 
   const responsive = {
     desktop: {
@@ -54,18 +57,21 @@ const Banner = () => {
           transitionDuration={500}
           responsive={responsive}
         >
-          {categories.map((img, index) => (
-            <Link className="h-fit block" key={index} to="#">
+          {categories.map((category, index) => (
+            <Link
+              className="h-fit block"
+              key={index}
+              to={`/category/${category}`}
+              onClick={() => handleCategoryClick(category)}
+            >
               <div className="w-full h-full relative custom-hover-effect transform transition-all duration-500 p-3">
                 <img
-                  src={`http://localhost:3000/images/products/${
-                    index + 1
-                  }.webp`}
+                  src={`http://localhost:3000/images/products/${index + 1}.webp`}
                   alt="products"
                 />
                 <div className="absolute bottom-10 w-full flex justify-center left-0 mx-auto items-center ">
                   <span className="py-[2px] px-6 bg-[#3330305d] text-white hover:bg-[#BC9B80] transition-all duration-300 ">
-                    {img}
+                    {category}
                   </span>
                 </div>
               </div>
