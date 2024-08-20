@@ -60,18 +60,20 @@ const Banner = () => {
           {categories.map((category, index) => (
             <Link
               className="h-fit block"
-              key={index}
-              to={`/category/${category}`}
-              onClick={() => handleCategoryClick(category)}
+              key={category.id}
+              to={`/category/${category.name}`}
+              onClick={() => handleCategoryClick(category.name)}
             >
               <div className="w-full h-full relative custom-hover-effect transform transition-all duration-500 p-3">
                 <img
-                  src={`http://localhost:3000/images/products/${index + 1}.webp`}
+                  src={`http://localhost:3000/images/products/${
+                    index + 1
+                  }.webp`}
                   alt="products"
                 />
                 <div className="absolute bottom-10 w-full flex justify-center left-0 mx-auto items-center ">
                   <span className="py-[2px] px-6 bg-[#3330305d] text-white hover:bg-[#BC9B80] transition-all duration-300 ">
-                    {category}
+                    {category.name}
                   </span>
                 </div>
               </div>
