@@ -7,7 +7,11 @@ module.exports = {
     extend: {
       zIndex: {
         '100': '100',
-      }
+      },
+      transition: {
+        'transform': 'transform',
+      },
+      transform: ['responsive', 'hover', 'focus'],
     },
     screens: {
       'xl': { 'max': '1200px' },

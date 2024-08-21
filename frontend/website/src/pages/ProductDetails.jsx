@@ -15,9 +15,13 @@ const ProductDetails = () => {
   const { products } = useSelector((state) => state.products);
   const { id } = useParams();
 
+  // ======= Debugging codes
+  console.log("product id: ", id);
+  console.log("product Details: ", productDetails);
+
   // ======== Get Product details
   useEffect(() => {
-    const findDetails = products.find((product) => product.id === parseInt(id));
+    const findDetails = products.find((product) => product.id === id);
     if (findDetails) {
       setProductsDetails(findDetails);
     }
@@ -79,7 +83,7 @@ const ProductDetails = () => {
                 <div className="mt-5 gap-4 px-10 flex md-lg:justify-center md-lg:flex-wrap items-center">
                   <h3 className="text-xl">Rating:</h3>
                   <div className="flex">
-                    <Rating rating={productDetails.rating.rate} size={30} />
+                    <Rating rating={productDetails.rating} size={30} />
                   </div>
                   <p className="text-md font-semibold">
                     {productDetails.rating.rate}
@@ -116,7 +120,9 @@ const ProductDetails = () => {
           </div>
         </div>
       ) : (
-        <p>Loading product details...</p>
+        <div className="flex justify-center items-center m-10 p-10 text-3xl">
+          <p className=" ">Product Not found !!</p>
+        </div>
       )}
       <Footer />
     </div>

@@ -11,6 +11,7 @@ const ShopProducts = ({ style, isSorted }) => {
   const { products } = useSelector((state) => state.products);
   const cart = useSelector(selectAllCart);
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
+  console.log("Products loaded: ", products);
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
@@ -90,7 +91,7 @@ const ShopProducts = ({ style, isSorted }) => {
             <div className="flex justify-start flex-col items-start gap-3">
               <span className="text-lg mt-3">{product.price}$</span>
               <div className="flex">
-                <Rating rating={product.rating.rate} />
+                <Rating rating={product.rating} />
               </div>
               <div className="h-[50px]">
                 <button

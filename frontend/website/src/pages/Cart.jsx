@@ -1,26 +1,32 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllCart } from "../redux/reducers/cartSlice";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
+import { selectTotalQuantity, clearCart } from "../redux/reducers/cartSlice";
+import CartItemsMain from "../components/CartItemsMain";
 
-const Card = () => {
+const Cart = () => {
+  const dispatch = useDispatch();
+  const cart = useSelector(selectAllCart);
+  const quantity = useSelector(selectTotalQuantity);
 
-  const card_products = [1, 2];
-  const outOfStockProduct = [3, 10, 10, 10, 2, 0];
   const navigate = useNavigate();
-  const redirect = () => { 
+  const redirect = () => {
     navigate("/shipping", {
-        state: {
-            products: [],
-            price: 500,
-            shippingFee: 50,
-            items: 2
-
-        }
+      state: {
+        products: [],
+        price: 500,
+        shippingFee: 50,
+        items: 2,
+      },
     });
-
-  }
+  };
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
 
   return (
     <div>
@@ -41,163 +47,89 @@ const Card = () => {
         </div>
       </section>
 
-      <section className="bg-[#eeeeee]">
+      <section className="">
         <div className="w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90%] mx-auto py-16">
-          {card_products.length > 0 || outOfStockProduct.length > 0 ? (
-            <div className="flex flex-wrap">
-              <div className="w-[67%] md-lg:w-full">
-                <div className="pr-3 md-lg:pr-0">
-                  <div className="flex flex-col gap-3">
-                    <div className="bg-white p-4">
-                      <h2 className="text-md text-green-500 font-semibold">
-                        Stock Products {card_products.length}
-                      </h2>
-                    </div>
-                    {card_products.map((p, i) => (
-                      <div key={i} className="flex bg-white p-4 flex-col gap-2">
-                        <div className="flex justify-start items-center">
-                          <h2 className="text-md text-slate-600 font-bold">
-                            Easy Shop
-                          </h2>
-                        </div>
-                        {[1, 2].map((p, i) => (
-                          <div key={i} className="w-full flex flex-wrap">
-                            <div className="flex sm:w-full gap-2 w-7/12">
-                              <div className="flex gap-2 justify-start items-center">
-                                <img
-                                  className="w-[80px] h-[80px]"
-                                  src={`http://localhost:3000/images/products/${
-                                    i + 1
-                                  }.webp`}
-                                  alt=""
-                                />
-                                <div className="pr-4 text-slate-600">
-                                  <h2 className="text-md font-semibold">
-                                    Product Name{" "}
-                                  </h2>
-                                  <span className="text-sm">Brand: Jara</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
-                              <div className="pl-4 sm:pl-0">
-                                <h2 className="text-lg text-orange-500">
-                                  $240
-                                </h2>
-                                <p className="line-through">$300</p>
-                                <p>-15%</p>
-                              </div>
-                              <div className="flex gap-2 flex-col">
-                                <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                  <div className="px-3 cursor-pointer">-</div>
-                                  <div className="px-3">2</div>
-                                  <div className="px-3 cursor-pointer">+</div>
-                                </div>
-                                <button className="px-5 py-[3px] bg-red-500 text-white">
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                    {outOfStockProduct.length > 0 && (
-                      <div className="flex flex-col gap-3">
-                        <div className="bg-white p-4">
-                          <h2 className="text-md text-red-500 font-semibold">
-                            Out of Stock {outOfStockProduct.length}
-                          </h2>
-                        </div>
-                        <div className="bg-white p-4">
-                          {[1].map((p, i) => (
-                            <div key={i} className="w-full flex flex-wrap">
-                              <div className="flex sm:w-full gap-2 w-7/12">
-                                <div className="flex gap-2 justify-start items-center">
-                                  <img
-                                    className="w-[80px] h-[80px]"
-                                    src={`http://localhost:3000/images/products/${
-                                      i + 1
-                                    }.webp`}
-                                    alt=""
-                                  />
-                                  <div className="pr-4 text-slate-600">
-                                    <h2 className="text-md font-semibold">
-                                      Product Name{" "}
-                                    </h2>
-                                    <span className="text-sm">Brand: Jara</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
-                                <div className="pl-4 sm:pl-0">
-                                  <h2 className="text-lg text-orange-500">
-                                    $240
-                                  </h2>
-                                  <p className="line-through">$300</p>
-                                  <p>-15%</p>
-                                </div>
-                                <div className="flex gap-2 flex-col">
-                                  <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                    <div className="px-3 cursor-pointer">-</div>
-                                    <div className="px-3">2</div>
-                                    <div className="px-3 cursor-pointer">+</div>
-                                  </div>
-                                  <button className="px-5 py-[3px] bg-red-500 text-white">
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+          <h2 className="text-5xl font-semibold text-center">Your cart</h2>
+          <div className="flex flex-wrap">
+            <div className="w-[67%] md-lg:w-full">
+              <div className="pr-3 md-lg:pr-0">
+                <div className="flex flex-col gap-3">
+                  <div className="bg-white p-4">
+                    <h2 className="text-3xl ">
+                      {`Total items in cart (${quantity})`}
+                    </h2>
                   </div>
-                </div>
-              </div>
-              <div className="w-[33%] md-lg:w-full">
-                <div className="pl-3 md-lg:pl-0 md-lg:mt-5">
-                  {card_products.length > 0 && (
-                    <div className="bg-white p-4 text-slate-600 flex flex-col gap-3">
-                      <h2 className="text-xl font-bold">Order summary</h2>
-                      <div className="flex justify-between items-center">
-                        <span>Items</span>
-                        <span>$300</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span>Shipping Fee</span>
-                        <span>$30</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <input
-                          className="w-full px-3 py-2 border border-slate-200 outline-0 focus:border-green-300 rounded-sm"
-                          type="text"
-                          placeholder="Voucher coupon"
-                        />
-                        <button className="bg-[#059473] text-white px-4 py-1 rounded-sm uppercase text-sm">
-                          Apply
-                        </button>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span>Total</span>
-                        <span className="text-lg text-[#059473]">$330</span>
-                        <button className="px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg bg-red-500 text-sm uppercase text-white" onClick={redirect}>
-                          Checkout
-                        </button>
-                      </div>
+                  {cart.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex bg-white p-4 flex-col gap-2 border-b-2 mb-4"
+                    >
+                      <CartItemsMain
+                        productId={item.productId}
+                        quantity={item.quantity}
+                      />
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
+
+              {/* ========= buttons */}
+              <div className="flex justify-center items-center mt-5">
+                {cart.length > 0 ? (
+                  <button
+                    className="h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]"
+                    onClick={handleClearCart}
+                  >
+                    Clear Cart
+                  </button>
+                ) : (
+                  <Link to="/shop">
+                    <button className="h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]">
+                      Shop Now
+                    </button>
+                  </Link>
+                )}
+              </div>
             </div>
-          ) : (
-            <div>
-              <Link className="px-4 py-1 bg-indigo-500 text-white" to="/shops">
-                Shop Now
-              </Link>
+
+            <div className="w-[33%] md-lg:w-full">
+              <div className="pl-3 md-lg:pl-0 md-lg:mt-5">
+                {cart.length > 0 && (
+                  <div className="bg-white p-4 text-slate-600 flex flex-col gap-3">
+                    <h2 className="text-xl font-bold">Order summary</h2>
+                    <div className="flex justify-between items-center">
+                      <span>Items</span>
+                      <span>$300</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Shipping Fee</span>
+                      <span>$30</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <input
+                        className="w-full px-3 py-2 border border-slate-200 outline-0 focus:border-green-300 rounded-sm"
+                        type="text"
+                        placeholder="Voucher coupon"
+                      />
+                      <button className="bg-[#059473] text-white px-4 py-1 rounded-sm uppercase text-sm">
+                        Apply
+                      </button>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Total</span>
+                      <span className="text-lg text-[#059473]">$330</span>
+                      <button
+                        className="px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg bg-red-500 text-sm uppercase text-white"
+                        onClick={redirect}
+                      >
+                        Checkout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </section>
 
@@ -206,4 +138,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default Cart;

@@ -64,3 +64,22 @@ html {
   width: 100%;
   background-color: #24222272;
 }
+
+.cart-tab {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 500px; /* Adjust based on your design */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease-in-out; /* Adjust timing and easing as needed */
+}
+
+.cart-tab-hidden {
+  transform: translateX(100%); /* Moves the tab off-screen to the right */
+}
+
+.cart-tab-visible {
+  transform: translateX(0); /* Moves the tab back into view */
+}

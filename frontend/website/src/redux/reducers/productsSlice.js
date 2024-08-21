@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
+import { api2 } from "../../api/api";
 
 const initialState = {
   products: [],
@@ -8,7 +8,7 @@ const initialState = {
 
 // Fetch all products
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await api.get('products');
+  const response = await api2.get('products');
   return response.data;
 });
 
@@ -19,7 +19,7 @@ export const fetchProductsByCategory = createAsyncThunk('products/fetchProductsB
     return dispatch(fetchProducts()).unwrap();
   } else {
     // Fetch products by category
-    const response = await api.get(`products/category/${category}`);
+    const response = await api2.get(`products/category/${category}`);
     return response.data;
   }
 });

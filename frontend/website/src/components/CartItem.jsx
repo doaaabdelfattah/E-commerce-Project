@@ -47,7 +47,7 @@ const CartItem = ({ productId, quantity }) => {
         ></img>
       </div>
       <h3>{productDetails.title}</h3>
-      <p>${productDetails.price * quantity}</p>
+      <p>{(productDetails.price * quantity).toFixed(2)}$</p>
       <div className="w-28 flex justify-between items-center">
         <button
           className="h-full w-10 font-bold text-2xl hover:text-[#BC9B80] flex justify-center items-center"

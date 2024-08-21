@@ -27,6 +27,7 @@ const Header = () => {
   console.log("Categories:", categories);
 
   const navigate = useNavigate();
+
   const handleCartClick = () => {
     navigate("/cart");
   };
