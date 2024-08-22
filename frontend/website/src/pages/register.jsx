@@ -29,7 +29,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(register(state))
-      .then(() => navigate('/'))
+      .then(() => navigate('/login'))
       .catch((error) => {
         console.error("Registration failed:", error);
       });
