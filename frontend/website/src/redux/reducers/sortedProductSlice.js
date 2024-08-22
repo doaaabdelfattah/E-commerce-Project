@@ -4,6 +4,7 @@ import { api2 } from '../../api/api'
 // Initial state 
 const initialState = {
   sortedProductsArray: [],
+  
 };
 
 export const fetchSortedProducts = createAsyncThunk('sortedProducts/fetchSortedProducts', async () => {

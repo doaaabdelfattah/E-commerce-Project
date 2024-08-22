@@ -55,6 +55,8 @@ const Header = () => {
   }
 
 
+  
+
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All Categories");

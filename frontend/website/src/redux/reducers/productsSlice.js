@@ -4,6 +4,7 @@ import {setProducts} from './sortedProductSlice'
 
 const initialState = {
   products: [],
+  searchQuery: '',
   status: 'idle',
 };
 
@@ -29,7 +30,9 @@ export const fetchProductsByCategory = createAsyncThunk('products/fetchProductsB
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+   
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
