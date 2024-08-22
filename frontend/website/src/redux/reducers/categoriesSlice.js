@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from '../../api/api';
 import { api2 } from '../../api/api';
 
 
@@ -11,7 +10,7 @@ const initialState = {
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
   try {
     const response = await api2.get('categories/');
-    console.log('API response:', response.data); // Log API response
+    // console.log('API response:', response.data); // Log API response
     return response.data;
   } catch (error) {
     console.error('API error:', error.message); // Log any errors

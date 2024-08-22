@@ -1,15 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api2 } from '../../api/api';
 
-// Initial state with a more structured format
-const initialState = {
-  items: [],
-  statusTab: false,
-};
+
+export const add_to_cart = createAsyncThunk('cart/add_to_cart',
+
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api2.post('cart/add', info);
+      console.log('CART API response:', data); // Log API response
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.error('API error:', error.message); // Log any errors
+      return rejectWithValue(error.response.data);
+    }
+  });
+
+
 
 // Slice
 const cartSlice = createSlice({
   name: 'cart',
-  initialState,
+  initialState: {
+    items: [],
+    statusTab: false,
+  },
   reducers: {
     addToCart(state, action) {
       const { productId, quantity } = action.payload;
