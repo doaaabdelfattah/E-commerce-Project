@@ -1,64 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
-import { FaFacebookF, FaGooglePlusG } from 'react-icons/fa';
-import { useState } from 'react';
 import Nav from '../components/nav';
+import { register } from '../redux/reducers/authSlice';
+import { FaFacebookF, FaGooglePlusG } from 'react-icons/fa';
+
 
 const Register = () => {
   const [state, setState] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: ''
+    name: "",
+    email: "",
+    password: "",
+    isAdmin: true,
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const inputHandle = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitted', state);
+    dispatch(register(state))
+      .then(() => navigate('/login'))
+      .catch((error) => {
+        console.error("Registration failed:", error);
+      });
   };
 
   return (
-    
     <>
-    <Nav />
-    
+      <Nav />
       <div className="relative bg-[url('http://localhost:3000/images/banner/3.jpg')] flex items-center pt-2 pb-2 justify-center pl-5 min-h-screen">
         <div className='absolute inset-0 bg-white opacity-50'></div>
         <div className="relative bg-white p-8 border-none max-w-md font-serif w-full">
           <h1 className="text-2xl font-bold mb-6 text-slate-600 text-center">Register Page</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-2">
-              <label className="block text-slate-600 text-sm font-bold mb-1" htmlFor="firstName">
-                First Name
+              <label className="block text-slate-600 text-sm font-bold mb-1" htmlFor="name">
+                Name
               </label>
               <input
                 type="text"
-                id="firstName"
-                name="firstName"
-                placeholder="First Name"
-                value={state.firstName}
-                onChange={inputHandle}
-                className="input-field w-full px-2 py-2 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-[#e0e0e0] focus:border-[#e0e0e0]"
-                required
-              />
-            </div>
-            <div className="mb-2">
-              <label className="block text-slate-600 text-sm font-bold mb-1" htmlFor="lastName">
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                placeholder="Last Name"
-                value={state.lastName}
+                id="name"
+                name="name"
+                placeholder="Your Name"
+                value={state.name}
                 onChange={inputHandle}
                 className="input-field w-full px-2 py-2 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-[#e0e0e0] focus:border-[#e0e0e0]"
               />
@@ -102,17 +96,16 @@ const Register = () => {
             <span className='px-3 text-slate-600'>Or</span>
             <div className='h-[1px] bg-slate-300 w-[95%]'></div>
           </div>
-          <div className='flex justify-center items-center mt-5'></div>
           <button className="btn-primary px-8 py-2 w-full p-1 font-bold text-slate-600 border-none bg-[#E0D8BE] flex justify-center gap-2 mb-3">
             <span className='pt-1'><FaFacebookF /></span>
-            <span>Login with Facebook</span>
+            <span>Register with Facebook</span>
           </button>
           <button className="btn-primary px-8 py-2 w-full p-1 font-bold text-slate-600 border-none bg-[#E0D8BE] flex justify-center gap-2 mb-3">
             <span className='pt-1'><FaGooglePlusG /></span>
-            <span>Login with Google</span>
+            <span>Register with Google</span>
           </button>
           <div className='flex justify-center items-center mt-5'>
-            <span className='px-3 text-slate-600'>Do you have an account?</span>
+            <span className='px-3 text-slate-600'>Already have an account?</span>
             <a href="/login" className='text-[#BC9B80]'>Login</a>
           </div>
         </div>

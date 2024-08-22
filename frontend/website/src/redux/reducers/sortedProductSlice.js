@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
+import { api2 } from '../../api/api'
 
 // Initial state 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
 
 export const fetchSortedProducts = createAsyncThunk('sortedProducts/fetchSortedProducts', async () => {
   try {
-    const response = await api.get('products');
+    const response = await api2.get('products');
     // console.log('API response:', response.data); // Log API response
     return response.data;
   } catch (error) {

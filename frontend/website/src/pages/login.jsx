@@ -1,27 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import { FaFacebookF, FaGooglePlusG } from "react-icons/fa";
-import { useState } from "react";
 import Nav from "../components/nav";
+import { logInUser } from "../redux/reducers/authSlice";
+import { FaFacebookF, FaGooglePlusG } from "react-icons/fa";
 
 const Login = () => {
-  const [state, setState] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
-
-  const inputHandle = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("")
+  const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitted", state);
+    dispatch(logInUser({ email, password, name }))
+      .unwrap()
+      .then((response) => {
+        console.log("Logged in successfully:", response);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.error("Failed to login:", err);
+      });
+  };
+
+  const inputHandle = (e) => {
+    const { name, value } = e.target;
+    if (name === "email") {
+      setEmail(value);
+    } else {
+      setPassword(value);
+      setName(name);
+    }
   };
 
   return (
@@ -46,7 +59,7 @@ const Login = () => {
                 id="email"
                 name="email"
                 placeholder="Email"
-                value={state.email}
+                value={email}
                 onChange={inputHandle}
                 className="input-field w-full px-2 py-2 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-[#e0e0e0] focus:border-[#e0e0e0]"
                 required
@@ -64,7 +77,7 @@ const Login = () => {
                 id="password"
                 name="password"
                 placeholder="Password"
-                value={state.password}
+                value={password}
                 onChange={inputHandle}
                 className="input-field w-full px-2 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#e0e0e0] focus:border-[#e0e0e0]"
                 required
@@ -73,9 +86,11 @@ const Login = () => {
             <button
               type="submit"
               className="btn-primary w-full mt-4 p-2 font-bold text-slate-600 border-none bg-[#E0D8BE]"
+              disabled={loading}
             >
-              Log In
+              {loading ? "Logging in..." : "Log In"}
             </button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
           </form>
           <div className="flex justify-center items-center mt-5">
             <span className="px-3 text-slate-600">Don't have an account?</span>
