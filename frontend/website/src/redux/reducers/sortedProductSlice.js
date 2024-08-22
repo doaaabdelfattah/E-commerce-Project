@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api2 } from '../../api/api'
+import {fetchProductsByCategory} from './productsSlice'
 
 // Initial state 
 const initialState = {
@@ -31,7 +32,7 @@ const sortedProductsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSortedProducts.fulfilled, (state, action) => {
+      .addCase(fetchProductsByCategory.fetchSortedProducts.fulfilled, (state, action) => {
         // console.log('Action payload:', action.payload); // Log action payload
         state.sortedProductsArray = action.payload;
       });
