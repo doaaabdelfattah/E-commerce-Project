@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api2 } from '../../api/api'
-import {fetchProductsByCategory} from './productsSlice'
 
 // Initial state 
 const initialState = {
@@ -23,6 +22,9 @@ const sortedProductsSlice = createSlice({
   name: 'sortedProducts',
   initialState,
   reducers: {
+    setProducts: (state, action) => {
+      state.sortedProductsArray = action.payload;  // Set the filtered products
+    },
     sortProductsByPriceAsc: (state) => {
       state.sortedProductsArray.sort((a, b) => a.price - b.price);
     },
@@ -32,13 +34,13 @@ const sortedProductsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProductsByCategory.fetchSortedProducts.fulfilled, (state, action) => {
+      .addCase(fetchSortedProducts.fulfilled, (state, action) => {
         // console.log('Action payload:', action.payload); // Log action payload
         state.sortedProductsArray = action.payload;
       });
   },
 });
 
-export const { sortProductsByPriceAsc, sortProductsByPriceDesc } = sortedProductsSlice.actions;
+export const { sortProductsByPriceAsc, sortProductsByPriceDesc, setProducts } = sortedProductsSlice.actions;
 
 export default sortedProductsSlice.reducer;
