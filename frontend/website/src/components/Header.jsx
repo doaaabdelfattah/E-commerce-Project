@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsByCategory } from "../redux/reducers/productsSlice";
-
+import { loadUserFromToken, logOutUser } from "../redux/reducers/authSlice";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
@@ -19,7 +19,6 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
-import CategoryList from "./CategoryList";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -34,11 +33,25 @@ const Header = () => {
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
-  const user = false;
+
   const wishlist = 4;
   const handleCategoryClick = (category) => {
     dispatch(fetchProductsByCategory(category));
   };
+  const {isAuthenticated } = useSelector((state) => state.auth);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && !isAuthenticated) {
+       dispatch(loadUserFromToken(token));
+    }
+  }, [isAuthenticated, dispatch]);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    dispatch(logOutUser());
+    navigate('/Login')
+  }
+
+
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All Categories");
@@ -91,28 +104,35 @@ const Header = () => {
                     <FaLinkedin />
                   </a>
                 </div>
-                {/* - -  User Name - - */}
-                {user ? (
-                  <Link
-                    className="flex cursor-pointer justify-center items-center gap-2"
-                    to="/dashboard"
-                  >
-                    <span>
-                      <FaUser />
-                    </span>
-                    <span> Doaa Abdelfattah </span>
-                  </Link>
-                ) : (
-                  <Link
-                    className="flex cursor-pointer justify-center items-center gap-2"
-                    to="/Login"
-                  >
-                    <span>
-                      <FaLock />
-                    </span>
-                    <span>Login </span>
-                  </Link>
-                )}
+               {/* - -  User Name - - */}
+{isAuthenticated ? (
+  <div className="flex items-center gap-4">
+    <Link
+      className="flex cursor-pointer justify-center items-center gap-2 text-blue-500 hover:text-blue-700"
+      to="/dashboard"
+    >
+      <FaUser />
+      <span>Welcome</span>
+    </Link>
+    <button
+      onClick={handleLogout}
+      className="ml-4 text-red-500 hover:text-red-700 focus:outline-none"
+    >
+      Log Out
+    </button>
+  </div>
+) : (
+  <Link
+    className="flex cursor-pointer justify-center items-center gap-2 text-blue-500 hover:text-blue-700"
+    to="/login"
+  >
+    <FaLock />
+    <span>Login</span>
+  </Link>
+)}
+
+            
+                  
               </div>
             </div>
           </div>
@@ -318,7 +338,7 @@ const Header = () => {
           </div>
           {/* User */}
           <div className="m-4 border-t-2 pt-3">
-            {user ? (
+            {isAuthenticated ? (
               <Link
                 className="flex cursor-pointer justify-center items-center gap-2"
                 to="/dashboard"
@@ -326,7 +346,7 @@ const Header = () => {
                 <span>
                   <FaUser />
                 </span>
-                <span> </span>
+                <span> Login</span>
               </Link>
             ) : (
               <Link
