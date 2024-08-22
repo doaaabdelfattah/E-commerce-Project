@@ -24,6 +24,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
   const user = useSelector((state) => state.auth.user);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   console.log("Categories:", categories);
   console.log("user:", user);
@@ -43,7 +44,6 @@ const Header = () => {
     dispatch(fetchProductsByCategory(categoryId));
   };
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && !isAuthenticated) {
@@ -53,13 +53,6 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(logOutUser());
-
-    navigate('/Login')
-  }
-
-
-  
-
 
     navigate("/Login");
   };
