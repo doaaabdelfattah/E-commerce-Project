@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { api2 } from '../../api/api';
+import { jwtDecode } from "jwt-decode";
+
 
 // Thunk for user login
 export const logInUser = createAsyncThunk(
@@ -23,6 +25,7 @@ export const register = createAsyncThunk(
   async ({ email, password, name, isAdmin = true }, { rejectWithValue }) => {
     try {
       const response = await api2.post('/users/register', { email, password, name, isAdmin });
+
       return response.data; // Return the user data
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -61,7 +64,7 @@ const authSlice = createSlice({
       })
       .addCase(logInUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.isAuthenticated = true;
       })
       .addCase(logInUser.rejected, (state, action) => {

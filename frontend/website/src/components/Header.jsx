@@ -23,7 +23,10 @@ import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
+  const user = useSelector((state) => state.auth.user);
+
   console.log("Categories:", categories);
+  console.log("user:", user);
 
   const navigate = useNavigate();
 
@@ -35,26 +38,23 @@ const Header = () => {
   const [showCategory, setshowCategory] = useState(true);
 
   const wishlist = 4;
-  
+
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
- 
   };
 
-  const {isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token && !isAuthenticated) {
-       dispatch(loadUserFromToken(token));
+      dispatch(loadUserFromToken(token));
     }
   }, [isAuthenticated, dispatch]);
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     dispatch(logOutUser());
-    navigate('/Login')
-  }
-
-
+    navigate("/Login");
+  };
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All Categories");
@@ -107,35 +107,32 @@ const Header = () => {
                     <FaLinkedin />
                   </a>
                 </div>
-               {/* - -  User Name - - */}
-{isAuthenticated ? (
-  <div className="flex items-center gap-4">
-    <Link
-      className="flex cursor-pointer justify-center items-center gap-2 text-blue-500 hover:text-blue-700"
-      to="/dashboard"
-    >
-      <FaUser />
-      <span>Welcome</span>
-    </Link>
-    <button
-      onClick={handleLogout}
-      className="ml-4 text-red-500 hover:text-red-700 focus:outline-none"
-    >
-      Log Out
-    </button>
-  </div>
-) : (
-  <Link
-    className="flex cursor-pointer justify-center items-center gap-2 text-blue-500 hover:text-blue-700"
-    to="/login"
-  >
-    <FaLock />
-    <span>Login</span>
-  </Link>
-)}
-
-            
-                  
+                {/* - -  User Name - - */}
+                {isAuthenticated ? (
+                  <div className="flex items-center gap-4">
+                    <Link
+                      className="flex cursor-pointer justify-center items-center gap-2 text-slate-600 hover:text-[#BC9B80]"
+                      to="/dashboard"
+                    >
+                      <FaUser />
+                      <span>Welcome, {user.name}</span>
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="ml-4 text-slate-600 font-semibold hover:text-[#BC9B80] focus:outline-none"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    className="flex cursor-pointer justify-center items-center gap-2 text-slate-600 hover:text-[#BC9B80]"
+                    to="/login"
+                  >
+                    <FaLock />
+                    <span>Login</span>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -387,30 +384,28 @@ const Header = () => {
                 </span>
               </div>
 
-{/* Category list */}
-<div
-  className={`${
-    showCategory ? "h-[0]" : "h-fit"
-  } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
->
-  <ul className="py-2 m-[10px] font-medium">
-    {categories.map((category) => (
-      <li
-        key={category.id}
-        className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
-      >
-        <Link
-          className="block"
-          
-          onClick={() => handleCategoryClick(category.id)}
-        >
-          {category.name}
-        </Link>
-      </li>
-    ))}
-  </ul>
-</div>
-
+              {/* Category list */}
+              <div
+                className={`${
+                  showCategory ? "h-[0]" : "h-fit"
+                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
+              >
+                <ul className="py-2 m-[10px] font-medium">
+                  {categories.map((category) => (
+                    <li
+                      key={category.id}
+                      className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
+                    >
+                      <Link
+                        className="block"
+                        onClick={() => handleCategoryClick(category.id)}
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
