@@ -11,7 +11,7 @@ const ShopProducts = ({ style, isSorted }) => {
   const { products } = useSelector((state) => state.products);
   const cart = useSelector(selectAllCart);
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
-  console.log("Products loaded: ", products);
+  const { user } = useSelector((state) => state.auth);
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
