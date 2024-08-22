@@ -2,7 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { changeQuantity, deleteItem } from "../redux/reducers/cartSlice";
+import {
+  changeQuantity,
+  delete_Item_cart,
+  deleteItem,
+} from "../redux/reducers/cartSlice";
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +19,7 @@ const CartItemsMain = ({ productId, quantity }) => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
   const [productDetails, setProductsDetails] = useState([]);
+  const { userId } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const findDetails = products.filter(
@@ -43,8 +48,9 @@ const CartItemsMain = ({ productId, quantity }) => {
   };
   const handleDeleteItem = () => {
     dispatch(
-      deleteItem({
-        productId: productId,
+      delete_Item_cart({
+        userId,
+        productId,
       })
     );
   };

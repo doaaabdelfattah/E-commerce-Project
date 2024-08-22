@@ -16,27 +16,28 @@ const ShopProducts = ({ style, isSorted }) => {
   const { products } = useSelector((state) => state.products);
   const cart = useSelector(selectAllCart);
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
-  const { user } = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.auth);
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
-    if (user) {
+    if (userId) {
+      // Check if the user is logged in by checking if userId is available
       dispatch(
         add_to_cart({
-          userId: user.id,
+          userId,
           productId: product.id,
           quantity: 1,
         })
       );
+      // dispatch(
+      //   addToCart({
+      //     productId: product.id,
+      //     quantity: 1,
+      //   })
+      // );
     } else {
-      navigate("/login");
+      navigate("/login"); // Redirect to login if the user is not logged in
     }
-    // dispatch(
-    //   addToCart({
-    //     productId: product.id,
-    //     quantity: 1,
-    //   })
-    // );
   };
 
   // ========= debugging code :
