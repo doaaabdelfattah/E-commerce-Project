@@ -7,7 +7,6 @@ const Product = require('../models/product');
 router.post('/add', async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body;
-
     // Find the product to get its details
     const product = await Product.findById(productId);
     if (!product) return res.status(404).send('Product not found');
