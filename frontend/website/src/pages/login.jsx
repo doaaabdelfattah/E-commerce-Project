@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(logInUser({ email, password, name }))
+    dispatch(logInUser({ email, password }))
       .unwrap()
       .then((response) => {
         console.log("Logged in successfully:", response);

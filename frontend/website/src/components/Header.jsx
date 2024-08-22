@@ -38,7 +38,7 @@ const Header = () => {
   const handleCategoryClick = (category) => {
     dispatch(fetchProductsByCategory(category));
   };
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const {isAuthenticated } = useSelector((state) => state.auth);
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token && !isAuthenticated) {
@@ -112,7 +112,7 @@ const Header = () => {
       to="/dashboard"
     >
       <FaUser />
-      <span>Welcome, {user}</span>
+      <span>Welcome</span>
     </Link>
     <button
       onClick={handleLogout}
@@ -338,7 +338,7 @@ const Header = () => {
           </div>
           {/* User */}
           <div className="m-4 border-t-2 pt-3">
-            {user ? (
+            {isAuthenticated ? (
               <Link
                 className="flex cursor-pointer justify-center items-center gap-2"
                 to="/dashboard"
