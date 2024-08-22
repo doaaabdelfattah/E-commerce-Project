@@ -56,10 +56,32 @@ router.post('/search', async (req, res) => {
 
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
+
+
+// Get products by rating
+router.get('/rating/:minRating', async (req, res) => {
+  try {
+    const minRating = parseFloat(req.params.minRating);
+
+    if (isNaN(minRating)) {
+      return res.status(400).json({ message: 'Invalid rating value' });
+    }
+
+    const products = await Product.find({ rating: { $gte: minRating } });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'No products found with the specified rating' });
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
 
 
 
@@ -80,12 +102,12 @@ router.post('/', async (req, res) => {
 // Update a product
 router.put('/:productId', async (req, res) => {
   try {
-    const { title, description, richDescription, rating, image, brand, price, category } = req.body;
+    const { title, description, richDescription, rating, image, brand, discount, price, category } = req.body;
 
     // Find and update the product
     const product = await Product.findByIdAndUpdate(
       req.params.productId,
-      { $set: { title, description, richDescription, rating, image, brand, price, category } },
+      { $set: { title, description, richDescription, rating, image, brand, discount, price, category } },
       { new: true, runValidators: true }
     );
 
