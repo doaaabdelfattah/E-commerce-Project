@@ -13,7 +13,5 @@ export const store = configureStore({
                 cart: cartReducer,
                 sortedProducts: sortedProductReducer,
                 auth: authReducer
-                
-                
         }
 });

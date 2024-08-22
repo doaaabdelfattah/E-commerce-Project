@@ -15,8 +15,6 @@ export const add_to_cart = createAsyncThunk('cart/add_to_cart',
     }
   });
 
-
-
 // Slice
 const cartSlice = createSlice({
   name: 'cart',

@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsByCategory } from "../redux/reducers/productsSlice";
-import { loadUserFromToken, logOutUser } from "../redux/reducers/authSlice";
+import {
+  getUser,
+  loadUserFromToken,
+  logOutUser,
+} from "../redux/reducers/authSlice";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
@@ -23,13 +27,9 @@ import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
-  //const user = useSelector((state) => state.auth.user);
-  const user = useSelector((state) => state.auth.user);
-  const [singedInUserName, setSingedInUserName] = useState(null);
-  const { isAuthenticated } = useSelector((state) => state.auth);
-
-  console.log("Categories:", categories);
-  console.log("user:", user);
+  const { userId, userName, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
 
   const navigate = useNavigate();
 
@@ -42,10 +42,6 @@ const Header = () => {
 
   const wishlist = 4;
 
-  useEffect(() => {
-    if (!user) return;
-    setSingedInUserName(user);
-  }, []);
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
   };
@@ -56,6 +52,7 @@ const Header = () => {
       dispatch(loadUserFromToken(token));
     }
   }, [isAuthenticated, dispatch]);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(logOutUser());
@@ -72,8 +69,8 @@ const Header = () => {
   //================ Categories Array
 
   // Extract category names
-  const categoryNames = categories.map((category) => category.name);
-  console.log("names:", categoryNames);
+  // const categoryNames = categories.map((category) => category.name);
+  // console.log("names:", categoryNames);
 
   //====== Search bar ======//
   const [searchItem, setSearchItem] = useState("");
@@ -127,7 +124,7 @@ const Header = () => {
                       to="/dashboard"
                     >
                       <FaUser />
-                      <span>Welcome{` ${singedInUserName} !`}</span>
+                      <span>Welcome, {userName} </span>
                     </Link>
                     <button
                       onClick={handleLogout}
@@ -358,7 +355,7 @@ const Header = () => {
                 <span>
                   <FaUser />
                 </span>
-                <span>Welcome{` ${singedInUserName} !`}</span>
+                <span>Welcome, {userName} </span>
               </Link>
             ) : (
               <Link
