@@ -129,10 +129,10 @@ const Shop = () => {
                       type="radio"
                       id={category.id}
                       name="category"
-                      checked={selectedCategory === category.name}
-                      onChange={() => handleCategoryClick(category.name)}
+                      checked={selectedCategory === category.id}
+                      onChange={() => handleCategoryClick(category.id)}
                     />
-                    <label className="text-slate-500" htmlFor={category.name}>
+                    <label className="text-slate-500" htmlFor={category.id}>
                       {category.name}
                     </label>
                   </div>

@@ -7,13 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsByCategory } from "../../redux/reducers/productsSlice";
 import { addToCart } from "../../redux/reducers/cartSlice";
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ categoryId }) => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory());
-  }, [dispatch]);
+      dispatch(fetchProductsByCategory(categoryId));
+  }, [dispatch, categoryId]);
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
@@ -35,9 +35,9 @@ const FeaturedProducts = () => {
       </div>
 
       <div className="w-full flex justify-center flex-wrap  gap-5">
-        {products.slice(0, 8).map((product, index) => (
+        {products.slice(0, 8).map((product) => (
           <div
-            key={index}
+            key={product._id}
             className="border group w-[300px] transition-all  duration-500 hover:shadow-md hover:-mt-3 cursor-pointer"
           >
             <div className="relative p-[25px] overflow-hidden">

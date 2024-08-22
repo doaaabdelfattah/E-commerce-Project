@@ -35,9 +35,12 @@ const Header = () => {
   const [showCategory, setshowCategory] = useState(true);
 
   const wishlist = 4;
-  const handleCategoryClick = (category) => {
-    dispatch(fetchProductsByCategory(category));
+  
+  const handleCategoryClick = (categoryId) => {
+    dispatch(fetchProductsByCategory(categoryId));
+ 
   };
+
   const {isAuthenticated } = useSelector((state) => state.auth);
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -384,23 +387,30 @@ const Header = () => {
                 </span>
               </div>
 
-              {/* Category list */}
-              <div
-                className={`${
-                  showCategory ? "h-[0]" : "h-fit"
-                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
-              >
-                <ul className="py-2 m-[10px] font-medium">
-                  {categories.map((category) => (
-                    <li
-                      key={category.id}
-                      className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
-                    >
-                      <Link className="block">{category.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+{/* Category list */}
+<div
+  className={`${
+    showCategory ? "h-[0]" : "h-fit"
+  } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[20] w-full bg-[#FAF9F7]`}
+>
+  <ul className="py-2 m-[10px] font-medium">
+    {categories.map((category) => (
+      <li
+        key={category.id}
+        className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
+      >
+        <Link
+          className="block"
+          
+          onClick={() => handleCategoryClick(category.id)}
+        >
+          {category.name}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
+
             </div>
           </div>
 
@@ -425,7 +435,7 @@ const Header = () => {
                       <option value=""> Select Category </option>
 
                       {categories.map((category, index) => (
-                        <option key={category.id} value={category.name}>
+                        <option key={category.id} value={category.id}>
                           {category.name}
                         </option>
                       ))}

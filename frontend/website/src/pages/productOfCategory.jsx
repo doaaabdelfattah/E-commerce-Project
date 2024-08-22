@@ -37,9 +37,9 @@ function ProductOfCategory() {
                 </div>
               </div>
               <div className="w-full flex justify-center flex-wrap gap-5">
-                {products.slice(0, 8).map((product, index) => (
+                {products.slice(0, 8).map((product, id) => (
                   <div
-                    key={index}
+                    key={id}
                     className="border group w-[300px] transition-all duration-500 hover:shadow-md hover:-mt-3 cursor-pointer"
                   >
                     <div className="relative p-[25px] overflow-hidden">

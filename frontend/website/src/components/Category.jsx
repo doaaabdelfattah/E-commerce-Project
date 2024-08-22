@@ -15,9 +15,9 @@ const Banner = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const handleCategoryClick = (category) => {
-    dispatch(fetchProductsByCategory(category));
-    navigate(`/category/${category}`);
+  const handleCategoryClick = (categoryId) => {
+    dispatch(fetchProductsByCategory(categoryId));
+    navigate(`/category/${categoryId}`);
   };
 
   const responsive = {
@@ -61,8 +61,8 @@ const Banner = () => {
             <Link
               className="h-fit block"
               key={category.id}
-              to={`/category/${category.name}`}
-              onClick={() => handleCategoryClick(category.name)}
+              to={`/category/${category.id}`}
+              onClick={() => handleCategoryClick(category.id)}
             >
               <div className="w-full h-full relative custom-hover-effect transform transition-all duration-500 p-3">
                 <img
