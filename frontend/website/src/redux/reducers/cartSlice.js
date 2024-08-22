@@ -21,39 +21,40 @@ export const add_to_cart = createAsyncThunk('cart/add_to_cart',
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    items: [],
+    products: [],
+    totalProductCount: 0,
     statusTab: false,
   },
   reducers: {
     addToCart(state, action) {
       const { productId, quantity } = action.payload;
-      const productIndex = state.items.findIndex(item => item.productId === productId);
+      const productIndex = state.products.findIndex(item => item.productId === productId);
 
       if (productIndex !== -1) {
         // If item exists, update the quantity
-        state.items[productIndex].quantity += quantity;
+        state.products[productIndex].quantity += quantity;
       } else {
         // If item does not exist, add it to the cart
-        state.items.push({ productId, quantity });
+        state.products.push({ productId, quantity });
       }
       state.statusTab = true;
     },
     deleteItem(state, action) {
       const { productId } = action.payload;
-      const productIndex = state.items.findIndex(item => item.productId === productId);
+      const productIndex = state.products.findIndex(item => item.productId === productId);
       // Remove item from the cart if quantity is 0 or less
-      state.items.splice(productIndex, 1);
+      state.products.splice(productIndex, 1);
     },
     changeQuantity(state, action) {
       const { productId, quantity } = action.payload;
-      const productIndex = state.items.findIndex(item => item.productId === productId);
+      const productIndex = state.products.findIndex(item => item.productId === productId);
 
       if (productIndex !== -1) {
         if (quantity > 0) {
-          state.items[productIndex].quantity = quantity;
+          state.products[productIndex].quantity = quantity;
         } else {
           // Remove item from the cart if quantity is 0 or less
-          state.items.splice(productIndex, 1);
+          state.products.splice(productIndex, 1);
         }
       }
     },
@@ -61,23 +62,29 @@ const cartSlice = createSlice({
       state.statusTab = !state.statusTab
     },
     clearCart(state) {
-      state.items = [];
+      state.products = [];
       state.statusTab = false
     }
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(add_to_cart.fulfilled, (state, action) => {
+        state.totalProductCount = state.totalProductCount + 1
+      })
+  }
 });
 
 // Selectors
-export const selectAllCart = (state) => state.cart.items;
+export const selectAllCart = (state) => state.cart.products;
 
 // Selector to find totalQuantity
 
 export const selectTotalQuantity = (state) => {
-  return state.cart.items.reduce((total, item) => total + item.quantity, 0);
+  return state.cart.products.reduce((total, item) => total + item.quantity, 0);
 };
 // Selector to find product details by productId
 export const selectProductDetailsById = (state, productId) => {
-  return state.cart.items.find(item => item.productId === productId);
+  return state.cart.products.find(item => item.productId === productId);
 };
 
 // Exporting actions and reducer

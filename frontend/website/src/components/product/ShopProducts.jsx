@@ -3,11 +3,16 @@ import { FaEye, FaRegHeart } from "react-icons/fa";
 import { RiShoppingCartLine } from "react-icons/ri";
 import Rating from "../Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { addToCart, selectAllCart } from "../../redux/reducers/cartSlice";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  add_to_cart,
+  addToCart,
+  selectAllCart,
+} from "../../redux/reducers/cartSlice";
 
 const ShopProducts = ({ style, isSorted }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { products } = useSelector((state) => state.products);
   const cart = useSelector(selectAllCart);
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
@@ -15,12 +20,23 @@ const ShopProducts = ({ style, isSorted }) => {
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
-    dispatch(
-      addToCart({
-        productId: product.id,
-        quantity: 1,
-      })
-    );
+    if (user) {
+      dispatch(
+        add_to_cart({
+          userId: user.id,
+          productId: product.id,
+          quantity: 1,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+    // dispatch(
+    //   addToCart({
+    //     productId: product.id,
+    //     quantity: 1,
+    //   })
+    // );
   };
 
   // ========= debugging code :

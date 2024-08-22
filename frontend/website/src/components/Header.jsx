@@ -26,7 +26,7 @@ const Header = () => {
   //const user = useSelector((state) => state.auth.user);
   const user = useSelector((state) => state.auth.user);
   const [singedInUserName, setSingedInUserName] = useState(null);
- const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   console.log("Categories:", categories);
   console.log("user:", user);
@@ -41,12 +41,11 @@ const Header = () => {
   const [showCategory, setshowCategory] = useState(true);
 
   const wishlist = 4;
-  
+
   useEffect(() => {
-    const user = localStorage.getItem("userName");
     if (!user) return;
     setSingedInUserName(user);
-  }, [])
+  }, []);
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
   };
@@ -76,13 +75,11 @@ const Header = () => {
   const categoryNames = categories.map((category) => category.name);
   console.log("names:", categoryNames);
 
- //====== Search bar ======//
- const [searchItem, setSearchItem] = useState('')
- const handleSearchChange = (e) => {
-  const searchItem = e.target.value;
-
- }
-  
+  //====== Search bar ======//
+  const [searchItem, setSearchItem] = useState("");
+  const handleSearchChange = (e) => {
+    const searchItem = e.target.value;
+  };
 
   return (
     <div className="w-full bg-white">
@@ -130,7 +127,7 @@ const Header = () => {
                       to="/dashboard"
                     >
                       <FaUser />
-                      <span>Welcome{` ${ singedInUserName} !`}</span>
+                      <span>Welcome{` ${singedInUserName} !`}</span>
                     </Link>
                     <button
                       onClick={handleLogout}
@@ -361,7 +358,7 @@ const Header = () => {
                 <span>
                   <FaUser />
                 </span>
-                <span>Welcome{` ${ singedInUserName} !`}</span>
+                <span>Welcome{` ${singedInUserName} !`}</span>
               </Link>
             ) : (
               <Link
