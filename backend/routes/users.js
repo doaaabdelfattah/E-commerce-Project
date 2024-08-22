@@ -32,7 +32,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) return res.status(401).send('Invalid email or password');
@@ -51,11 +51,21 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.send({ token });
+    // Send the token, name, isAdmin, and email
+    res.send({
+      token,
+      user: {
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin
+      }
+    });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).send('Server error');
   }
 });
+
 
 // protected - Get user profile
 router.get('/profile', authMiddleware, async (req, res) => {
