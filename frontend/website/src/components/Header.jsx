@@ -23,8 +23,10 @@ import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
+  //const user = useSelector((state) => state.auth.user);
   const user = useSelector((state) => state.auth.user);
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const [singedInUserName, setSingedInUserName] = useState(null);
+ const { isAuthenticated } = useSelector((state) => state.auth);
 
   console.log("Categories:", categories);
   console.log("user:", user);
@@ -39,7 +41,12 @@ const Header = () => {
   const [showCategory, setshowCategory] = useState(true);
 
   const wishlist = 4;
-
+  
+  useEffect(() => {
+    const user = localStorage.getItem("userName");
+    if (!user) return;
+    setSingedInUserName(user);
+  }, [])
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
   };
@@ -57,7 +64,6 @@ const Header = () => {
     navigate("/Login");
   };
 
-  const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All Categories");
 
   // ========================== Cart
@@ -69,6 +75,14 @@ const Header = () => {
   // Extract category names
   const categoryNames = categories.map((category) => category.name);
   console.log("names:", categoryNames);
+
+ //====== Search bar ======//
+ const [searchItem, setSearchItem] = useState('')
+ const handleSearchChange = (e) => {
+  const searchItem = e.target.value;
+
+ }
+  
 
   return (
     <div className="w-full bg-white">
@@ -116,7 +130,7 @@ const Header = () => {
                       to="/dashboard"
                     >
                       <FaUser />
-                      <span>Welcome, {user?.name}</span>
+                      <span>Welcome{` ${ singedInUserName} !`}</span>
                     </Link>
                     <button
                       onClick={handleLogout}
@@ -347,7 +361,7 @@ const Header = () => {
                 <span>
                   <FaUser />
                 </span>
-                <span> Login</span>
+                <span>Welcome{` ${ singedInUserName} !`}</span>
               </Link>
             ) : (
               <Link
@@ -440,7 +454,8 @@ const Header = () => {
                   {/* - - - search input - - -  */}
                   <input
                     className="border-0 bg-transparent w-full text-slate-500 relative outline-0 px-3 h-full"
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={handleSearchChange}
+                    value={searchItem}
                     type="text"
                     name=""
                     id=""

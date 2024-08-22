@@ -13,10 +13,8 @@ import { fetchProducts } from "./redux/reducers/productsSlice";
 import { fetchCategories } from "./redux/reducers/categoriesSlice";
 import ScrollToTop from "./utils/ScrollToTop";
 import CartTab from "./components/CartTab";
-
 import ProductOfCategory from "./pages/productOfCategory";
 function App() {
-  // ======= Centralized Data Fetching for products
   const dispatch = useDispatch();
 
   useEffect(() => {
