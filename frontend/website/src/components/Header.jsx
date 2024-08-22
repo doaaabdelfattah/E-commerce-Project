@@ -116,7 +116,7 @@ const Header = () => {
                       to="/dashboard"
                     >
                       <FaUser />
-                      <span>Welcome, {user.name}</span>
+                      <span>Welcome, {user?.name}</span>
                     </Link>
                     <button
                       onClick={handleLogout}
