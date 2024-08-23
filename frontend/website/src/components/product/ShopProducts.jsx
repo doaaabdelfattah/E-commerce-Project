@@ -3,24 +3,41 @@ import { FaEye, FaRegHeart } from "react-icons/fa";
 import { RiShoppingCartLine } from "react-icons/ri";
 import Rating from "../Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { addToCart, selectAllCart } from "../../redux/reducers/cartSlice";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  add_to_cart,
+  addToCart,
+  selectAllCart,
+} from "../../redux/reducers/cartSlice";
 
 const ShopProducts = ({ style, isSorted }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { products } = useSelector((state) => state.products);
   const cart = useSelector(selectAllCart);
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
-  const { user } = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.auth);
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
-    dispatch(
-      addToCart({
-        productId: product.id,
-        quantity: 1,
-      })
-    );
+    if (userId) {
+      // Check if the user is logged in by checking if userId is available
+      dispatch(
+        add_to_cart({
+          userId,
+          productId: product.id,
+          quantity: 1,
+        })
+      );
+      // dispatch(
+      //   addToCart({
+      //     productId: product.id,
+      //     quantity: 1,
+      //   })
+      // );
+    } else {
+      navigate("/login"); // Redirect to login if the user is not logged in
+    }
   };
 
   // ========= debugging code :

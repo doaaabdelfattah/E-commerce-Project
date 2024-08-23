@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllCart } from "../redux/reducers/cartSlice";
+import { fetchCart, selectAllCart } from "../redux/reducers/cartSlice";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +12,12 @@ const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector(selectAllCart);
   const quantity = useSelector(selectTotalQuantity);
+  const { userId } = useSelector((state) => state.auth);
+  console.log("user id", userId);
+
+  useEffect(() => {
+    if (userId) dispatch(fetchCart(userId));
+  }, [dispatch, userId]);
 
   const navigate = useNavigate();
   const redirect = () => {

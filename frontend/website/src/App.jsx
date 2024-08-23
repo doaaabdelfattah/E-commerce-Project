@@ -14,6 +14,7 @@ import { fetchCategories } from "./redux/reducers/categoriesSlice";
 import ScrollToTop from "./utils/ScrollToTop";
 import CartTab from "./components/CartTab";
 import ProductOfCategory from "./pages/productOfCategory";
+// import { getUser, token } from "./redux/reducers/authSlice";
 function App() {
   const dispatch = useDispatch();
 

@@ -13,9 +13,13 @@ export const store = configureStore({
                 products: productsReducer,
                 cart: cartReducer,
                 sortedProducts: sortedProductReducer,
+<<<<<<< HEAD
                 auth: authReducer,
                 search: searchReducer,
                 
                 
+=======
+                auth: authReducer
+>>>>>>> 297bdc7e33767b2846cf920c9aa61bbbe150ec0f
         }
 });
