@@ -3,6 +3,7 @@ import categoriesReducer from "./reducers/categoriesSlice";
 import productsReducer from "./reducers/productsSlice";
 import sortedProductReducer from "./reducers/sortedProductSlice";
 import cartReducer from "./reducers/cartSlice";
+import searchReducer from './reducers/SearchResults'
 import authReducer from "./reducers/authSlice";
 
 
@@ -12,7 +13,8 @@ export const store = configureStore({
                 products: productsReducer,
                 cart: cartReducer,
                 sortedProducts: sortedProductReducer,
-                auth: authReducer
+                auth: authReducer,
+                search: searchReducer,
                 
                 
         }

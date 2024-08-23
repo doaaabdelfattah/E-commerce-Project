@@ -1,11 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { fetchProducts, fetchDiscountedProducts, fetchByRating } from "../../redux/reducers/productsSlice";
+import Rating from "../Rating";
 
 function Products({ title }) {
+  const dispatch = useDispatch();
+  const { products, discountedProducts, topRatedProducts } = useSelector((state) => state.products);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  useEffect(() => {
+    if (title === "Discounted Products") {
+      console.log(dispatch(fetchDiscountedProducts()));
+    } else if (title === "Top rated") {
+      console.log(dispatch(fetchByRating()));
+    } else {
+      console.log(dispatch(fetchProducts()));
+      
+    }
+  }, [dispatch, title]);
+
+  useEffect(() => {
+    if (title === "Discounted Products") {
+      setFilteredProducts(discountedProducts || []);
+    } else if (title === "Top rated") {
+      setFilteredProducts(topRatedProducts || []);
+    } else {
+      setFilteredProducts(products || []);
+    }
+  }, [title, products, discountedProducts, topRatedProducts]);
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -25,24 +52,19 @@ function Products({ title }) {
     },
   };
 
-  const products = [
-    [1, 2, 3],
-    [4, 5, 6],
-  ];
-
-  const CustomButton = ({ next, prev }) => {
+  const CustomButton = ({ next, previous }) => {
     return (
       <div className="flex justify-between items-center">
         <div className="text-xl font-semibold text-slate-600">{title}</div>
         <div className="flex justify-center items-center gap-3 text-slate-600 mr-10">
           <button
-            onClick={() => prev()}
+            onClick={previous}
             className="w-[30px] h-[30px] bg-slate-300 flex justify-center items-center "
           >
             <FiChevronLeft />
           </button>
           <button
-            onClick={() => next()}
+            onClick={next}
             className="w-[30px] h-[30px] bg-slate-300 hover:bg-slate-500 flex justify-center items-center "
           >
             <FiChevronRight />
@@ -62,36 +84,40 @@ function Products({ title }) {
         renderButtonGroupOutside={true}
         customButtonGroup={<CustomButton />}
       >
-        {products.map((p, i) => {
-          return (
-            <div
-              key={i}
-              className="flex flex-col justify-start items-start gap-4"
+        {filteredProducts.map((product) => (
+          <div
+            key={product._id}
+            className="flex flex-col justify-start items-start gap-4"
+          >
+            <Link
+              to={`/${product.id}`}
+              className="flex justify-start items-start custom-hover-effect "
             >
-              {p.map((pl, j) => (
-                <Link
-                  key={j}
-                  to="#"
-                  className="flex justify-start items-start custom-hover-effect "
-                >
-                  <img
-                    className="w-[140px] h-[140px]  "
-                    src={`http://localhost:3000/images/products/${pl}.webp`}
-                    alt=""
-                  />
-                  <div className="hover:text-[#BC9B80] py-3 px-3 flex flex-col justify-start items-start gap-1">
-                    <h2 className="hover:text-[#BC9B80] text-slate-600">
-                      Product Name
-                    </h2>
-                    <span className="text-slate-600 text-lg font-semibold hover:text-[#BC9B80]">
-                      $545
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          );
-        })}
+              <img
+                className="w-[140px] h-[140px]"
+                src={product.image}
+                alt={product.title}
+              />
+              <div className="hover:text-[#BC9B80] py-3 px-3 flex flex-col justify-start items-start gap-1">
+                <h2 className="hover:text-[#BC9B80] text-slate-600">
+                  {product.title}
+                </h2>
+                <span className="text-slate-600 text-lg font-semibold hover:text-[#BC9B80]">
+                  ${product.price}
+                </span>
+                {title === "Discounted Products" && (
+                  <span className="text-slate-600 text-lg font-semibold hover:text-[#BC9B80]">
+                    discount: ${product.discount}
+                  </span>
+                )}
+                <div className="flex">
+                  <Rating rating={product.rating} />
+                </div>
+              </div>
+              
+            </Link>
+          </div>
+        ))}
       </Carousel>
     </div>
   );

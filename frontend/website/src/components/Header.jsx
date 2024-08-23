@@ -19,6 +19,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
+import {  setQuery, clearResults, fetchSearch } from '../redux/reducers/SearchResults'
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -77,12 +78,18 @@ const Header = () => {
   console.log("names:", categoryNames);
 
  //====== Search bar ======//
- const [searchItem, setSearchItem] = useState('')
+ const [input, setInput] = useState("");
+ const {results, loading, error} = useSelector((state) => state.search);
  const handleSearchChange = (e) => {
-  const searchItem = e.target.value;
-
- }
+  setInput(e.target.value);
+};
   
+ const handleSearch = () => {
+ 
+    dispatch(setQuery(input));
+    dispatch(fetchSearch(input));
+  
+};
 
   return (
     <div className="w-full bg-white">
@@ -425,49 +432,64 @@ const Header = () => {
           </div>
 
           {/* Middle Section (Search / Select) */}
-
           <div className="w-9/12 flex-1 pl-8 md-lg:pl-0 md-lg:full">
-            <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
-              <div className="w-full">
-                <div className="flex border h-[60px] mt-5 relative items-center gap-6">
-                  {/* - - Select menu - -  */}
-                  <div className=" pl-4 relative after:absolute after:h-[30px] after:w-[1px]  after:-right-[15px] after:bg-[#afafaf] md:hidden">
-                    <select
-                      onChange={(e) => {
-                        const category = e.target.value;
-                        setCategory(category);
-                        handleCategoryClick(category);
-                      }}
-                      className="font-semibold text-slate-600 px-2 h-full outline-0 border-none"
-                      name=""
-                      id=""
-                    >
-                      <option value=""> Select Category </option>
-
-                      {categories.map((category, index) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {/* - - - search input - - -  */}
-                  <input
-                    className="border-0 bg-transparent w-full text-slate-500 relative outline-0 px-3 h-full"
-                    onChange={handleSearchChange}
-                    value={searchItem}
-                    type="text"
-                    name=""
-                    id=""
-                    placeholder="What do you need?"
-                  />
-                  <button className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300">
-                    Search
-                  </button>
-                </div>
-              </div>
+      <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
+        <div className="w-full">
+          <div className="flex border h-[60px] mt-5 relative items-center gap-6">
+            {/* - - Select menu - -  */}
+            <div className="pl-4 relative after:absolute after:h-[30px] after:w-[1px] after:-right-[15px] after:bg-[#afafaf] md:hidden">
+              <select
+                onChange={(e) => {
+                  const selectedCategory = e.target.value;
+                  setCategory(selectedCategory);
+                  handleCategoryClick(selectedCategory);
+                }}
+                className="font-semibold text-slate-600 px-2 h-full outline-0 border-none"
+                value={category}
+              >
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
             </div>
+            {/* - - - search input - - -  */}
+            <input
+              className="border-0 bg-transparent w-full text-slate-500 relative outline-0 px-3 h-full"
+              onChange={handleSearchChange}
+              value={input}
+              type="text"
+              placeholder="What do you need?"
+            />
+            <button
+              className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300"
+              onClick={handleSearch}
+            >
+              Search
+            </button>
           </div>
+        </div>
+      </div>
+
+      {/* Displaying Search Results */}
+      <div className="mt-4">
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-500">{error.message}</p>}
+        {results.length > 0 && (
+          <ul>
+            {results.map((product) => (
+              <li key={product._id} className="py-2 border-b">
+                {product.title}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+
+          
         </div>
       </div>
     </div>

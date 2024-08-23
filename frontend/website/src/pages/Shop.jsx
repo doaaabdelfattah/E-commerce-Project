@@ -40,6 +40,13 @@ const Shop = () => {
     dispatch(fetchSortedProducts());
   }, [dispatch]);
 
+
+  // useEffect(() => {
+  //   dispatch(fetchByRating());
+  // }, [dispatch]
+
+  // )
+
   const handleCategoryClick = (category) => {
     dispatch(fetchProductsByCategory(category));
     setSelectedCategory(category);
@@ -188,7 +195,11 @@ const Shop = () => {
                       max={5}
                       color="#BC9B80"
                       size="35"
-                      onSetRating={setRating}
+                      
+                      onSetRating={(rating) => {
+                        console.log("Selected Rating:", rating);  // Debugging output
+                        setRating(Products.rating);
+                      }}
                     />
                   </div>
                 </div>
