@@ -4,22 +4,21 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { fetchProducts, fetchDiscountedProducts, fetchByRating } from "../../redux/reducers/productsSlice";
+import { fetchTheLatest, fetchDiscountedProducts, fetchByRating } from "../../redux/reducers/productsSlice";
 import Rating from "../Rating";
 
 function Products({ title }) {
   const dispatch = useDispatch();
-  const { products, discountedProducts, topRatedProducts } = useSelector((state) => state.products);
+  const { products, discountedProducts, topRatedProducts, latestProducts } = useSelector((state) => state.products);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     if (title === "Discounted Products") {
-      console.log(dispatch(fetchDiscountedProducts()));
+      dispatch(fetchDiscountedProducts());
     } else if (title === "Top rated") {
-      console.log(dispatch(fetchByRating()));
+      dispatch(fetchByRating());
     } else {
-      console.log(dispatch(fetchProducts()));
-      
+      dispatch(fetchTheLatest());
     }
   }, [dispatch, title]);
 
@@ -29,9 +28,9 @@ function Products({ title }) {
     } else if (title === "Top rated") {
       setFilteredProducts(topRatedProducts || []);
     } else {
-      setFilteredProducts(products || []);
+      setFilteredProducts(latestProducts || []);
     }
-  }, [title, products, discountedProducts, topRatedProducts]);
+  }, [title, products, discountedProducts, topRatedProducts, latestProducts]);
 
   const responsive = {
     superLargeDesktop: {
@@ -84,38 +83,34 @@ function Products({ title }) {
         renderButtonGroupOutside={true}
         customButtonGroup={<CustomButton />}
       >
-        {filteredProducts.map((product) => (
-          <div
-            key={product._id}
-            className="flex flex-col justify-start items-start gap-4"
-          >
-            <Link
-              to={`/${product.id}`}
-              className="flex justify-start items-start custom-hover-effect "
-            >
-              <img
-                className="w-[140px] h-[140px]"
-                src={product.image}
-                alt={product.title}
-              />
-              <div className="hover:text-[#BC9B80] py-3 px-3 flex flex-col justify-start items-start gap-1">
-                <h2 className="hover:text-[#BC9B80] text-slate-600">
-                  {product.title}
-                </h2>
-                <span className="text-slate-600 text-lg font-semibold hover:text-[#BC9B80]">
-                  ${product.price}
-                </span>
-                {title === "Discounted Products" && (
-                  <span className="text-slate-600 text-lg font-semibold hover:text-[#BC9B80]">
-                    discount: ${product.discount}
-                  </span>
-                )}
-                <div className="flex">
-                  <Rating rating={product.rating} />
-                </div>
+        {filteredProducts.map((product, index) => (
+          <div key={index} className="flex flex-col gap-4 ">
+            {/*Modified the rendering logic to display three products vertically within each slide.*/}
+            {filteredProducts.slice(index * 3, index * 3 + 3).map((product) => (
+              <div key={product._id} className="flex flex-col justify-start items-start  gap-4">
+                <Link to={`/${product.id}`} className="flex justify-start items-start custom-hover-effect">
+                  <img className="w-[140px] h-[140px]" src={product.image} alt={product.title} />
+                  <div className="hover:text-[#BC9B80] py-3 px-3 flex flex-col justify-start items-start gap-1">
+                    <h2 className="hover:text-[#BC9B80] text-slate-600">{product.title}</h2>
+                    <span className="text-slate-600 text-lg font-semibold hover:text-[#BC9B80]">
+                      ${product.price}
+                    </span>
+                    {title === "Discounted Products" && (
+                     
+                      <span className="text-red-600 text-sm hover:text-[#BC9B80]">
+                        discount: ${product.discount}
+                        
+                      </span>
+                      
+                    )}
+                     
+                    <div className="flex">
+                      <Rating rating={product.rating} />
+                    </div>
+                  </div>
+                </Link>
               </div>
-              
-            </Link>
+            ))}
           </div>
         ))}
       </Carousel>

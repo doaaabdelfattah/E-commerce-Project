@@ -35,7 +35,7 @@ const FeaturedProducts = ({ categoryId }) => {
       </div>
 
       <div className="w-full flex justify-center flex-wrap  gap-5">
-        {products.slice(0, 8).map((product) => (
+        {products.slice(0, 3).map((product) => (
           <div
             key={product._id}
             className="border group w-[300px] transition-all  duration-500 hover:shadow-md hover:-mt-3 cursor-pointer"
@@ -53,7 +53,8 @@ const FeaturedProducts = ({ categoryId }) => {
                 />
               </Link>
               <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
-                <li className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all">
+                <li className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all"
+                >
                   <FaRegHeart />
                 </li>
                 <li className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all">

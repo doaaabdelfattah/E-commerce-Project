@@ -85,7 +85,7 @@ const Footer = () => {
                   type="text"
                   placeholder="Enter Your Email"
                 />
-                <button className="h-full absolute right-0 bg-[#BC9B80] text-white uppercase px-4 font-bold text-sm">
+                <button className="h-full absolute right-0 bg-[#1F212A] text-white uppercase px-4 font-bold text-sm">
                   Subscribe
                 </button>
               </div>

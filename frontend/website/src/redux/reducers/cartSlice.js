@@ -138,9 +138,7 @@ const cartSlice = createSlice({
 
 // Selectors
 export const selectAllCart = (state) => state.cart.items;
-
 // Selector to find totalQuantity
-
 export const selectTotalQuantity = (state) => {
   return state.cart.items.reduce((total, item) => total + item.quantity, 0);
 };

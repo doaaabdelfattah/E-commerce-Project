@@ -41,7 +41,7 @@ const Header = () => {
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
 
-  const wishlist = 4;
+  const [wishlist , setWishlist] = useState(0);
 
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
@@ -57,9 +57,10 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(logOutUser());
-
     navigate("/Login");
   };
+
+ 
 
   const [category, setCategory] = useState("All Categories");
 
@@ -73,7 +74,7 @@ const Header = () => {
   // const categoryNames = categories.map((category) => category.name);
   // console.log("names:", categoryNames);
 
-<<<<<<< HEAD
+
  //====== Search bar ======//
  const [input, setInput] = useState("");
  const {results, loading, error} = useSelector((state) => state.search);
@@ -82,19 +83,14 @@ const Header = () => {
 };
   
  const handleSearch = () => {
- 
     dispatch(setQuery(input));
     dispatch(fetchSearch(input));
   
 };
-=======
+
   //====== Search bar ======//
   const [searchItem, setSearchItem] = useState("");
-  const handleSearchChange = (e) => {
-    const searchItem = e.target.value;
-  };
->>>>>>> 297bdc7e33767b2846cf920c9aa61bbbe150ec0f
-
+  
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#FAF9F7] md-lg:hidden ">
