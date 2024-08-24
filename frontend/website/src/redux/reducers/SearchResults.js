@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { fetchProductsByCategory } from "./productsSlice";
 import { api2 } from "../../api/api";
 
 
@@ -8,6 +8,7 @@ export const fetchSearch = createAsyncThunk(
     async(query, {rejectWithValue}) => {
         try {
             const response = await api2.post('products/search', {query});
+            
             return response.data;
         }
         catch(error) {
