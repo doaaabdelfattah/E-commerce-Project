@@ -14,15 +14,14 @@ export const add_to_cart = createAsyncThunk('cart/add_to_cart',
     }
   });
 
-
 export const delete_Item_cart = createAsyncThunk(
   'cart/delete_from_cart',
-  async ({ userId, productId }, { rejectWithValue, fulfillWithValue }) => {
+  async ({ userId, productId }, { rejectWithValue }) => {
     try {
       // Make sure the endpoint and payload match your backend API
       const { data } = await api2.delete(`/cart/remove`, { data: { userId, productId } });
       console.log('CART API response:', data); // Log API response
-      return fulfillWithValue(data);
+      return data;
     } catch (error) {
       console.error('API error:', error.message); // Log any errors
       return rejectWithValue(error.response.data);
@@ -34,13 +33,30 @@ export const delete_Item_cart = createAsyncThunk(
 // ========== Fetch the cart 
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (userId, { rejectWithValue }) => {
   try {
-    const response = await api2.get(`/api/cart/${userId}`);
+    const response = await api2.post('/cart/items', { userId });
     console.log('Api Response fetch cart:', response.data)
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
 });
+
+// ========== CLEAR the cart 
+export const clearCart = createAsyncThunk(
+  'cart/clearCart',
+  async ({ userId }, { rejectWithValue }) => {
+    try {
+      // Make sure the endpoint and payload match your backend API
+      const { data } = await api2.delete(`cart/clear/${userId}`);
+      console.log('CART API response:', data); // Log API response
+      return data;
+    } catch (error) {
+      console.error('API error:', error.message); // Log any errors
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 
 // Slice
@@ -88,10 +104,10 @@ const cartSlice = createSlice({
     toggleStatusTab(state) {
       state.statusTab = !state.statusTab
     },
-    clearCart(state) {
-      state.items = [];
-      state.statusTab = false
-    }
+    // clearCart(state) {
+    //   state.items = [];
+    //   state.statusTab = false
+    // }
   },
   // Handle Api thunks requests
   extraReducers: (builder) => {
@@ -133,6 +149,12 @@ const cartSlice = createSlice({
         console.log(' fetch action payload', action.payload.items)
         // state.statusTab = true;
       })
+      // ============ Clear cart
+      .addCase(clearCart.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items = []
+        console.log('action payload', action.payload)
+      })
   }
 });
 
@@ -148,5 +170,5 @@ export const selectProductDetailsById = (state, productId) => {
 };
 
 // Exporting actions and reducer
-export const { addToCart, deleteItem, changeQuantity, toggleStatusTab, clearCart } = cartSlice.actions;
+export const { addToCart, deleteItem, changeQuantity, toggleStatusTab } = cartSlice.actions;
 export default cartSlice.reducer;

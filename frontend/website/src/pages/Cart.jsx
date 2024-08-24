@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCart, selectAllCart } from "../redux/reducers/cartSlice";
+import {
+  fetchCart,
+  selectAllCart,
+  clearCart,
+} from "../redux/reducers/cartSlice";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import { selectTotalQuantity, clearCart } from "../redux/reducers/cartSlice";
+import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 import CartItemsMain from "../components/CartItemsMain";
 
 const Cart = () => {
@@ -14,7 +18,7 @@ const Cart = () => {
   const quantity = useSelector(selectTotalQuantity);
   const { userId } = useSelector((state) => state.auth);
   console.log("user id", userId);
-
+  console.log("cart:", cart);
   useEffect(() => {
     if (userId) dispatch(fetchCart(userId));
   }, [dispatch, userId]);
@@ -31,7 +35,7 @@ const Cart = () => {
     });
   };
   const handleClearCart = () => {
-    dispatch(clearCart());
+    dispatch(clearCart(userId));
   };
 
   return (

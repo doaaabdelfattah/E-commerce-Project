@@ -125,31 +125,6 @@ const Header = () => {
                   </a>
                 </div>
                 {/* - -  User Name - - */}
-                {isAuthenticated ? (
-                  <div className="flex items-center gap-4">
-                    <Link
-                      className="flex cursor-pointer justify-center items-center gap-2 text-slate-600 hover:text-[#BC9B80]"
-                      to="/dashboard"
-                    >
-                      <FaUser />
-                      <span>Welcome, {userName} </span>
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="ml-4 text-slate-600 font-semibold hover:text-[#BC9B80] focus:outline-none"
-                    >
-                      Log Out
-                    </button>
-                  </div>
-                ) : (
-                  <Link
-                    className="flex cursor-pointer justify-center items-center gap-2 text-slate-600 hover:text-[#BC9B80]"
-                    to="/login"
-                  >
-                    <FaLock />
-                    <span>Login</span>
-                  </Link>
-                )}
               </div>
             </div>
           </div>
@@ -178,16 +153,6 @@ const Header = () => {
                   >
                     <span>
                       <GiHamburgerMenu size="40px" color="#4B505E" />
-                    </span>
-                  </div>
-                  <div className="lg:hidden xl:hidden md-lg:flex hidden">
-                    <span className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px]  text-slate-600 hover:text-[#BC9B80]">
-                      <span onClick={handleCartClick} className="text-3xl">
-                        <FiShoppingCart />
-                      </span>
-                      <span className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                        {totalQuantity}
-                      </span>
                     </span>
                   </div>
                 </div>
@@ -247,28 +212,33 @@ const Header = () => {
                     </ScrollLink>
                   </li>
                 </ul>
-                {/* - - Icons - - */}
-                <div className="flex md-lg:hidden justify-center items-center gap-5">
-                  <div className="flex justify-center gap-5">
-                    {/* Wishlist */}
-                    <div className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px]  text-[#1F212A] hover:text-[#BC9B80]">
-                      <span className="text-3xl">
-                        <FaRegHeart />
-                      </span>
-                      <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                        {wishlist}
-                      </div>
+                {/* USER name */}
+                <div className="md-lg:hidden">
+                  {isAuthenticated ? (
+                    <div className="flex items-center gap-4">
+                      <Link
+                        className="flex cursor-pointer justify-center items-center gap-2 text-slate-600 hover:text-[#BC9B80]"
+                        to="/dashboard"
+                      >
+                        <FaUser />
+                        <span className="text-lg">Welcome, {userName} </span>
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="ml-4 text-slate-600 font-semibold hover:text-[#BC9B80] focus:outline-none"
+                      >
+                        Log Out
+                      </button>
                     </div>
-                    {/* Shopping Cart */}
-                    <div className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px] text-[#1F212A] hover:text-[#BC9B80]">
-                      <span onClick={handleCartClick} className="text-3xl">
-                        <FiShoppingCart />
-                      </span>
-                      <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                        {totalQuantity}
-                      </div>
-                    </div>
-                  </div>
+                  ) : (
+                    <Link
+                      className="flex cursor-pointer justify-center items-center gap-2 text-slate-600 hover:text-[#BC9B80]"
+                      to="/login"
+                    >
+                      <FaLock />
+                      <span>Login</span>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -394,7 +364,7 @@ const Header = () => {
       {/* =============== Second Line Main HEADER ============= */}
 
       <div className="w-[85%] border-t-[1.5px] lg:w-[90%] mx-auto">
-        <div className="flex w-full flex-wrap md-lg:gap-4">
+        <div className="flex w-full md-lg:flex-wrap gap-3 md-lg:gap-4">
           {/* Part ONE I All Categories Button */}
           <div className="w-3/12 md-lg:w-full">
             <div className="bg-white relative">
@@ -436,8 +406,31 @@ const Header = () => {
               </div>
             </div>
           </div>
+          <div className="flex w-9/12 gap-2 flex-nowrap justify-between md-lg:w-full">
+            <SearchBar />
+            {/* - - Icons - - */}
 
-         <SearchBar />
+            <div className="flex justify-center items-center gap-5">
+              {/* Wishlist */}
+              <div className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px]  text-[#1F212A] hover:text-[#BC9B80]">
+                <span className="text-3xl">
+                  <FaRegHeart />
+                </span>
+                <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
+                  {wishlist}
+                </div>
+              </div>
+              {/* Shopping Cart */}
+              <div className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px] text-[#1F212A] hover:text-[#BC9B80]">
+                <span onClick={handleCartClick} className="text-3xl">
+                  <FiShoppingCart />
+                </span>
+                <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
+                  {totalQuantity}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

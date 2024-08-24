@@ -1,15 +1,17 @@
-import { FaEye, FaRegHeart } from "react-icons/fa";
+import { FaEye, FaRegHeart, FaHeart } from "react-icons/fa";
 import { RiShoppingCartLine } from "react-icons/ri";
 import Rating from "../Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { add_to_cart, selectAllCart } from "../../redux/reducers/cartSlice";
+import { add_to_cart } from "../../redux/reducers/cartSlice";
 import AddToCartButton from "../../utils/AddToCartButton";
+import { useState } from "react";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useSelector((state) => state.auth);
+  const [isWishlisted, setIsWishlisted] = useState(true);
 
   const handleShowProduct = (product) => {
     navigate(`/${product.id}`);
@@ -39,10 +41,27 @@ const ProductCard = ({ product }) => {
   return (
     <div
       key={product.id}
-      className="border group w-[300px] transition-all duration-500 hover:shadow-md hover:-mt-3 cursor-pointer"
+      className="border relative group w-[300px] transition-all duration-500 hover:shadow-md hover:-mt-3 cursor-pointer"
       onClick={() => console.log("Product clicked:", product)}
     >
       <div className="relative p-[25px] overflow-hidden ">
+        <span className="flex justify-center items-center absolute w-[38px] h-[38px] rounded-md bg-[#ffffffdb] border font-semibold text-xs right-2 top-2">
+          <button
+            // onClick={handleWishlistToggle}
+            className="focus:outline-none hover:text-red-500"
+          >
+            {isWishlisted ? (
+              <FaHeart className="text-xl text-red-500" />
+            ) : (
+              <FaRegHeart className="text-xl text-slate-400 hover:text-red-500" />
+            )}
+          </button>
+        </span>
+        {product.discount && (
+          <span className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+            {product.discount}%
+          </span>
+        )}
         <Link to={`/${product.id}`}>
           <img
             className="sm:w-full w-full h-[240px]"
@@ -50,32 +69,25 @@ const ProductCard = ({ product }) => {
             alt={product.title}
           />
         </Link>
-
-        <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
-          <li className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all">
-            <FaRegHeart />
-          </li>
-          <li
-            className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all"
-            onClick={() => handleShowProduct(product)}
-          >
-            <FaEye />
-          </li>
-          <li
-            className="w-[38px] h-[38px] cursor-pointer bg-[#BC9B80] flex justify-center items-center rounded-full hover:bg-[#BC9B80] hover:text-white hover:rotate-[720deg] transition-all"
-            onClick={(e) => handleClickAddToCart(e, product)}
-          >
-            <RiShoppingCartLine />
-          </li>
-        </ul>
       </div>
 
       <div className="py-3 text-slate-600 p-4 mt-2 ">
         <h2 className="font-semibold text-slate-600 text-lg">
           {product.title}
         </h2>
-        <div className="flex justify-start flex-col items-start gap-3">
-          <span className="text-lg mt-3">{product.price}$</span>
+        <div className="flex justify-start flex-col items-start gap-3 my-2">
+          {product.discount ? (
+            <div>
+              <span className="text-lg mt-3 line-through">
+                {product.price}$
+              </span>
+              <span className="text-lg mt-3 ml-7">
+                {(product.price * product.discount) / 100}$
+              </span>
+            </div>
+          ) : (
+            <span className="text-lg mt-3">{product.price}$</span>
+          )}
           <div className="flex">
             <Rating rating={product.rating} />
           </div>

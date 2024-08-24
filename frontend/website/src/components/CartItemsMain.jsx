@@ -29,13 +29,13 @@ const CartItemsMain = ({ productId, quantity }) => {
     setProductsDetails(findDetails);
   }, [productId, products]);
 
-  useEffect(() => {
-    if (productDetails.discount) {
-      setDiscountPrice(
-        ((productDetails.price * productDetails.discount) / 100).toFixed(2)
-      );
-    }
-  }, [productDetails.discount, productDetails.price]);
+  // useEffect(() => {
+  //   if (productDetails.discount) {
+  //     setDiscountPrice(
+  //       ((productDetails.price * productDetails.discount) / 100).toFixed(2)
+  //     );
+  //   }
+  // }, [productDetails.discount, productDetails.price]);
 
   // ============ Handle Buttons
   const handlePlusQuantity = () => {
