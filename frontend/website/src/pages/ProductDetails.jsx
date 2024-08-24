@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
-import { addToCart } from "../redux/reducers/cartSlice.js";
 import Footer from "../components/Footer";
+import AddToCartButton from "../utils/AddToCartButton.jsx";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const [productDetails, setProductsDetails] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { products } = useSelector((state) => state.products);
+  const { userId } = useSelector((state) => state.auth);
+
   const { id } = useParams();
 
   // ======= Debugging codes
@@ -26,16 +28,6 @@ const ProductDetails = () => {
       setProductsDetails(findDetails);
     }
   }, [id, products]);
-
-  // ======== Cart Handle functions
-  const handleClickAddToCart = (e, product) => {
-    dispatch(
-      addToCart({
-        productId: product.id,
-        quantity: quantity,
-      })
-    );
-  };
 
   const handleMinusQuantity = () => {
     setQuantity(quantity - 1 < 1 ? 1 : quantity - 1);
@@ -109,12 +101,7 @@ const ProductDetails = () => {
                     -
                   </button>
                 </div>
-                <button
-                  onClick={(e) => handleClickAddToCart(e, productDetails)}
-                  className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300"
-                >
-                  Add to cart
-                </button>
+                <AddToCartButton product={productDetails} userId={userId} />
               </div>
             </div>
           </div>

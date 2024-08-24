@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const CartItemsMain = ({ productId, quantity }) => {
+  const [discountPrice, setDiscountPrice] = useState(0);
   const navigate = useNavigate();
   const handleNavigateToProduct = () => {
     navigate(`/${productId}`);
@@ -27,6 +28,14 @@ const CartItemsMain = ({ productId, quantity }) => {
     )[0];
     setProductsDetails(findDetails);
   }, [productId, products]);
+
+  useEffect(() => {
+    if (productDetails.discount) {
+      setDiscountPrice(
+        ((productDetails.price * productDetails.discount) / 100).toFixed(2)
+      );
+    }
+  }, [productDetails.discount, productDetails.price]);
 
   // ============ Handle Buttons
   const handlePlusQuantity = () => {
@@ -85,12 +94,25 @@ const CartItemsMain = ({ productId, quantity }) => {
         <div className="flex justify-between items-center w-7/12 sm:w-full sm:mt-3">
           <div className="pl-4 sm:pl-0">
             <span className="font-semibold text-md">Item price </span>
-            <h2 className="text-lg">{productDetails.price}$</h2>
+            {productDetails.discount ? (
+              <span>
+                <h2 className="text-lg line-through">
+                  {productDetails.price}$
+                </h2>
+                <h2 className="text-lg text-green-600">{discountPrice}$</h2>
+              </span>
+            ) : (
+              <span>
+                <h2 className="text-lg">{productDetails.price}$</h2>
+              </span>
+            )}
           </div>
           <div className="pl-4 sm:pl-0">
             <span className="font-semibold text-lg">Total price</span>
             <h2 className="text-lg">
-              {(productDetails.price * quantity).toFixed(2)}$
+              {productDetails.discount
+                ? `${discountPrice * quantity}$`
+                : `${(productDetails.price * quantity).toFixed(2)}$`}
             </h2>
           </div>
           <div className="flex gap-2 flex-col">

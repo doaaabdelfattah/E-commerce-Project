@@ -23,7 +23,11 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
-import {  setQuery, clearResults, fetchSearch } from '../redux/reducers/SearchResults'
+import {
+  setQuery,
+  clearResults,
+  fetchSearch,
+} from "../redux/reducers/SearchResults";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -41,7 +45,7 @@ const Header = () => {
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
 
-  const [wishlist , setWishlist] = useState(0);
+  const [wishlist, setWishlist] = useState(0);
 
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
@@ -60,37 +64,27 @@ const Header = () => {
     navigate("/Login");
   };
 
- 
-
   const [category, setCategory] = useState("All Categories");
 
   // ========================== Cart
   const cart = useSelector((state) => state.cart.items);
   const totalQuantity = useSelector(selectTotalQuantity);
 
-  //================ Categories Array
+  //====== Search bar ======//
+  const [input, setInput] = useState("");
+  const { results, loading, error } = useSelector((state) => state.search);
+  const handleSearchChange = (e) => {
+    setInput(e.target.value);
+  };
 
-  // Extract category names
-  // const categoryNames = categories.map((category) => category.name);
-  // console.log("names:", categoryNames);
-
-
- //====== Search bar ======//
- const [input, setInput] = useState("");
- const {results, loading, error} = useSelector((state) => state.search);
- const handleSearchChange = (e) => {
-  setInput(e.target.value);
-};
-  
- const handleSearch = () => {
+  const handleSearch = () => {
     dispatch(setQuery(input));
     dispatch(fetchSearch(input));
-  
-};
+  };
 
   //====== Search bar ======//
   const [searchItem, setSearchItem] = useState("");
-  
+
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#FAF9F7] md-lg:hidden ">
@@ -176,14 +170,25 @@ const Header = () => {
                     style={{ width: "220px" }}
                   />
                 </Link>
-
-                <div
-                  className="justify-center items-center cursor-pointer lg:hidden xl:hidden md-lg:flex hidden"
-                  onClick={() => setshowSideBar(!showSideBar)}
-                >
-                  <span>
-                    <GiHamburgerMenu size="40px" color="#4B505E" />
-                  </span>
+                <div className="flex gap-3">
+                  <div
+                    className="justify-center items-center cursor-pointer lg:hidden xl:hidden md-lg:flex hidden"
+                    onClick={() => setshowSideBar(!showSideBar)}
+                  >
+                    <span>
+                      <GiHamburgerMenu size="40px" color="#4B505E" />
+                    </span>
+                  </div>
+                  <div className="lg:hidden xl:hidden md-lg:flex hidden">
+                    <span className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px]  text-slate-600 hover:text-[#BC9B80]">
+                      <span onClick={handleCartClick} className="text-3xl">
+                        <FiShoppingCart />
+                      </span>
+                      <span className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
+                        {totalQuantity}
+                      </span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -433,63 +438,61 @@ const Header = () => {
 
           {/* Middle Section (Search / Select) */}
           <div className="w-9/12 flex-1 pl-8 md-lg:pl-0 md-lg:full">
-      <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
-        <div className="w-full">
-          <div className="flex border h-[60px] mt-5 relative items-center gap-6">
-            {/* - - Select menu - -  */}
-            <div className="pl-4 relative after:absolute after:h-[30px] after:w-[1px] after:-right-[15px] after:bg-[#afafaf] md:hidden">
-              <select
-                onChange={(e) => {
-                  const selectedCategory = e.target.value;
-                  setCategory(selectedCategory);
-                  handleCategoryClick(selectedCategory);
-                }}
-                className="font-semibold text-slate-600 px-2 h-full outline-0 border-none"
-                value={category}
-              >
-                <option value="">Select Category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
+            <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
+              <div className="w-full">
+                <div className="flex border h-[60px] mt-5 relative items-center gap-6">
+                  {/* - - Select menu - -  */}
+                  <div className="pl-4 relative after:absolute after:h-[30px] after:w-[1px] after:-right-[15px] after:bg-[#afafaf] md:hidden">
+                    <select
+                      onChange={(e) => {
+                        const selectedCategory = e.target.value;
+                        setCategory(selectedCategory);
+                        handleCategoryClick(selectedCategory);
+                      }}
+                      className="font-semibold text-slate-600 px-2 h-full outline-0 border-none"
+                      value={category}
+                    >
+                      <option value="">Select Category</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* - - - search input - - -  */}
+                  <input
+                    className="border-0 bg-transparent w-full text-slate-500 relative outline-0 px-3 h-full"
+                    onChange={handleSearchChange}
+                    value={input}
+                    type="text"
+                    placeholder="What do you need?"
+                  />
+                  <button
+                    className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300"
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
             </div>
-            {/* - - - search input - - -  */}
-            <input
-              className="border-0 bg-transparent w-full text-slate-500 relative outline-0 px-3 h-full"
-              onChange={handleSearchChange}
-              value={input}
-              type="text"
-              placeholder="What do you need?"
-            />
-            <button
-              className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
+
+            {/* Displaying Search Results */}
+            <div className="mt-4">
+              {loading && <p>Loading...</p>}
+              {error && <p className="text-red-500">{error.message}</p>}
+              {results.length > 0 && (
+                <ul>
+                  {results.map((product) => (
+                    <li key={product._id} className="py-2 border-b">
+                      {product.title}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
-        </div>
-      </div>
-
-      {/* Displaying Search Results */}
-      <div className="mt-4">
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">{error.message}</p>}
-        {results.length > 0 && (
-          <ul>
-            {results.map((product) => (
-              <li key={product._id} className="py-2 border-b">
-                {product.title}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
-
-          
         </div>
       </div>
     </div>

@@ -102,7 +102,7 @@ const cartSlice = createSlice({
       })
       .addCase(add_to_cart.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload.items;
+        state.items = action.payload.items
         console.log('add_to_cart action payload', action.payload);
         state.statusTab = true;
       })
