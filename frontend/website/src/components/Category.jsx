@@ -50,7 +50,7 @@ const Banner = () => {
           <h2>Top Categories</h2>
           <div className="w-[100px] h-[2px] bg-[#BC9B80] mt-4"></div>
         </div>
-        <Carousel
+        <Carousel className="z-0" 
           autoPlay={true}
           infinite={true}
           arrows={true}

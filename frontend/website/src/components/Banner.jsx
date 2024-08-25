@@ -30,11 +30,13 @@ const Banner = () => {
           <div className="w-full">
             <div className="my-8 ">
               <Carousel
+
                 autoPlay={true}
                 infinite={true}
                 arrows={true}
                 showDots={true}
                 responsive={responsive}
+                className="z-0"
               >
                 {[1, 2, 3, 4, 5].map((img, index) => (
                   <Link key={index} to="#">
