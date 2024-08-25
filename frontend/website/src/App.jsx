@@ -14,6 +14,7 @@ import { fetchCategories } from "./redux/reducers/categoriesSlice";
 import ScrollToTop from "./utils/ScrollToTop";
 import CartTab from "./components/CartTab";
 import ProductOfCategory from "./pages/productOfCategory";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/:id" element={<ProductDetails />} />
+        <Route path="wishlist" element={<Wishlist />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,39 +5,60 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { add_to_cart } from "../../redux/reducers/cartSlice";
 import AddToCartButton from "../../utils/AddToCartButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { addProductToWishList, removeProductFromWishList } from "../../redux/reducers/wishListSlice";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useSelector((state) => state.auth);
-  const [isWishlisted, setIsWishlisted] = useState(true);
+
+  const [isInWishlist, setIsInWishlist] = useState(true)
+
+  useEffect(() => {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setIsInWishlist(wishlist.includes(product.id));
+  }, [product.id]);
+
+  const handleWishlistClick = () => {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    if (isInWishlist) {
+      dispatch(removeProductFromWishList({ userId, productId: product.id }));
+      const updatedWishlist = wishlist.filter(id => id !== product.id);
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+      setIsInWishlist(false);
+    } else {
+      dispatch(addProductToWishList({ userId, productId: product.id }));
+      wishlist.push(product.id);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      setIsInWishlist(true);
+    }
+  };
 
   const handleShowProduct = (product) => {
     navigate(`/${product.id}`);
   };
+
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();
 
-    // Calculate Discounted price
     const discountedPrice = product.discount
       ? product.price - (product.price * product.discount) / 100
       : product.price;
-    // dispatch adding to cart action
+
     if (userId) {
       dispatch(
         add_to_cart({
           userId,
           productId: product.id,
           quantity: 1,
-          // price: product.price,
-          // discountedPrice, // Pass the calculated discounted price
         })
       );
     } else {
-      navigate("/login"); // Redirect to login if the user is not logged in
+      navigate("/login");
     }
   };
+
   return (
     <div
       key={product.id}
@@ -47,10 +68,10 @@ const ProductCard = ({ product }) => {
       <div className="relative p-[25px] overflow-hidden ">
         <span className="flex justify-center items-center absolute w-[38px] h-[38px] rounded-md bg-[#ffffffdb] border font-semibold text-xs right-2 top-2">
           <button
-            // onClick={handleWishlistToggle}
+            onClick={handleWishlistClick}
             className="focus:outline-none hover:text-red-500"
           >
-            {isWishlisted ? (
+            {isInWishlist ? (
               <FaHeart className="text-xl text-red-500" />
             ) : (
               <FaRegHeart className="text-xl text-slate-400 hover:text-red-500" />
