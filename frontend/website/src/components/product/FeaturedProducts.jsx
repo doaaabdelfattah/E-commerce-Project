@@ -8,7 +8,7 @@ import { fetchProductsByCategory } from "../../redux/reducers/productsSlice";
 import { addToCart } from "../../redux/reducers/cartSlice";
 import ProductCard from "./ProductCard";
 
-const FeaturedProducts = ({ categoryId }) => {
+const FeaturedProducts = ({ categoryId, id='featured' } ) => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
 

@@ -7,7 +7,7 @@ import AddToCartButton from "../../utils/AddToCartButton";
 import { useState, useEffect } from "react";
 import { addProductToWishList, removeProductFromWishList } from "../../redux/reducers/wishListSlice";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product  }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useSelector((state) => state.auth);

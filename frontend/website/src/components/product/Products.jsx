@@ -4,7 +4,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { fetchTheLatest, fetchDiscountedProducts, fetchByRating } from "../../redux/reducers/productsSlice";
+import { fetchTheLatest, fetchProducts, fetchDiscountedProducts, fetchByRating } from "../../redux/reducers/productsSlice";
 import Rating from "../Rating";
 
 function Products({ title }) {
@@ -17,8 +17,10 @@ function Products({ title }) {
       dispatch(fetchDiscountedProducts());
     } else if (title === "Top rated") {
       dispatch(fetchByRating());
-    } else {
+    } else if (title === "Latest Products") { 
       dispatch(fetchTheLatest());
+    }else {
+      dispatch(fetchProducts());
     }
   }, [dispatch, title]);
 

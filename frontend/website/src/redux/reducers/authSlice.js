@@ -16,6 +16,7 @@ export const logInUser = createAsyncThunk(
       // localStorage.setItem("userName", user?.name);
       localStorage.setItem('token', token);
       localStorage.setItem('userName', name);
+     
       return { token, id, name };
     } catch (error) {
       return rejectWithValue(error.response.data);
