@@ -42,7 +42,9 @@ export const fetchWishlistItems = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await api2.post('/wishlist/items', { userId });
-      return response.data;
+      const dataaa = response.data;
+      console.log('the data', dataaa)
+      return dataaa
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

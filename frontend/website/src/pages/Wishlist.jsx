@@ -30,13 +30,27 @@ function Wishlist() {
   return (
     <>
       <Header />
-      {items.length > 0 ? (
-        items.map((products) => (
-          <ProductCard product={products} />
-        ))
-      ) : (
-        <div>No items in wishlist</div>
-      )}
+      <div className="flex flex-wrap mx-[100px] my-[100px]">
+        <div className="w-full">
+          <div className="text-center flex justify-center items-center flex-col text-3xl mt-4 text-slate-600 font-semibold relative pb-[45px]">
+            <h2>Products in wish list</h2>
+            <div className="w-[200px] h-[2px] bg-[#BC9B80] mt-4"></div>
+          </div>
+        </div>
+        {items.length > 0 ? (
+          items.map((product) => (
+            <div key={product.id}>
+              <ProductCard product={product} />
+              {/* <div>
+                {product.name}
+                <button onClick={() => handleRemove(product.id)}>Remove</button>
+              </div> */}
+            </div>
+          ))
+        ) : (
+          <div>No items in wishlist</div>
+        )}
+      </div>
       <Footer />
     </>
   );

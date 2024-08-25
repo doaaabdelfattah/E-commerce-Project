@@ -7,12 +7,12 @@ import AddToCartButton from "../../utils/AddToCartButton";
 import { useState, useEffect } from "react";
 import { addProductToWishList, removeProductFromWishList } from "../../redux/reducers/wishListSlice";
 
-const ProductCard = ({ product  }) => {
+const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useSelector((state) => state.auth);
 
-  const [isInWishlist, setIsInWishlist] = useState(true)
+  const [isInWishlist, setIsInWishlist] = useState(true);
 
   useEffect(() => {
     const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -58,6 +58,7 @@ const ProductCard = ({ product  }) => {
     }
   };
 
+  // Conditional Rendering for Product Details
   return (
     <div
       key={product.id}
@@ -77,40 +78,56 @@ const ProductCard = ({ product  }) => {
             )}
           </button>
         </span>
-        {product.discount && (
+        {product.discount > 0 && (
           <span className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
             {product.discount}%
           </span>
         )}
-        <Link to={`/${product.id}`}>
-          <img
-            className="sm:w-full w-full h-[240px]"
-            src={product.image}
-            alt={product.title}
-          />
-        </Link>
+
+        {/* Conditional Rendering for Product Image */}
+        {product.image ? (
+          <Link to={`/${product.id}`}>
+            <img
+              className="sm:w-full w-full h-[240px]"
+              src={product.image}
+              alt={product.title}
+            />
+          </Link>
+        ) : (
+          <div>No image available</div>
+        )}
+
       </div>
 
-      <div className="py-3 text-slate-600 p-4 mt-2 ">
-        <h2 className="font-semibold text-slate-600 text-lg">
-          {product.title}
-        </h2>
+      <div className="py-3 text-slate-600 p-4 mt-2">
+        {/* Conditional Rendering for Product Title */}
+        {product.title ? (
+          <h2 className="font-semibold text-slate-600 text-lg">
+            {product.title}
+          </h2>
+        ) : (
+          <div>No title available</div>
+        )}
+
         <div className="flex justify-start flex-col items-start gap-3 my-2">
+          {/* Price and Discount Handling */}
           {product.discount ? (
             <div>
-              <span className="text-lg font-semibold text-green-600 mt-3 ">
-                {product.price - (product.price * product.discount) / 100}$
+              <span className="text-lg font-semibold text-green-600 mt-3">
+              {(product.price - (product.price * product.discount) / 100).toFixed(2)}$
               </span>
               <span className="text-md ml-3 mt-3 line-through">
-                {product.price}$
+              {product.price.toFixed(2)}$
               </span>
             </div>
           ) : (
             <span className="text-lg mt-3">{product.price}$</span>
           )}
+
           <div className="flex">
             <Rating rating={product.rating} />
           </div>
+
           <div className="h-[50px]">
             <AddToCartButton product={product} userId={userId} />
           </div>
