@@ -8,9 +8,11 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import ProductDetails from "./pages/ProductDetails";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "./redux/reducers/productsSlice";
 import { fetchCategories } from "./redux/reducers/categoriesSlice";
+
+import { fetchCart, selectTotalQuantity } from "./redux/reducers/cartSlice";
 import ScrollToTop from "./utils/ScrollToTop";
 import CartTab from "./components/CartTab";
 import ProductOfCategory from "./pages/productOfCategory";
@@ -23,6 +25,12 @@ function App() {
     dispatch(fetchProducts());
     dispatch(fetchCategories());
   }, [dispatch]);
+  const quantity = useSelector(selectTotalQuantity);
+  const { userId } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userId) dispatch(fetchCart(userId));
+  }, [dispatch, userId, quantity]);
 
   return (
     <BrowserRouter>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
   fetchCart,
   selectAllCart,
@@ -7,17 +8,18 @@ import {
 } from "../redux/reducers/cartSlice";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 import CartItemsMain from "../components/CartItemsMain";
 import FeaturedProducts from "../components/product/FeaturedProducts";
+import CartSummery from "../components/CartSummery";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector(selectAllCart);
   const quantity = useSelector(selectTotalQuantity);
   const { userId } = useSelector((state) => state.auth);
+
   console.log("userId in Cart component:", userId);
   console.log("cart:", cart);
 
@@ -25,6 +27,13 @@ const Cart = () => {
     if (userId) dispatch(fetchCart(userId));
   }, [dispatch, userId, quantity]);
 
+  const handleClearCart = () => {
+    if (userId) {
+      dispatch(clearCart({ userId }));
+    } else {
+      console.error("User ID is not defined");
+    }
+  };
   const navigate = useNavigate();
   const redirect = () => {
     navigate("/shipping", {
@@ -35,13 +44,6 @@ const Cart = () => {
         items: 2,
       },
     });
-  };
-  const handleClearCart = () => {
-    if (userId) {
-      dispatch(clearCart({ userId }));
-    } else {
-      console.error("User ID is not defined");
-    }
   };
 
   return (
@@ -67,7 +69,7 @@ const Cart = () => {
         <div className="w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90%] mx-auto py-16">
           <h2 className="text-5xl font-semibold text-center">Your cart</h2>
           <div className="flex flex-wrap">
-            <div className="w-[67%] md-lg:w-full">
+            <div className="w-[67%] md-lg:w-full pr-10">
               <div className="pr-3 md-lg:pr-0">
                 <div className="flex flex-col gap-3">
                   <div className="bg-white p-4">
@@ -92,12 +94,20 @@ const Cart = () => {
               {/* ========= buttons */}
               <div className="flex justify-center items-center mt-5">
                 {cart.length > 0 ? (
-                  <button
-                    className="h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]"
-                    onClick={handleClearCart}
-                  >
-                    Clear Cart
-                  </button>
+                  <div className="flex justify-between">
+                    <button
+                      className="h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]"
+                      onClick={handleClearCart}
+                    >
+                      Clear Cart
+                    </button>
+                    <button
+                      className="ml-6 h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]"
+                      onClick={redirect}
+                    >
+                      Proceed to checkout
+                    </button>
+                  </div>
                 ) : (
                   <div className="flex flex-col justify-center">
                     <p className="text-center">
@@ -112,49 +122,15 @@ const Cart = () => {
                   </div>
                 )}
               </div>
-              <FeaturedProducts />
             </div>
 
             <div className="w-[33%] md-lg:w-full">
-              <div className="pl-3 md-lg:pl-0 md-lg:mt-5">
-                {cart.length > 0 && (
-                  <div className="bg-white p-4 text-slate-600 flex flex-col gap-3">
-                    <h2 className="text-xl font-bold">Order summary</h2>
-                    <div className="flex justify-between items-center">
-                      <span>Items</span>
-                      <span>$300</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Shipping Fee</span>
-                      <span>$30</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <input
-                        className="w-full px-3 py-2 border border-slate-200 outline-0 focus:border-green-300 rounded-sm"
-                        type="text"
-                        placeholder="Voucher coupon"
-                      />
-                      <button className="bg-[#059473] text-white px-4 py-1 rounded-sm uppercase text-sm">
-                        Apply
-                      </button>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Total</span>
-                      <span className="text-lg text-[#059473]">$330</span>
-                      <button
-                        className="px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg bg-red-500 text-sm uppercase text-white"
-                        onClick={redirect}
-                      >
-                        Checkout
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              {cart.length > 0 && <CartSummery />}
             </div>
           </div>
         </div>
       </section>
+      <FeaturedProducts />
 
       <Footer />
     </div>

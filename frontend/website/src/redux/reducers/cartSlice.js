@@ -16,13 +16,28 @@ export const addToCart = createAsyncThunk(
     }
   });
 
-// ========== REMOVE  the cart 
+// ========== REMOVE item totally from the cart 
 export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
   async ({ userId, productId }, { rejectWithValue }) => {
     try {
       // Make sure the endpoint and payload match your backend API
-      const { data } = await api2.delete(`/cart/remove`, { data: { userId, productId } });
+      const { data } = await api2.delete(`/cart/removeitem`, { data: { userId, productId } });
+      console.log('CART API response:', data); // Log API response
+      return data;
+    } catch (error) {
+      console.error('API error:', error.message); // Log any errors
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+// ========== Decrease Quantity the cart 
+export const decreaseQuantity = createAsyncThunk(
+  'cart/decreaseQuantity',
+  async ({ userId, productId, quantity }, { rejectWithValue }) => {
+    try {
+      // Make sure the endpoint and payload match your backend API
+      const { data } = await api2.delete(`/cart/remove`, { data: { userId, productId, quantity } });
       console.log('CART API response:', data); // Log API response
       return data;
     } catch (error) {
@@ -66,7 +81,7 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     totalPrice: 0,
-    cartId: 0,
+    cartId: '',
     status: 'idle',
     statusTab: true,
   },
@@ -122,6 +137,12 @@ const cartSlice = createSlice({
         state.status = 'succeeded';
         state.items = []
         console.log('action payload', action.payload)
+      })
+      .addCase(decreaseQuantity.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // Use the items from the response data to update the state
+        state.items = action.payload.items;
+
       })
   }
 });

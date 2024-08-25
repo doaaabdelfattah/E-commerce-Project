@@ -1,35 +1,83 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { selectAllCart } from "../redux/reducers/cartSlice";
 import { IoIosArrowForward } from "react-icons/io";
+import CartItemsSmall from "../components/CartItemsSmall";
+import CartSummery from "../components/CartSummery";
+import { placeOrder } from "../redux/reducers/orderSlice";
 
 const Shipping = () => {
+  const cart = useSelector(selectAllCart);
+  const { userId } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const [res, setRes] = useState(false);
-  const [state, setState] = useState({
+  const [info, setInfo] = useState({
     name: "",
-    address: "",
+    shippingAddress1: "",
+    shippingAddress2: "",
     phone: "",
-    province: "",
     city: "",
     email: "",
-    area: "",
+    country: "",
+
+    // orderItems:,
+    // totalPrice:},
+    // userId: ,
   });
 
+  const order = {
+    ...info,
+    orderItems: cart,
+    userId,
+  };
+  console.log("order action:", order);
+
+  const handleSubmitOrder = (e) => {
+    dispatch(
+      placeOrder({
+        ...info,
+        orderItems: cart,
+        userId,
+      })
+    );
+  };
+
   const inputHandle = (e) => {
-    setState({
-      ...state,
+    setInfo({
+      ...info,
       [e.target.name]: e.target.value,
     });
   };
 
   const save = (e) => {
     e.preventDefault();
-    const { name, address, phone, email, province, city, area } = state;
-    if (name && address && phone && email && province && city && area) {
+    const {
+      name,
+      shippingAddress2,
+      phone,
+      email,
+      shippingAddress1,
+      city,
+      country,
+    } = info;
+    if (
+      name &&
+      shippingAddress2 &&
+      phone &&
+      email &&
+      shippingAddress1 &&
+      city &&
+      country
+    ) {
       setRes(true);
     }
   };
+
+  console.log("data in shipping: ", info);
 
   return (
     <div>
@@ -51,15 +99,13 @@ const Shipping = () => {
         </div>
       </section>
 
-      <section className="bg-[#eeeeee]">
+      <section className="">
         <div className="w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90%] mx-auto py-16">
           <div className="w-full flex flex-wrap">
-            <div className="w-[67%] md-lg:w-full">
-              <div className="flex flex-col gap-3">
-                <div className="bg-white p-6 shadow-sm rounded-md">
-                  <h2 className="text-slate-600 font-bold pb-3">
-                    Shipping Information{" "}
-                  </h2>
+            <div className="w-[67%]  md-lg:w-full">
+              <div className="flex  flex-col gap-3">
+                <div className=" border p-6 shadow-sm ">
+                  <h2 className="text-3xl py-3 "> Shipping information</h2>
                   <hr className=" mb-1 " />
                   {!res && (
                     <>
@@ -69,9 +115,9 @@ const Shipping = () => {
                             <label htmlFor="name"> Name </label>
                             <input
                               onChange={inputHandle}
-                              value={state.name}
+                              value={info.name}
                               type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 rounded-md"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
                               name="name"
                               id="name"
                               placeholder="Name"
@@ -79,58 +125,58 @@ const Shipping = () => {
                           </div>
 
                           <div className="flex flex-col gap-1 m-2 w-full">
-                            <label htmlFor="address"> Address </label>
-                            <input
-                              onChange={inputHandle}
-                              value={state.address}
-                              type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 rounded-md"
-                              name="address"
-                              id="address"
-                              placeholder="Address"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
-                          <div className="flex flex-col gap-1 m-2 w-full">
                             <label htmlFor="phone"> Phone </label>
                             <input
                               onChange={inputHandle}
-                              value={state.phone}
+                              value={info.phone}
                               type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 rounded-md"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
                               name="phone"
                               id="phone"
                               placeholder="Phone"
                             />
                           </div>
+                        </div>
 
+                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
                           <div className="flex flex-col gap-1 m-2 w-full">
                             <label htmlFor="post"> Email </label>
                             <input
                               onChange={inputHandle}
-                              value={state.email}
+                              value={info.email}
                               type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 rounded-md"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
                               name="email"
                               id="email"
                               placeholder="email"
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-1 m-2 w-full">
+                            <label htmlFor="zip"> Zip </label>
+                            <input
+                              onChange={inputHandle}
+                              value={info.zip}
+                              type="text"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
+                              name="zip"
+                              id="zip"
+                              placeholder="zip"
                             />
                           </div>
                         </div>
 
                         <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
                           <div className="flex flex-col gap-1 m-2 w-full">
-                            <label htmlFor="province"> Province </label>
+                            <label htmlFor="country"> Country </label>
                             <input
                               onChange={inputHandle}
-                              value={state.province}
+                              value={info.country}
                               type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 rounded-md"
-                              name="province"
-                              id="province"
-                              placeholder="Province"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
+                              name="country"
+                              id="country"
+                              placeholder="Country"
                             />
                           </div>
 
@@ -138,9 +184,9 @@ const Shipping = () => {
                             <label htmlFor="city"> City </label>
                             <input
                               onChange={inputHandle}
-                              value={state.city}
+                              value={info.city}
                               type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 rounded-md"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
                               name="city"
                               id="city"
                               placeholder="City"
@@ -150,22 +196,36 @@ const Shipping = () => {
 
                         <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
                           <div className="flex flex-col gap-1 m-2 w-full">
-                            <label htmlFor="area"> Area </label>
+                            <label htmlFor="shippingAddress1">
+                              {" "}
+                              Shipping Address 1{" "}
+                            </label>
                             <input
                               onChange={inputHandle}
-                              value={state.area}
+                              value={info.shippingAddress1}
                               type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 rounded-md"
-                              name="area"
-                              id="area"
-                              placeholder="Area"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
+                              name="shippingAddress1"
+                              id="shippingAddress1"
+                              placeholder="Address 1"
                             />
                           </div>
-
-                          <div className="flex flex-col gap-1 mt-7 mb-2 w-full">
-                            <button onClick={save} className="px-3 py-[6px] rounded-sm hover:shadow-green-500/50 hover:shadow-lg bg-green-500 text-white">
-                              Save & continue{" "}
-                            </button>
+                        </div>
+                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
+                          <div className="flex flex-col gap-1 m-2 w-full">
+                            <label htmlFor="shippingAddress2">
+                              {" "}
+                              Shipping Address 2{" "}
+                            </label>
+                            <input
+                              onChange={inputHandle}
+                              value={info.shippingAddress2}
+                              type="text"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-green-500 "
+                              name="shippingAddress2"
+                              id="shippingAddress2"
+                              placeholder="Address 2"
+                            />
                           </div>
                         </div>
                       </form>
@@ -175,14 +235,14 @@ const Shipping = () => {
                   {res && (
                     <div className="flex flex-col gap-1">
                       <h2 className="text-slate-600 font-semibold pb-2">
-                        Deliver To / {state.name}
+                        Deliver To / {info.name}
                       </h2>
                       <p>
                         <span>
-                          {state.phone} <br /> {state.address} <br />
-                          {state.province} <br />
-                          {state.city} <br />
-                          {state.area} <br />{" "}
+                          {info.phone} <br /> {info.shippingAddress2} <br />
+                          {info.shippingAddress1} <br />
+                          {info.city} <br />
+                          {info.country} <br />{" "}
                         </span>
 
                         <span
@@ -193,96 +253,42 @@ const Shipping = () => {
                         </span>
                       </p>
 
-                      <p className="text-slate-600 text-sm">
-                        {state.email}
-                      </p>
+                      <p className="text-slate-600 text-sm">{info.email}</p>
                     </div>
                   )}
                 </div>
-
-                {[1, 2].map((p, i) => (
-                  <div className="flex bg-white p-4 flex-col gap-2">
-                    <div className="flex justify-start items-center">
-                      <h2 className="text-md text-slate-600 font-bold">
-                        Easy Shop
-                      </h2>
-                    </div>
-
-                    {[1, 2].map((p, i) => (
-                      <div className="w-full flex flex-wrap">
-                        <div className="flex sm:w-full gap-2 w-7/12">
-                          <div className="flex gap-2 justify-start items-center">
-                            <img
-                              className="w-[80px] h-[80px]"
-                              src={`http://localhost:3000/images/products/${
-                                i + 1
-                              }.webp`}
-                              alt=""
-                            />
-                            <div className="pr-4 text-slate-600">
-                              <h2 className="text-md font-semibold">
-                                Product Name{" "}
-                              </h2>
-                              <span className="text-sm">Brand: Jara</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
-                          <div className="pl-4 sm:pl-0">
-                            <h2 className="text-lg text-orange-500">$240</h2>
-                            <p className="line-through">$300</p>
-                            <p>-15%</p>
-                          </div>
-                          <div className="flex gap-2 flex-col">
-                            <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                              <div className="px-3 cursor-pointer">-</div>
-                              <div className="px-3">2</div>
-                              <div className="px-3 cursor-pointer">+</div>
-                            </div>
-                            <button className="px-5 py-[3px] bg-red-500 text-white">
-                              Delete
-                            </button>
-                          </div>
-                        </div>
+                <h1 className="text-3xl font-semibold py-3">
+                  Your order items
+                </h1>
+                <div className="flex bg-white p-4 flex-col gap-2">
+                  {cart.map((item, index) => (
+                    <div className="w-full flex flex-wrap">
+                      <div className="w-full border-b py-5">
+                        <CartItemsSmall
+                          productId={item.productId}
+                          quantity={item.quantity}
+                        />
                       </div>
-                    ))}
-                  </div>
-                ))}
+                    </div>
+                  ))}
+                </div>
+                <Link to="/shop">
+                  <button className="ml-6 h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]">
+                    continue shopping
+                  </button>
+                </Link>
               </div>
             </div>
 
             <div className="w-[33%] md-lg:w-full">
-              <div className="pl-3 md-lg:pl-0 md-lg:mt-5">
-                <div className="bg-white p-3 text-slate-600 flex flex-col gap-3">
-                  <h2 className="text-xl font-bold">Order Summary</h2>
-                  <div className="flex justify-between items-center">
-                    <span>Items Total (5) </span>
-                    <span>$343 </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>Delivery Fee </span>
-                    <span>$40 </span>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span>Total Payment </span>
-                    <span>$450 </span>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span>Total</span>
-                    <span className="text-lg text-[#059473]">$490 </span>
-                  </div>
-                  <button
-                    disabled={res ? false : true}
-                    className={`px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg ${
-                      res ? "bg-red-500" : "bg-red-300"
-                    }  text-sm text-white uppercase`}
-                  >
-                    Place Order
-                  </button>
-                </div>
+              <CartSummery />
+              <div className="w-full flex justify-center items-center mt-5">
+                <button
+                  className="ml-6 h-full text-white bg-[#BC9B80] hover:bg-transparent hover:border-2 hover:border-black hover:text-black transition-all duration-300 px-10 py-[10px]"
+                  onClick={handleSubmitOrder}
+                >
+                  Place Order
+                </button>
               </div>
             </div>
           </div>
