@@ -11,17 +11,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
 import CartItemsMain from "../components/CartItemsMain";
+import FeaturedProducts from "../components/product/FeaturedProducts";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector(selectAllCart);
   const quantity = useSelector(selectTotalQuantity);
   const { userId } = useSelector((state) => state.auth);
-  console.log("user id", userId);
+  console.log("userId in Cart component:", userId);
   console.log("cart:", cart);
+
   useEffect(() => {
     if (userId) dispatch(fetchCart(userId));
-  }, [dispatch, userId]);
+  }, [dispatch, userId, quantity]);
 
   const navigate = useNavigate();
   const redirect = () => {
@@ -35,7 +37,11 @@ const Cart = () => {
     });
   };
   const handleClearCart = () => {
-    dispatch(clearCart(userId));
+    if (userId) {
+      dispatch(clearCart({ userId }));
+    } else {
+      console.error("User ID is not defined");
+    }
   };
 
   return (
@@ -93,13 +99,20 @@ const Cart = () => {
                     Clear Cart
                   </button>
                 ) : (
-                  <Link to="/shop">
-                    <button className="h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]">
-                      Shop Now
-                    </button>
-                  </Link>
+                  <div className="flex flex-col justify-center">
+                    <p className="text-center">
+                      Start adding items to your cart
+                    </p>
+
+                    <Link to="/shop">
+                      <button className="h-full text-white bg-black hover:bg-[#BC9B80] transition-all duration-300 px-10 py-[10px]">
+                        Shop Now
+                      </button>
+                    </Link>
+                  </div>
                 )}
               </div>
+              <FeaturedProducts />
             </div>
 
             <div className="w-[33%] md-lg:w-full">

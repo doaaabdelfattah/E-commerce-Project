@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api2 } from '../../api/api';
 
+
 // ========== ADD to the cart 
-export const add_to_cart = createAsyncThunk('cart/add_to_cart',
+export const addToCart = createAsyncThunk(
+  'cart/addToCart',
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api2.post('cart/add', info);
@@ -14,8 +16,9 @@ export const add_to_cart = createAsyncThunk('cart/add_to_cart',
     }
   });
 
-export const delete_Item_cart = createAsyncThunk(
-  'cart/delete_from_cart',
+// ========== REMOVE  the cart 
+export const removeFromCart = createAsyncThunk(
+  'cart/removeFromCart',
   async ({ userId, productId }, { rejectWithValue }) => {
     try {
       // Make sure the endpoint and payload match your backend API
@@ -29,17 +32,6 @@ export const delete_Item_cart = createAsyncThunk(
   }
 );
 
-
-// ========== Fetch the cart 
-export const fetchCart = createAsyncThunk('cart/fetchCart', async (userId, { rejectWithValue }) => {
-  try {
-    const response = await api2.post('/cart/items', { userId });
-    console.log('Api Response fetch cart:', response.data)
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
 
 // ========== CLEAR the cart 
 export const clearCart = createAsyncThunk(
@@ -56,7 +48,16 @@ export const clearCart = createAsyncThunk(
     }
   }
 );
-
+// ========== Fetch the cart 
+export const fetchCart = createAsyncThunk('cart/fetchCart', async (userId, { rejectWithValue }) => {
+  try {
+    const response = await api2.post('/cart/items', { userId });
+    console.log('Api Response fetch cart:', response.data)
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 
 // Slice
@@ -64,79 +65,43 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     items: [],
+    totalPrice: 0,
+    cartId: 0,
     status: 'idle',
     statusTab: true,
   },
   reducers: {
-    // addToCart(state, action) {
-    //   const { productId, quantity } = action.payload;
-    //   const productIndex = state.items.findIndex(item => item.productId === productId);
-
-    //   if (productIndex !== -1) {
-    //     // If item exists: update the quantity & Price
-    //     state.items[productIndex].quantity += quantity;
-
-    //   } else {
-    //     // If item does not exist, add it to the cart
-    //     state.items.push({ productId, quantity });
-    //   }
-    //   state.statusTab = true;
-    // },
-    // deleteItem(state, action) {
-    //   const { productId } = action.payload;
-    //   const productIndex = state.items.findIndex(item => item.productId === productId);
-    //   // Remove item from the cart if quantity is 0 or less
-    //   state.items.splice(productIndex, 1);
-    // },
-    changeQuantity(state, action) {
-      const { productId, quantity } = action.payload;
-      const productIndex = state.items.findIndex(item => item.productId === productId);
-
-      if (productIndex !== -1) {
-        if (quantity > 0) {
-          state.items[productIndex].quantity = quantity;
-        } else {
-          // Remove item from the cart if quantity is 0 or less
-          state.items.splice(productIndex, 1);
-        }
-      }
-    },
     toggleStatusTab(state) {
       state.statusTab = !state.statusTab
     },
-    // clearCart(state) {
-    //   state.items = [];
-    //   state.statusTab = false
-    // }
+
   },
   // Handle Api thunks requests
   extraReducers: (builder) => {
     builder
       // ============= add to cart Reducers 
-      .addCase(add_to_cart.pending, (state) => {
+      .addCase(addToCart.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(add_to_cart.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+      .addCase(addToCart.fulfilled, (state, action) => {
         state.items = action.payload.items
-        console.log('add_to_cart action payload', action.payload);
         state.statusTab = true;
       })
-      .addCase(add_to_cart.rejected, (state, action) => {
+      .addCase(addToCart.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload;
-        console.error('add_to_cart failed:', action.payload);
+        state.error = action.payload.error;
+        console.error('addToCart failed:', action.payload);
       })
       // ============= Delete Item Reducers 
-      .addCase(delete_Item_cart.pending, (state) => {
-        state.status = 'loading';
+      .addCase(removeFromCart.pending, (state, action) => {
+        state.items = state.items.filter(item => item.productId !== action.meta.arg.productId);
       })
-      .addCase(delete_Item_cart.fulfilled, (state, action) => {
+      .addCase(removeFromCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload.items
-        console.log('action payload', action.payload)
+        // Use the items from the response data to update the state
+        state.items = action.payload.items;
       })
-      .addCase(delete_Item_cart.rejected, (state, action) => {
+      .addCase(removeFromCart.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
         console.error('Delete item failed:', action.payload);
@@ -146,6 +111,9 @@ const cartSlice = createSlice({
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload.items
+        state.totalPrice = action.payload.totalPrice
+        state.cartId = action.payload.id
+
         console.log(' fetch action payload', action.payload.items)
         // state.statusTab = true;
       })
@@ -164,11 +132,8 @@ export const selectAllCart = (state) => state.cart.items;
 export const selectTotalQuantity = (state) => {
   return state.cart.items.reduce((total, item) => total + item.quantity, 0);
 };
-// Selector to find product details by productId
-export const selectProductDetailsById = (state, productId) => {
-  return state.cart.items.find(item => item.productId === productId);
-};
+
 
 // Exporting actions and reducer
-export const { addToCart, deleteItem, changeQuantity, toggleStatusTab } = cartSlice.actions;
+export const { toggleStatusTab } = cartSlice.actions;
 export default cartSlice.reducer;
