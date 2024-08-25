@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ProductCard from '../components/product/ProductCard';
-import { fetchWishlistItems, removeProductFromWishList } from '../redux/reducers/wishListSlice';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ProductCard from "../components/product/ProductCard";
+import {
+  fetchWishlistItems,
+  removeProductFromWishList,
+} from "../redux/reducers/wishListSlice";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 function Wishlist() {
   const dispatch = useDispatch();
   const { items, status, error } = useSelector((state) => state.wishlist);
-  
+  console.log("items in wishlist", items);
   const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
@@ -19,7 +22,7 @@ function Wishlist() {
     dispatch(removeProductFromWishList({ userId, productId }));
   };
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <div>Loading...</div>;
   }
 
@@ -39,8 +42,8 @@ function Wishlist() {
         </div>
         {items.length > 0 ? (
           items.map((product) => (
-            <div key={product.id}>
-              <ProductCard product={product} />
+            <div key={product.id} className="m-2">
+              <ProductCard product={product.productId} />
               {/* <div>
                 {product.name}
                 <button onClick={() => handleRemove(product.id)}>Remove</button>
