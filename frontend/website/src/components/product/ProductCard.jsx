@@ -1,9 +1,8 @@
-import { FaEye, FaRegHeart, FaHeart } from "react-icons/fa";
-import { RiShoppingCartLine } from "react-icons/ri";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Rating from "../Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { add_to_cart } from "../../redux/reducers/cartSlice";
+import { addToCart } from "../../redux/reducers/cartSlice";
 import AddToCartButton from "../../utils/AddToCartButton";
 import { useState } from "react";
 
@@ -21,12 +20,12 @@ const ProductCard = ({ product }) => {
 
     // Calculate Discounted price
     const discountedPrice = product.discount
-      ? product.price - (product.price * product.discount) / 100
+      ? product.price - (product.price * 100 - product.discount) / 100
       : product.price;
     // dispatch adding to cart action
     if (userId) {
       dispatch(
-        add_to_cart({
+        addToCart({
           userId,
           productId: product.id,
           quantity: 1,
@@ -78,11 +77,11 @@ const ProductCard = ({ product }) => {
         <div className="flex justify-start flex-col items-start gap-3 my-2">
           {product.discount ? (
             <div>
-              <span className="text-lg mt-3 line-through">
-                {product.price}$
+              <span className="text-lg font-semibold text-green-600 mt-3 ">
+                {product.price - (product.price * product.discount) / 100}$
               </span>
-              <span className="text-lg mt-3 ml-7">
-                {(product.price * product.discount) / 100}$
+              <span className="text-md ml-3 mt-3 line-through">
+                {product.price}$
               </span>
             </div>
           ) : (

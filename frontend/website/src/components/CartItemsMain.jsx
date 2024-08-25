@@ -2,69 +2,61 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {
-  changeQuantity,
-  delete_Item_cart,
-  deleteItem,
-} from "../redux/reducers/cartSlice";
+import { addToCart, removeFromCart } from "../redux/reducers/cartSlice";
 
 import { useNavigate } from "react-router-dom";
 
 const CartItemsMain = ({ productId, quantity }) => {
   const [discountPrice, setDiscountPrice] = useState(0);
   const navigate = useNavigate();
-  const handleNavigateToProduct = () => {
-    navigate(`/${productId}`);
-  };
-
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.products);
-  const [productDetails, setProductsDetails] = useState([]);
   const { userId } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    const findDetails = products.filter(
-      (product) => product.id === productId
-    )[0];
-    setProductsDetails(findDetails);
-  }, [productId, products]);
+  // console.log("product entered:", productId);
+  // console.log("userId:", userId);
 
-  // useEffect(() => {
-  //   if (productDetails.discount) {
-  //     setDiscountPrice(
-  //       ((productDetails.price * productDetails.discount) / 100).toFixed(2)
-  //     );
-  //   }
-  // }, [productDetails.discount, productDetails.price]);
+  const handleNavigateToProduct = () => {
+    navigate(`/${productId.id}`);
+  };
+
+  useEffect(() => {
+    if (productId.discount) {
+      setDiscountPrice(
+        ((productId.price * productId.discount) / 100).toFixed(2)
+      );
+    }
+  }, [productId.discount, productId.price]);
 
   // ============ Handle Buttons
   const handlePlusQuantity = () => {
     dispatch(
-      changeQuantity({
-        productId: productId,
-        quantity: quantity + 1,
+      addToCart({
+        userId,
+        productId: productId.id,
+        quantity: 1,
       })
     );
   };
 
   const handleMinusQuantity = () => {
     dispatch(
-      changeQuantity({
-        productId: productId,
+      addToCart({
+        userId,
+        productId,
         quantity: quantity - 1,
       })
     );
   };
   const handleDeleteItem = () => {
     dispatch(
-      delete_Item_cart({
+      removeFromCart({
         userId,
-        productId,
+        productId: productId.id,
       })
     );
   };
 
-  if (!productDetails) {
+  if (!productId) {
     return null; // or a loading spinner if needed
   }
   return (
@@ -77,42 +69,36 @@ const CartItemsMain = ({ productId, quantity }) => {
           <div className="flex gap-2 justify-start items-center">
             <img
               className="w-[80px] h-[80px] mr-2"
-              src={productDetails.image}
-              alt={productDetails.title}
+              src={productId.image}
+              alt={productId.title}
             />
             <div className="pr-4 text-lg">
               {/* <h2 className="text-md font-semibold">Product Name </h2> */}
-              <span className="text-md font-semibold">
-                {productDetails.title}
-              </span>
-              <div className="text-sm text-[#BC9B80]">
-                {productDetails.brand}
-              </div>
+              <span className="text-md font-semibold">{productId.title}</span>
+              <div className="text-sm text-[#BC9B80]">{productId.brand}</div>
             </div>
           </div>
         </div>
         <div className="flex justify-between items-center w-7/12 sm:w-full sm:mt-3">
           <div className="pl-4 sm:pl-0">
             <span className="font-semibold text-md">Item price </span>
-            {productDetails.discount ? (
+            {productId.discount ? (
               <span>
-                <h2 className="text-lg line-through">
-                  {productDetails.price}$
-                </h2>
+                <h2 className="text-lg line-through">{productId.price}$</h2>
                 <h2 className="text-lg text-green-600">{discountPrice}$</h2>
               </span>
             ) : (
               <span>
-                <h2 className="text-lg">{productDetails.price}$</h2>
+                <h2 className="text-lg">{productId.price}$</h2>
               </span>
             )}
           </div>
           <div className="pl-4 sm:pl-0">
             <span className="font-semibold text-lg">Total price</span>
             <h2 className="text-lg">
-              {productDetails.discount
+              {productId.discount
                 ? `${discountPrice * quantity}$`
-                : `${(productDetails.price * quantity).toFixed(2)}$`}
+                : `${(productId.price * quantity).toFixed(2)}$`}
             </h2>
           </div>
           <div className="flex gap-2 flex-col">

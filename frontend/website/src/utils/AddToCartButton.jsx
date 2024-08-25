@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { add_to_cart } from "../redux/reducers/cartSlice";
+import { addToCart } from "../redux/reducers/cartSlice";
 
 const AddToCartButton = ({ product, userId }) => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const AddToCartButton = ({ product, userId }) => {
     // dispatch adding to cart action
     if (userId) {
       dispatch(
-        add_to_cart({
+        addToCart({
           userId,
           productId: product.id,
           quantity: 1,

@@ -17,21 +17,21 @@ const CartItem = ({ productId, quantity }) => {
   }, [productId, products]);
 
   const handlePlusQuantity = () => {
-    dispatch(
-      changeQuantity({
-        productId: productId,
-        quantity: quantity + 1,
-      })
-    );
+    // dispatch(
+    //   changeQuantity({
+    //     productId: productId,
+    //     quantity: quantity + 1,
+    //   })
+    // );
   };
 
   const handleMinusQuantity = () => {
-    dispatch(
-      changeQuantity({
-        productId: productId,
-        quantity: quantity - 1,
-      })
-    );
+    // dispatch(
+    //   changeQuantity({
+    //     productId: productId,
+    //     quantity: quantity - 1,
+    //   })
+    // );
   };
   if (!productDetails) {
     return null; // or a loading spinner if needed
