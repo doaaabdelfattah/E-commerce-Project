@@ -36,7 +36,7 @@ const CartSummery = () => {
         <hr></hr>
         <div className="flex justify-between items-center py-5">
           <span className="text-2xl font-semibold">Total</span>
-          <span className="text-2xl font-semibold">{totalAfterCalculate}$</span>
+          <span className="text-2xl font-semibold">{totalAfterCalculate.toFixed(2)}$</span>
         </div>
       </div>
     </div>

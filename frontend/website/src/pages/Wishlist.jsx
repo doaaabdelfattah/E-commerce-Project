@@ -16,7 +16,7 @@ function Wishlist() {
 
   useEffect(() => {
     dispatch(fetchWishlistItems(userId));
-  }, [dispatch, userId]);
+  }, [dispatch, userId, items]);
 
   const handleRemove = (productId) => {
     dispatch(removeProductFromWishList({ userId, productId }));
@@ -43,11 +43,8 @@ function Wishlist() {
         {items.length > 0 ? (
           items.map((product) => (
             <div key={product.id} className="m-2">
-              <ProductCard product={product.productId} />
-              {/* <div>
-                {product.name}
-                <button onClick={() => handleRemove(product.id)}>Remove</button>
-              </div> */}
+              <ProductCard product={product.productId}   />
+              
             </div>
           ))
         ) : (

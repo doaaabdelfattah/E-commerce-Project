@@ -18,17 +18,24 @@ import CartTab from "./components/CartTab";
 import ProductOfCategory from "./pages/productOfCategory";
 import Wishlist from "./pages/Wishlist";
 import Dashboard from "./pages/Dashboard";
+import { fetchWishlistItems } from "./redux/reducers/wishListSlice";
 
 function App() {
   const dispatch = useDispatch();
-
+  const quantity = useSelector(selectTotalQuantity);
+  const { userId } = useSelector((state) => state.auth);
+  
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCategories());
   }, [dispatch]);
-  const quantity = useSelector(selectTotalQuantity);
-  const { userId } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchWishlistItems(userId));
+    }
+  }, [dispatch, userId]);
+  
   useEffect(() => {
     if (userId) dispatch(fetchCart(userId));
   }, [dispatch, userId, quantity]);

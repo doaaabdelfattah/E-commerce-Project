@@ -37,7 +37,7 @@ const Header = () => {
 
   // handle wishList icon
   const wishlistItems = useSelector((state) => state.wishlist.items);
-
+  
   const handleWishlistClick = () => {
     navigate("/Wishlist");
   };
@@ -49,8 +49,6 @@ const Header = () => {
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
-
-  const [wishlist, setWishlist] = useState(0);
 
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
