@@ -17,6 +17,7 @@ import ScrollToTop from "./utils/ScrollToTop";
 import CartTab from "./components/CartTab";
 import ProductOfCategory from "./pages/productOfCategory";
 import Wishlist from "./pages/Wishlist";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ function App() {
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/:id" element={<ProductDetails />} />
         <Route path="wishlist" element={<Wishlist />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
