@@ -5,7 +5,7 @@ import { removeFromCart } from "../redux/reducers/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { IoCloseCircle } from "react-icons/io5";
 
-const CartItem = ({ productId, quantity }) => {
+const CartItem = ({ productId, quantity, discountedPrice }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userId } = useSelector((state) => state.auth);
@@ -47,7 +47,14 @@ const CartItem = ({ productId, quantity }) => {
       </div>
       <div className="w-6/12 p-3">
         <h3 className="font-semibold">{productId.title}</h3>
-        <p>{(productId.price * quantity).toFixed(2)}$</p>
+        {productId.discount ? (
+          <span className="">
+            <span className="line-through mr-2">{productId.price}$</span>
+            <span className="text-green-600">{discountedPrice}$</span>
+          </span>
+        ) : (
+          <p>{productId.price} $</p>
+        )}
       </div>
       <div className="w-3/12 flex justify-between items-center">
         <div>

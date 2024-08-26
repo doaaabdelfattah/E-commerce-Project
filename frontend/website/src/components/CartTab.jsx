@@ -46,7 +46,11 @@ const CartTab = () => {
         </div>
         <div className="m-5 overflow-y-auto custom-scrollbar p-4 ">
           {cart.map((item, index) => (
-            <CartItem productId={item.productId} quantity={item.quantity} />
+            <CartItem
+              productId={item.productId}
+              quantity={item.quantity}
+              discountedPrice={item.discountedPrice}
+            />
           ))}
         </div>
         <div className="grid grid-cols-2">
