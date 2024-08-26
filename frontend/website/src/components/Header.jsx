@@ -24,7 +24,10 @@ import { FiShoppingCart } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import SearchBar from "./SearchBar";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
-import { fetchWishlistItems, addProductToWishList } from "../redux/reducers/wishListSlice";
+import {
+  fetchWishlistItems,
+  addProductToWishList,
+} from "../redux/reducers/wishListSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
@@ -32,27 +35,12 @@ const Header = () => {
     (state) => state.auth
   );
 
-  // handle wishList icon 
+  // handle wishList icon
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  
+
   const handleWishlistClick = () => {
     navigate("/Wishlist");
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const navigate = useNavigate();
   const handleCartClick = () => {
@@ -81,13 +69,12 @@ const Header = () => {
     navigate("/Login");
   };
 
-
-
   // ========================== Cart
-  const cart = useSelector((state) => state.cart.items);
-  const totalQuantity = useSelector(selectTotalQuantity);
 
- 
+  const totalQuantity = useSelector(selectTotalQuantity);
+  const cart = useSelector((state) => state.cart.items);
+  const totalItems = cart.length;
+  console.log("total: ", totalItems);
 
   return (
     <div className="w-full bg-white">
@@ -189,7 +176,7 @@ const Header = () => {
                         <FiShoppingCart />
                       </span>
                       <span className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                        {totalQuantity}
+                        {totalItems}
                       </span>
                     </span>
                   </div>
@@ -256,7 +243,7 @@ const Header = () => {
                     {/* Wishlist */}
                     <div className="flex relative justify-center items-center cursor-pointer rounded-full w-[40px] h-[40px]  text-[#1F212A] hover:text-[#BC9B80]">
                       <span className="text-3xl">
-                        <FaRegHeart onClick={handleWishlistClick}/>
+                        <FaRegHeart onClick={handleWishlistClick} />
                       </span>
                       <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
                         {wishlistItems.length}
@@ -268,7 +255,7 @@ const Header = () => {
                         <FiShoppingCart />
                       </span>
                       <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                        {totalQuantity}
+                        {totalItems}
                       </div>
                     </div>
                   </div>
@@ -440,7 +427,7 @@ const Header = () => {
             </div>
           </div>
 
-         <SearchBar />
+          <SearchBar />
         </div>
       </div>
     </div>

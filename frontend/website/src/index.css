@@ -83,3 +83,19 @@ html {
 .cart-tab-visible {
   transform: translateX(0); /* Moves the tab back into view */
 }
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 13px; /* Width of the scrollbar */
+  padding-left: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #0000007c; /* Color of the scrollbar thumb */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: none; /* Background of the scrollbar track */
+  border-radius: 10px;
+}

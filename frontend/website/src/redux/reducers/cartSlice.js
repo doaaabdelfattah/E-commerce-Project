@@ -83,7 +83,7 @@ const cartSlice = createSlice({
     totalPrice: 0,
     cartId: '',
     status: 'idle',
-    statusTab: true,
+    statusTab: false,
   },
   reducers: {
     toggleStatusTab(state) {

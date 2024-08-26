@@ -34,7 +34,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <CartTab /> */}
+      <CartTab />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
