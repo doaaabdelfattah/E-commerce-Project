@@ -53,7 +53,7 @@ const Shop = () => {
   };
 
   //using pagination
-  const { products } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.paginatedProducts);
   const { page, totalPages, totalProducts } = useSelector(
     (state) => state.paginatedProducts
   );
