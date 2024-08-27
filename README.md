@@ -5,10 +5,69 @@ This project is an e-commerce application that includes both frontend and backen
 Features
 
     Backend:
-        Order management: Create, update, retrieve, and delete orders.
-        Order status updates.
-        Order retrieval by user ID.
-        Automatic generation of unique order numbers.
+        Backend Features
+
+            The backend of this e-commerce project offers comprehensive API functionalities for managing various aspects of the platform. The key features include:
+            
+            1. Authentication
+
+            User Registration: Register new users with their details.
+            User Authentication: Authenticate users using JWT tokens.
+            Token Handling: Ensure that routes requiring authentication check for valid JWT tokens.
+            Password Recovery: Implement a feature for users to recover their passwords.
+
+        2. Orders Management
+
+            Create Order: Create new orders with detailed order items and customer information.
+            Update Order Status: Update the status of existing orders (Pending, Shipped, Delivered, Cancelled).
+            Retrieve Orders by User: Get all orders associated with a specific user.
+            Retrieve All Orders: Fetch all orders in the system.
+            Delete Order: Remove an order by its ID.
+            Order Number Generation: Automatically generate unique order numbers with a specific format.
+
+        3. Cart Management
+
+            Add to Cart: Add items to a user's shopping cart or update existing items, considering discounts.
+            Remove from Cart: Remove specific items from the cart or decrease the quantity by one.
+            Delete Item from Cart: Completely remove an item from the cart.
+            Clear Cart: Remove all items from the cart.
+            Retrieve Cart Items: Get all items currently in a user's cart, including updated total prices.
+            Calculate Total Price: Automatically calculate the total price based on item quantities and discounts.
+
+        4. Users Management
+
+            Create User: Register new users.
+            Authenticate User: Log in and authenticate users with JWT tokens.
+            Update User Information: Modify user details as needed.
+            Password Recovery: Implement a password recovery feature for users.
+
+        5. Categories Management
+
+            Create Category: Add new product categories.
+            Update Category: Modify existing categories.
+            Retrieve Categories: Get a list of all categories.
+            Delete Category: Remove a category.
+
+        6. Products Management
+
+            Create Product: Add new products to the catalog.
+            Update Product: Update product details, including price and description.
+            Retrieve Products: Get a list of products or search by various criteria.
+            Delete Product: Remove a product from the catalog.
+
+        7. Wishlist Management
+
+            Add to Wishlist: Add items to a user's wishlist.
+            Remove from Wishlist: Remove items from the wishlist.
+            Retrieve Wishlist: Get all items in a user's wishlist.
+            Clear Wishlist: Remove all items from the Wishlist.
+
+        8. Reviews Management
+
+            Create Review: Allow users to post reviews for products.
+            Update Review: Modify existing reviews.
+            Retrieve Reviews: Fetch reviews for specific products.
+            Delete Review: Remove a review.
 
     Frontend:
         User interface for browsing products, managing a shopping cart, and checking out.
@@ -29,16 +88,25 @@ Setup
             A modern web browser
 
 API Documentation
-Base URL
 
-The backend API is available at http://localhost:5000/api/v1
+    Base URL
+        The backend API is available at :
+        
+        http://localhost:5000/api/v1/users
+        http://localhost:5000/api/v1/categories
+        http://localhost:5000/api/v1/products
+        http://localhost:5000/api/v1/orders
+        http://localhost:5000/api/v1/cart
+        http://localhost:5000/api/v1/reviews
+        http://localhost:5000/api/v1/wishlist
+
 
 Frontend Components
-Key Features
+    Key Features
 
-    Product Browsing: View and search for products.
-    Shopping Cart: Add, update, and remove items in the cart.
-    Checkout: Place orders and view order status.
+        Product Browsing: View and search for products.
+        Shopping Cart: Add, update, and remove items in the cart.
+        Checkout: Place orders and view order status.
 
 
 
