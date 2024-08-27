@@ -21,8 +21,8 @@ export const placeOrder = createAsyncThunk(
 // ========== GET ALL ORDERS
 export const getOrders = createAsyncThunk('orders/getOrders', async (userId, { rejectWithValue }) => {
   try {
-    const response = await api2.get('/orders/', { userId });
-    console.log('Api Response fetch cart:', response.data)
+    const response = await api2.post('/orders/getByuser/', { userId: String(userId) });
+    console.log('Api Response fetch ORDER:', response.data)
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -35,6 +35,7 @@ const orderSlice = createSlice({
   name: 'order',
   initialState: {
     items: [],
+    history: [],
     status: 'idle',
     statusTab: true,
   },
@@ -53,16 +54,15 @@ const orderSlice = createSlice({
         state.items = action.payload.items
         state.statusTab = true;
       })
+      .addCase(getOrders.fulfilled, (state, action) => {
+        state.history = action.payload
+
+
+      })
 
   }
 });
 
-// Selectors
-export const selectAllCart = (state) => state.cart.items;
-// Selector to find totalQuantity
-export const selectTotalQuantity = (state) => {
-  return state.cart.items.reduce((total, item) => total + item.quantity, 0);
-};
 
 
 // Exporting actions and reducer

@@ -19,12 +19,13 @@ import ProductOfCategory from "./pages/productOfCategory";
 import Wishlist from "./pages/Wishlist";
 import Dashboard from "./pages/Dashboard";
 import { fetchWishlistItems } from "./redux/reducers/wishListSlice";
+import OrderHistory from "./pages/OrderHistory";
 
 function App() {
   const dispatch = useDispatch();
   const quantity = useSelector(selectTotalQuantity);
   const { userId } = useSelector((state) => state.auth);
-  
+
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCategories());
@@ -35,7 +36,7 @@ function App() {
       dispatch(fetchWishlistItems(userId));
     }
   }, [dispatch, userId]);
-  
+
   useEffect(() => {
     if (userId) dispatch(fetchCart(userId));
   }, [dispatch, userId, quantity]);
@@ -55,6 +56,7 @@ function App() {
         <Route path="/:id" element={<ProductDetails />} />
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/orderhistory" element={<OrderHistory />} />
       </Routes>
     </BrowserRouter>
   );

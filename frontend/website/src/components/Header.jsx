@@ -37,7 +37,7 @@ const Header = () => {
 
   // handle wishList icon
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  
+
   const handleWishlistClick = () => {
     navigate("/Wishlist");
   };
@@ -49,6 +49,8 @@ const Header = () => {
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
+
+  const [wishlist, setWishlist] = useState(0);
 
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
@@ -117,7 +119,7 @@ const Header = () => {
                   <div className="flex items-center gap-4">
                     <Link
                       className="flex cursor-pointer justify-center items-center gap-2 text-slate-600 hover:text-[#BC9B80]"
-                      to="/dashboard"
+                      to="/orderhistory"
                     >
                       <FaUser />
                       <span>Welcome, {userName} </span>
@@ -357,7 +359,7 @@ const Header = () => {
             {isAuthenticated ? (
               <Link
                 className="flex cursor-pointer justify-center items-center gap-2"
-                to="/dashboard"
+                to="/orderhistory"
               >
                 <span>
                   <FaUser />
