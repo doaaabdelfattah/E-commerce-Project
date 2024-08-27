@@ -6,7 +6,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../redux/reducers/categoriesSlice";
-import { fetchProducts, fetchProductsByCategory, fetchBySliderPrice, fetchProductsByRating } from "../redux/reducers/productsSlice";
+import { fetchProducts, fetchProductsByCategory, fetchBySliderPrice } from "../redux/reducers/productsSlice";
 import {
   sortProductsByPriceAsc,
   sortProductsByPriceDesc,
@@ -22,7 +22,7 @@ import CartTab from "../components/CartTab";
 
 const Shop = () => {
   const [filter, setFilter] = useState(true);
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState(0);
   const [styleView, setStyleView] = useState("grid");
   const dispatch = useDispatch();
   const [isSorted, setIsSorted] = useState(false);
@@ -31,25 +31,15 @@ const Shop = () => {
 
   const { categories } = useSelector((state) => state.categories);
   const [productLength, setProductLength] = useState(0);
-  const { products } = useSelector((state) => state.products.products);
-
-  useEffect(() => {
-    if (rating !== null) {
-      dispatch(fetchProductsByRating(rating));
-    }
-  }, [dispatch, products]);
-
-const handleRatingClick = (rating) => {
-    dispatch(fetchProductsByRating(rating));
-    setRating(rating);
-  }
-
-
+  const { products } = useSelector((state) => state.products);
   useEffect(() => {
     setProductLength(products.length);
   }, [products]);
 
-  
+  useEffect(() => {
+    dispatch(fetchProductsByCategory());
+  }, [dispatch]);
+
   useEffect(() => {
     dispatch(fetchSortedProducts());
   }, [dispatch]);
@@ -59,20 +49,10 @@ const handleRatingClick = (rating) => {
   }, [priceValues, dispatch]);
 
   const handleCategoryClick = (category) => {
-    console.log('Category clicked:', category);
-    console.log('Category ID:', category.id);
-  
-    dispatch(fetchProductsByCategory({ categoryId: category.id, page: 1, limit: 5 }))
-      .then((response) => {
-        console.log('Fetch products response:', response);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
-  
+    dispatch(fetchProductsByCategory(category));
     setSelectedCategory(category);
-    console.log('Selected category set:', category);
   };
+
   const handleSortChange = (e) => {
     const selectedValue = e.target.value;
     if (selectedValue === "ascending") {
@@ -166,7 +146,6 @@ const handleRatingClick = (rating) => {
                       max={5}
                       color="#BC9B80"
                       size="35"
-                      onClick={handleRatingClick}
                       onSetRating={(rating) => setRating(rating)}
                     />
                   </div>
@@ -199,19 +178,12 @@ const handleRatingClick = (rating) => {
                 </div>
 
                 <div>
-                <Pagination
-                    pageNumber={1}
-                    setPageNumber={20}
-                    totalItem={4}
-                    perPage={5}
-                    btnShowItem={5}
-                  />
+                 
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
       </section>
       <Footer />
     </div>

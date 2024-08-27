@@ -5,8 +5,6 @@ import Category from "../components/Category";
 import FeaturedProducts from "../components/product/FeaturedProducts";
 import Products from "../components/product/Products";
 import Footer from "../components/Footer";
-import Pagination from "../components/Pagination";
-
 const Home = () => {
   return (
     <div>
@@ -32,7 +30,6 @@ const Home = () => {
         </div>
       </div>
       <Footer />
-      <Pagination />
     </div>
   );
 };
