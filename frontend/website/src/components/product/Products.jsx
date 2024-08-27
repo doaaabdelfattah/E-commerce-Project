@@ -9,7 +9,8 @@ import Rating from "../Rating";
 
 function Products({ title }) {
   const dispatch = useDispatch();
-  const { products, discountedProducts, topRatedProducts, latestProducts } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.products);
+  const {  discountedProducts, topRatedProducts, latestProducts } = useSelector((state) => state.products);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {

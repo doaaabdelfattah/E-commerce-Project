@@ -8,6 +8,7 @@ const initialState = {
   discountedProducts: [],
   topRatedProducts: [],
   latestProducts: [],
+  
   searchQuery: '',
   status: 'idle',
 };
@@ -44,6 +45,26 @@ export const fetchByRating = createAsyncThunk('products/fetchByRating',
     }
   }
 );
+
+
+export const fetchProductsByRating = createAsyncThunk(
+  'products/rating/:minRating',
+  async (minRating, { dispatch, rejectWithValue }) => {
+    try {
+      if (!minRating) {
+        return await dispatch(fetchProducts()).unwrap();
+      } else {
+        const response = await api2.get(`products/rating/${minRating}`);
+        return response.data;
+      }
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+
 // Fetch products by slider price
 export const fetchBySliderPrice = createAsyncThunk(
   'products/fetchBySliderPrice',
@@ -118,6 +139,9 @@ const productsSlice = createSlice({
       })
       .addCase(fetchBySliderPrice.fulfilled, (state, action) => {
         state.products = action.payload; // Store filtered products in the same products array
+      })
+      .addCase(fetchProductsByRating.fulfilled, (state, action) => {
+        state.products = action.payload; 
       });
   },
 });

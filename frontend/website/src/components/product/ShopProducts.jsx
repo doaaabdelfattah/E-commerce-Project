@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
 
+
 const ShopProducts = ({ isSorted }) => {
   const { products } = useSelector((state) => state.products);
   console.log("products:", products);
