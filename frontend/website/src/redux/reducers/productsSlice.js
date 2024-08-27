@@ -2,53 +2,49 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api2 } from "../../api/api";
 import { setProducts } from './sortedProductSlice';
 
-
 const initialState = {
   products: [],
   discountedProducts: [],
   topRatedProducts: [],
   latestProducts: [],
-  
+  page: 1,
+  totalPages: 1,
+  totalProducts: 0,
   searchQuery: '',
   status: 'idle',
 };
 
 // Fetch all products
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await api2.get('products');
+  const response = await api2.post('products/pagination', { limit: 5 });
   return response.data;
 });
 
-// Fetch products by category
-export const fetchProductsByCategory = createAsyncThunk('products/fetchProductsByCategory', async (category, { dispatch }) => {
-  if (!category) {
-    return dispatch(fetchProducts()).unwrap();
-  } else {
-    const response = await api2.get(`products/category/${category}`);
-    dispatch(setProducts(response.data)); 
+export const fetchProductsByCategory = createAsyncThunk(
+  'products/fetchProductsByCategory',
+  async ({ categoryId, page = 1, limit = 5 }, ) => {
+    const response = await api2.post(`products/category/${categoryId}/pagination`, { page, limit });
     return response.data;
   }
-});
-
+);
 // Fetch products by rating 
 export const fetchByRating = createAsyncThunk('products/fetchByRating', 
   async(_, { rejectWithValue }) => {
     try {
       const response = await api2.get('products');
-      const TopRatedProducts = response.data
+      const topRatedProducts = response.data
         .filter(product => product.rating)
         .sort((a, b) => b.rating - a.rating); // Sort by rating in descending order
-      return TopRatedProducts;
+      return topRatedProducts;
     } catch(error) {
-      console.log(error);
+      console.error('Error fetching products by rating:', error);
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-
 export const fetchProductsByRating = createAsyncThunk(
-  'products/rating/:minRating',
+  'products/fetchProductsByRating',
   async (minRating, { dispatch, rejectWithValue }) => {
     try {
       if (!minRating) {
@@ -58,19 +54,18 @@ export const fetchProductsByRating = createAsyncThunk(
         return response.data;
       }
     } catch (error) {
+      console.error('Error fetching products by rating:', error);
       return rejectWithValue(error.response.data);
     }
   }
 );
-
-
 
 // Fetch products by slider price
 export const fetchBySliderPrice = createAsyncThunk(
   'products/fetchBySliderPrice',
   async ({ minPrice, maxPrice }, { dispatch, rejectWithValue }) => {
     try {
-      const response = await api2.get('products');
+      const response = await api2.post('products/pagination');
       
       // Filter products based on the price range
       const productsOfSlider = response.data.filter(
@@ -119,14 +114,21 @@ export const fetchDiscountedProducts = createAsyncThunk(
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.products = action.payload;
       })
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.products = action.payload.products;
+        state.page = action.payload.page;
+        state.totalPages = action.payload.totalPages;
+        state.totalProducts = action.payload.totalProducts;
       })
       .addCase(fetchDiscountedProducts.fulfilled, (state, action) => {
         state.discountedProducts = action.payload;
@@ -145,5 +147,5 @@ const productsSlice = createSlice({
       });
   },
 });
-
+export const { setPage } = productsSlice.actions;
 export default productsSlice.reducer;
