@@ -41,7 +41,6 @@ const orderSlice = createSlice({
   },
   reducers: {
 
-
   },
   // Handle Api thunks requests
   extraReducers: (builder) => {
