@@ -34,9 +34,7 @@ const ProductCard = ({ product }) => {
     }
   };
 
-  const handleShowProduct = (product) => {
-    navigate(`/${product.id}`);
-  };
+ 
 
   const handleClickAddToCart = (e, product) => {
     e.stopPropagation();

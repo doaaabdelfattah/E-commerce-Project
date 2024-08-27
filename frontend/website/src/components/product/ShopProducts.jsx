@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
 
 const ShopProducts = ({ isSorted }) => {
-  const { products } = useSelector((state) => state.products.products);
+  const { products } = useSelector((state) => state.products);
   console.log("products:", products);
 
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);
@@ -13,12 +13,11 @@ const ShopProducts = ({ isSorted }) => {
 
   return (
     <div className="w-full flex justify-center flex-wrap gap-5">
-      {products && productsToDisplay.map((product, index) => (
+      {productsToDisplay.map((product, index) => (
         <ProductCard product={product} key={product.id} />
       ))}
     </div>
   );
 };
-
 
 export default ShopProducts;

@@ -12,7 +12,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const [productDetails, setProductsDetails] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const { products } = useSelector((state) => state.products.products);
+  const { products } = useSelector((state) => state.products);
   const { userId } = useSelector((state) => state.auth);
 
   const { id } = useParams();
@@ -78,7 +78,7 @@ const ProductDetails = () => {
                     <Rating rating={productDetails.rating} size={30} />
                   </div>
                   <p className="text-md font-semibold">
-                    {productDetails.rating.rate}
+                    {productDetails.rating}
                   </p>
                 </div>
               </div>
