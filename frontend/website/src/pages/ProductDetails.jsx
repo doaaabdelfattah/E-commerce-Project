@@ -12,7 +12,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const [productDetails, setProductsDetails] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const { products } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.products.products);
   const { userId } = useSelector((state) => state.auth);
 
   const { id } = useParams();

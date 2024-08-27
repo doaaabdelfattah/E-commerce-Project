@@ -1,39 +1,23 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import {
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
-} from "react-icons/md";
+import { MdOutlineKeyboardDoubleArrowLeft, MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 
-const Pagination = ({
-  pageNumber,
-  setPageNumber,
-  totalItem,
-  perPage,
-  btnShowItem,
-}) => {
-  // ========= Calculations for Pagination
-  // 1) Calculates the total number of pages
-  let totalPages = Math.ceil(totalItem / perPage);
-  //  Initially set to the current page number.
-  let startPage = pageNumber;
-  let dif = totalPages - pageNumber;
+const Pagination = ({ pageNumber, setPageNumber, totalItem, perPage, btnShowItem }) => {
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(totalItem / perPage);
 
-  // ========== Adjusting startPage and endPage
+  // Determine the start and end page numbers for the pagination buttons
+  let startPage = Math.max(1, pageNumber - Math.floor(btnShowItem / 2));
+  let endPage = Math.min(totalPages, startPage + btnShowItem - 1);
 
-  if (dif <= btnShowItem) {
-    startPage = totalPages - btnShowItem;
+  // Adjust startPage if endPage is less than btnShowItem
+  if (endPage - startPage + 1 < btnShowItem) {
+    startPage = Math.max(1, endPage - btnShowItem + 1);
   }
-  if (startPage <= 0) {
-    startPage = 1;
-  }
-  let endPage = startPage < 0 ? btnShowItem : btnShowItem + startPage;
 
-  // ========= Creating Pagination Buttons
+  // Create pagination buttons
   const createBtn = () => {
     const btns = [];
-    for (let i = startPage; i < endPage; i++) {
+    for (let i = startPage; i <= endPage; i++) {
       btns.push(
         <li
           onClick={() => setPageNumber(i)}
@@ -50,6 +34,7 @@ const Pagination = ({
     }
     return btns;
   };
+
   return (
     <ul className="flex gap-3">
       {pageNumber > 1 && (
@@ -72,10 +57,11 @@ const Pagination = ({
     </ul>
   );
 };
+
 export default Pagination;
 
-//pageNumber: The current page number.
+// pageNumber: The current page number.
 // setPageNumber: A function to update the current page number.
 // totalItem: The total number of items.
 // perPage: The number of items per page.
-// showItem: The number of pagination buttons to display.
+// btnShowItem: The number of pagination buttons to display.

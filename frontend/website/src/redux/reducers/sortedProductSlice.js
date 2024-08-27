@@ -9,7 +9,7 @@ const initialState = {
 
 export const fetchSortedProducts = createAsyncThunk('sortedProducts/fetchSortedProducts', async () => {
   try {
-    const response = await api2.get('products');
+    const response = await api2.post('products/pagination');
     // console.log('API response:', response.data); // Log API response
     return response.data;
   } catch (error) {

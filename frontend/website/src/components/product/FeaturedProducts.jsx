@@ -1,29 +1,19 @@
-import { FaEye, FaRegHeart } from "react-icons/fa";
-import { RiShoppingCartLine } from "react-icons/ri";
-import Rating from "../Rating";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductsByCategory } from "../../redux/reducers/productsSlice";
-import { addToCart } from "../../redux/reducers/cartSlice";
+import { fetchProductsByCategory, setPage } from "../../redux/reducers/productsSlice";
 import ProductCard from "./ProductCard";
+import Pagination from "../Pagination";
 
-const FeaturedProducts = ({ categoryId, id='featured' } ) => {
+const FeaturedProducts = ({ categoryId, id='featured' }) => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.products);
+  const { products, page, totalPages } = useSelector((state) => state.products.products);
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory(categoryId));
-  }, [dispatch, categoryId]);
+    dispatch(fetchProductsByCategory({ categoryId, page }));
+  }, [dispatch, categoryId, page]);
 
-  const handleClickAddToCart = (e, product) => {
-    e.stopPropagation();
-    dispatch(
-      addToCart({
-        productId: product.id,
-        quantity: 1,
-      })
-    );
+  const handlePageChange = (newPage) => {
+    dispatch(setPage(newPage));
   };
 
   return (
@@ -35,12 +25,15 @@ const FeaturedProducts = ({ categoryId, id='featured' } ) => {
         </div>
       </div>
 
-      <div className="w-full flex justify-center flex-wrap  gap-5">
-        {products.slice(0, 5).map((product) => (
-          <ProductCard product={product} />
+      <div className="w-full flex justify-center flex-wrap gap-5">
+        {products && products.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
+
+      <Pagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
     </div>
   );
 };
+
 export default FeaturedProducts;
