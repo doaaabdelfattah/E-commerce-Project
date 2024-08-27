@@ -6,7 +6,12 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Range } from "react-range";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../redux/reducers/categoriesSlice";
-import { fetchProducts, fetchProductsByCategory, fetchBySliderPrice, fetchProductsByRating } from "../redux/reducers/productsSlice";
+import {
+  fetchProducts,
+  fetchProductsByCategory,
+  fetchBySliderPrice,
+  fetchProductsByRating,
+} from "../redux/reducers/productsSlice";
 import {
   sortProductsByPriceAsc,
   sortProductsByPriceDesc,
@@ -19,7 +24,10 @@ import ShopProducts from "../components/product/ShopProducts";
 import Pagination from "../components/Pagination";
 import Products from "../components/product/Products";
 import CartTab from "../components/CartTab";
-import { fetchPaginatedProduct, setPage } from "../redux/reducers/paginatioSlice";
+import {
+  fetchPaginatedProduct,
+  setPage,
+} from "../redux/reducers/paginatioSlice";
 const Shop = () => {
   const [filter, setFilter] = useState(true);
   const [rating, setRating] = useState(null);
@@ -39,15 +47,17 @@ const Shop = () => {
     }
   }, [dispatch, rating]);
 
-const handleRatingClick = (rating) => {
+  const handleRatingClick = (rating) => {
     dispatch(fetchProductsByRating(rating));
     console.log(setRating(rating));
-  }
+  };
 
   //using pagination
-  const {products} = useSelector((state) => state.paginatedProducts);
-  const {page, totalPages, totalProducts } = useSelector((state) => state.paginatedProducts);
-  
+  const { products } = useSelector((state) => state.products);
+  const { page, totalPages, totalProducts } = useSelector(
+    (state) => state.paginatedProducts
+  );
+
   useEffect(() => {
     dispatch(fetchPaginatedProduct({ page, limit: 5 }));
   }, [dispatch, page]);
@@ -56,15 +66,12 @@ const handleRatingClick = (rating) => {
     dispatch(setPage(newPage));
   };
 
-
   useEffect(() => {
     setProductLength(products.length);
   }, [products]);
 
   useEffect(() => {
-
     dispatch(fetchProductsByCategory());
-    
   }, [dispatch]);
 
   useEffect(() => {
@@ -72,15 +79,15 @@ const handleRatingClick = (rating) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchBySliderPrice({ minPrice: priceValues[0], maxPrice: priceValues[1] }));
+    dispatch(
+      fetchBySliderPrice({ minPrice: priceValues[0], maxPrice: priceValues[1] })
+    );
   }, [priceValues, dispatch]);
 
   const handleCategoryClick = (category) => {
-
     dispatch(fetchProductsByCategory(category));
-    
+
     setSelectedCategory(category);
-    
   };
 
   const handleSortChange = (e) => {
@@ -101,7 +108,9 @@ const handleRatingClick = (rating) => {
       <Header />
       <section
         className="h-[400px] md-lg:h-[300px] bg-cover mt-5 bg-no-repeat bg-center relative w-full"
-        style={{ backgroundImage: "url(http://localhost:3000/images/banner/3.jpg)" }}
+        style={{
+          backgroundImage: "url(http://localhost:3000/images/banner/3.jpg)",
+        }}
       >
         <div className="custom-black-overlay">
           <div className="h-full mx-auto w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%]">
@@ -109,7 +118,9 @@ const handleRatingClick = (rating) => {
               <h2 className="font-semibold text-3xl">Shop</h2>
               <div className="flex justify-center items-center gap-4 text-xl w-full">
                 <Link to="/"> Home</Link>
-                <span><MdKeyboardArrowRight /></span>
+                <span>
+                  <MdKeyboardArrowRight />
+                </span>
                 <span>Shop</span>
               </div>
             </div>
@@ -129,11 +140,22 @@ const handleRatingClick = (rating) => {
           </div> */}
 
           <div className="w-full flex flex-wrap">
-            <div className={`w-3/12 md-lg:w-4/12 md:w-full pr-8 ${filter ? "md:h-0 md:overflow-hidden md:mb-6" : "md:h-auto md:overflow-auto md:mb-0"}`}>
-              <h2 className="text-3xl text-slate-600 mb-3 font-semibold">Category</h2>
+            <div
+              className={`w-3/12 md-lg:w-4/12 md:w-full pr-8 ${
+                filter
+                  ? "md:h-0 md:overflow-hidden md:mb-6"
+                  : "md:h-auto md:overflow-auto md:mb-0"
+              }`}
+            >
+              <h2 className="text-3xl text-slate-600 mb-3 font-semibold">
+                Category
+              </h2>
               <div className="py-2 mb-5">
                 {categories.map((category) => (
-                  <div className="flex justify-start items-center gap-2 py-1 px-4" key={category.id}>
+                  <div
+                    className="flex justify-start items-center gap-2 py-1 px-4"
+                    key={category.id}
+                  >
                     <input
                       type="radio"
                       id={category.id}
@@ -141,13 +163,17 @@ const handleRatingClick = (rating) => {
                       checked={selectedCategory === category.id}
                       onChange={() => handleCategoryClick(category.id)}
                     />
-                    <label className="text-slate-500" htmlFor={category.id}>{category.name}</label>
+                    <label className="text-slate-500" htmlFor={category.id}>
+                      {category.name}
+                    </label>
                   </div>
                 ))}
               </div>
 
               <div className="border-t-2 py-8 flex flex-col gap-5 mb-5">
-                <h2 className="text-3xl text-slate-600 mb-3 font-semibold">Price</h2>
+                <h2 className="text-3xl text-slate-600 mb-3 font-semibold">
+                  Price
+                </h2>
                 <Range
                   step={10}
                   min={1}
@@ -155,21 +181,33 @@ const handleRatingClick = (rating) => {
                   values={priceValues}
                   onChange={(values) => setPriceValues(values)}
                   renderTrack={({ props, children }) => (
-                    <div {...props} className="w-[80%] h-[5px] bg-slate-200 rounded-full cursor-pointer">
+                    <div
+                      {...props}
+                      className="w-[80%] h-[5px] bg-slate-200 rounded-full cursor-pointer"
+                    >
                       {children}
                     </div>
                   )}
                   renderThumb={({ props }) => (
-                    <div className="w-[20px] h-[20px] rounded-full bg-white border-[#BC9B80] border-2" {...props} />
+                    <div
+                      className="w-[20px] h-[20px] rounded-full bg-white border-[#BC9B80] border-2"
+                      {...props}
+                    />
                   )}
                 />
                 <span className="text-slate-600">
-                  Price Range: <span className="text-[#BC9B80]">${Math.floor(priceValues[0])} - ${Math.floor(priceValues[1])}</span>
+                  Price Range:{" "}
+                  <span className="text-[#BC9B80]">
+                    ${Math.floor(priceValues[0])} - $
+                    {Math.floor(priceValues[1])}
+                  </span>
                 </span>
               </div>
 
               <div className="flex flex-col gap-4 py-5 border-t-2">
-                <h2 className="text-3xl text-slate-600 mb-1 font-semibold">Rating</h2>
+                <h2 className="text-3xl text-slate-600 mb-1 font-semibold">
+                  Rating
+                </h2>
                 <div className="flex flex-col gap-3">
                   <div>
                     <StarRating
@@ -191,7 +229,9 @@ const handleRatingClick = (rating) => {
             <div className="w-9/12 md-lg:w-8/12 md:w-full">
               <div className="pl-8 md:pl-0">
                 <div className="py-4 bg-white mb-10 px-5 rounded-sm flex justify-between border items-start">
-                  <h2 className="text-slate-600 font-medium">products: {productLength}</h2>
+                  <h2 className="text-slate-600 font-medium">
+                    products: {productLength}
+                  </h2>
                   <div className="flex justify-center items-center gap-3">
                     <select
                       onChange={handleSortChange}
@@ -209,19 +249,18 @@ const handleRatingClick = (rating) => {
                 </div>
 
                 <div>
-                <Pagination
+                  <Pagination
                     pageNumber={page}
                     setPageNumber={handlePageChange}
                     totalItem={totalProducts}
                     perPage={5}
-                    btnShowItem={5}                    
+                    btnShowItem={5}
                   />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
       </section>
       <Footer />
     </div>

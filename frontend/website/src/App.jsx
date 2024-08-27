@@ -11,6 +11,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "./redux/reducers/productsSlice";
 import { fetchCategories } from "./redux/reducers/categoriesSlice";
+import { getOrders } from "./redux/reducers/orderSlice";
 
 import { fetchCart, selectTotalQuantity } from "./redux/reducers/cartSlice";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -34,6 +35,7 @@ function App() {
   useEffect(() => {
     if (userId) {
       dispatch(fetchWishlistItems(userId));
+      dispatch(getOrders({ userId }));
     }
   }, [dispatch, userId]);
 

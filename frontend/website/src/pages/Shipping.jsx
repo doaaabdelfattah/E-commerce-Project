@@ -48,7 +48,7 @@ const Shipping = () => {
     ).then(() => {
       // After the order is successfully placed, set the orderPlaced state to true
       setOrderPlaced(true);
-      // dispatch(clearCart({ userId }));
+      dispatch(clearCart({ userId }));
     });
   };
 

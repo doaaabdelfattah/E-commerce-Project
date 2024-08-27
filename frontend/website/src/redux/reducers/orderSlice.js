@@ -21,7 +21,7 @@ export const placeOrder = createAsyncThunk(
 // ========== GET ALL ORDERS
 export const getOrders = createAsyncThunk('orders/getOrders', async (userId, { rejectWithValue }) => {
   try {
-    const response = await api2.post('/orders/getByuser/', { userId: String(userId) });
+    const response = await api2.post('/orders/getByuser/', userId);
     console.log('Api Response fetch ORDER:', response.data)
     return response.data;
   } catch (error) {
@@ -55,7 +55,14 @@ const orderSlice = createSlice({
         state.statusTab = true;
       })
       .addCase(getOrders.fulfilled, (state, action) => {
+        console.log('getOrders fulfilled payload:', action.payload);
         state.history = action.payload
+        console.log('getOrders history', state.history);
+
+      })
+      .addCase(getOrders.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
 
 
       })

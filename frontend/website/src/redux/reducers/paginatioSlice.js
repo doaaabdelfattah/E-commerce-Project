@@ -6,9 +6,11 @@ export const fetchPaginatedProduct = createAsyncThunk(
   'products/fetchPaginatedProduct',
   async ({ page, limit }) => {
     const response = await api2.post('/products/pagination', { page, limit });
+    console.log('response pagination:', response.data)
     return response.data;
   }
 );
+
 
 const paginatedProductSlice = createSlice({
   name: 'paginatedProducts',
