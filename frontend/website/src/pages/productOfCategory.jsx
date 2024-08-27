@@ -8,6 +8,7 @@ import FeaturedProducts from '../components/product/FeaturedProducts';
 import { FaRegHeart, FaEye } from 'react-icons/fa';
 import { RiShoppingCartLine } from 'react-icons/ri';
 import Rating from '../components/Rating';
+import ProductCard from '../components/product/ProductCard';
 
 function ProductOfCategory() {
   const dispatch = useDispatch();
@@ -29,9 +30,9 @@ function ProductOfCategory() {
         
         <div>
           {products.length > 0 ? (
-            <div className="flex flex-wrap mx-auto">
+            <div className="flex flex-wrap mb-5">
               <div className="w-full">
-                <div className="text-center flex justify-center items-center flex-col text-3xl mt-4 text-slate-600 font-semibold relative pb-[45px]">
+                <div className="text-center flex justify-center items-center flex-col text-3xl mt-4  text-slate-600 font-semibold relative pb-[45px]">
                 
                   
                 </div>
@@ -42,7 +43,7 @@ function ProductOfCategory() {
                     key={id}
                     className="border group w-[300px] transition-all duration-500 hover:shadow-md hover:-mt-3 cursor-pointer"
                   >
-                    <div className="relative p-[25px] overflow-hidden">
+                    {/* <div className="relative p-[25px] overflow-hidden">
                       <img
                         className="sm:w-full w-full h-[240px]"
                         src={product.image}
@@ -59,18 +60,19 @@ function ProductOfCategory() {
                           <RiShoppingCartLine />
                         </li>
                       </ul>
-                    </div>
-                    <div className="py-3 text-slate-600 p-4 mt-2">
+                    </div> */}
+                    <ProductCard product={product} key={product.id} />
+                    {/* <div className="py-3 text-slate-600 p-4 mt-2">
                       <h2 className="font-semibold text-slate-600 text-lg ">
                         {product.title}
                       </h2>
                       <div className="flex justify-start flex-col items-start gap-3">
                         <span className="text-lg mt-3">{product.price}$</span>
                         <div className="flex">
-                          <Rating rating={product.rating.rate} />
+                          <Rating rating={product.rating} />
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
