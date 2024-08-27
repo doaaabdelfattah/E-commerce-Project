@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 
 
 const ShopProducts = ({ isSorted }) => {
-  const { products } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.paginatedProducts);
   console.log("products:", products);
 
   const { sortedProductsArray } = useSelector((state) => state.sortedProducts);

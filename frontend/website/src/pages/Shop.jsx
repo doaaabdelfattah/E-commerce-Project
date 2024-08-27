@@ -45,7 +45,7 @@ const handleRatingClick = (rating) => {
   }
 
   //using pagination
-  const {products} = useSelector((state) => state.paginatedProducts);
+  const {products} = useSelector((state) => state.products);
   const {page, totalPages, totalProducts } = useSelector((state) => state.paginatedProducts);
   
   useEffect(() => {
