@@ -47,10 +47,15 @@ The backend of this e-commerce project offers comprehensive API functionalities 
 
 6. **Products Management**
    - **Create Product**: Add new products to the catalog.
+   - **Get All Products**: Fetch all products.
+   - **Get All Products with pagination**: Fetch all products with pagination.
    - **Update Product**: Modify existing product details, including price, description, and category.
    - **Search To Retrieve Products**: Get a list of all products, search by title or description, filter by rating, or fetch paginated results.
+   - **Search To Retrieve Products Pagination**: Get a list of all products with pagination.
    - **Get Products by Category**: Retrieve products that belong to a specific category.
+   - **Get Products by Category with pagination**: Retrieve products that belong to a specific category with pagination.
    - **Get Discounted Products**: Fetch products that have active discounts.
+   - **Get Discounted Products with pagination**: Fetch products that have active discounts with pagination.
    - **Delete Product**: Remove a product from the catalog.  
 
 7. **Wishlist Management**
