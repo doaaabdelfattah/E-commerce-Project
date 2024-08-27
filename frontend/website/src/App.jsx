@@ -21,6 +21,7 @@ import Wishlist from "./pages/Wishlist";
 import Dashboard from "./pages/Dashboard";
 import { fetchWishlistItems } from "./redux/reducers/wishListSlice";
 import OrderHistory from "./pages/OrderHistory";
+import ContactUs from "./components/ContactUs";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ function App() {
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/orderhistory" element={<OrderHistory />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
     </BrowserRouter>
   );

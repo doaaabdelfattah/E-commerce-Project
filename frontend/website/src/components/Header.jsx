@@ -212,12 +212,12 @@ const Header = () => {
                   <li>
                     <Link
                       className={`p-2 block ${
-                        pathname === "/blog"
+                        pathname === "/contact"
                           ? "text-[#BC9B80]"
                           : "text-slate-600"
                       } hover:text-[#BC9B80]`}
                     >
-                      Blog
+                      Contact Us
                     </Link>
                   </li>
                   <li>
@@ -312,10 +312,10 @@ const Header = () => {
             <li>
               <Link
                 className={`py-2 block ${
-                  pathname === "/blog" ? "text-[#BC9B80]" : "text-slate-600"
+                  pathname === "/contact" ? "text-[#BC9B80]" : "text-slate-600"
                 } hover:text-[#BC9B80]`}
               >
-                Blog
+                Contact Us
               </Link>
             </li>
 
