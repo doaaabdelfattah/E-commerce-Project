@@ -74,7 +74,6 @@ const Header = () => {
   const totalQuantity = useSelector(selectTotalQuantity);
   const cart = useSelector((state) => state.cart.items);
   const totalItems = cart.length;
-  console.log("total: ", totalItems);
 
   return (
     <div className="w-full bg-white">

@@ -10,7 +10,7 @@ const OrderHistory = () => {
   const { userId } = useSelector((state) => state.auth);
   const orderHistory = useSelector((state) => state.order.history);
 
-  console.log("order History", orderHistory);
+  // console.log("order History", orderHistory);
 
   useEffect(() => {
     dispatch(getOrders({ userId }));
