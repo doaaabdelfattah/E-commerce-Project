@@ -18,6 +18,7 @@ The backend of this e-commerce project offers comprehensive API functionalities 
 
 2. **Orders Management**
    - **Create Order**: Create new orders with detailed order items and customer information.
+   - **Sending Confirmation Email**: Sending confirmation email after creation.
    - **Update Order Status**: Update the status of existing orders (Pending, Shipped, Delivered, Cancelled).
    - **Retrieve Orders by User**: Get all orders associated with a specific user.
    - **Retrieve All Orders**: Fetch all orders in the system.
@@ -63,6 +64,10 @@ The backend of this e-commerce project offers comprehensive API functionalities 
    - **Update Review**: Modify existing reviews.
    - **Retrieve Reviews**: Fetch reviews for specific products.
    - **Delete Review**: Remove a review.
+
+9. **Contact Us**
+   - **Sending Email**: Allow user to conatct the company.
+   
 
 ### Frontend
 
