@@ -49,8 +49,12 @@ const CartItem = ({ productId, quantity, discountedPrice }) => {
         <h3 className="font-semibold">{productId.title}</h3>
         {productId.discount ? (
           <span className="">
-            <span className="line-through mr-2">{productId.price}$</span>
-            <span className="text-green-600">{discountedPrice}$</span>
+            <span className="line-through mr-2">
+              {productId.price.toFixed(2)}$
+            </span>
+            <span className="text-green-600">
+              {discountedPrice.toFixed(2)}$
+            </span>
           </span>
         ) : (
           <p>{productId.price} $</p>

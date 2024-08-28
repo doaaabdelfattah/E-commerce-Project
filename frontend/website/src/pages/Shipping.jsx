@@ -29,6 +29,10 @@ const Shipping = () => {
     // totalPrice:},
     // userId: ,
   });
+  const [errors, setErrors] = useState({
+    form: "",
+    cart: "",
+  });
 
   const order = {
     ...info,
@@ -36,17 +40,47 @@ const Shipping = () => {
     userId,
   };
   console.log("order action:", order);
+  const [finalCart, setFinalCart] = useState([]);
 
   const handleSubmitOrder = (e) => {
     e.preventDefault();
-    dispatch(
-      placeOrder({
-        ...info,
-        orderItems: cart,
-        userId,
-      })
-    ).then(() => {
-      // After the order is successfully placed, set the orderPlaced state to true
+
+    if (cart.length === 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        cart: "Your cart is empty. Add items to your cart before placing an order.",
+      }));
+      return;
+    }
+
+    if (
+      !info.name ||
+      !info.shippingAddress1 ||
+      !info.phone ||
+      !info.email ||
+      !info.city ||
+      !info.country
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        form: "Please fill out all required fields.",
+      }));
+      return;
+    }
+
+    setErrors({
+      form: "",
+      cart: "",
+    });
+    const orderData = {
+      ...info,
+      orderItems: cart,
+      userId,
+    };
+
+    setFinalCart(cart); // Store a copy of cart
+
+    dispatch(placeOrder(orderData)).then(() => {
       setOrderPlaced(true);
       dispatch(clearCart({ userId }));
     });
@@ -63,23 +97,20 @@ const Shipping = () => {
     e.preventDefault();
     const {
       name,
+      shippingAddress1,
       shippingAddress2,
       phone,
       email,
-      shippingAddress1,
       city,
       country,
     } = info;
-    if (
-      name &&
-      shippingAddress2 &&
-      phone &&
-      email &&
-      shippingAddress1 &&
-      city &&
-      country
-    ) {
-      setRes(true);
+
+    if (!name || !shippingAddress1 || !phone || !email || !city || !country) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        form: "Please fill out all required fields.",
+      }));
+      return;
     }
   };
 
@@ -118,6 +149,9 @@ const Shipping = () => {
                       {!res && (
                         <>
                           <form onSubmit={save}>
+                            {errors.form && (
+                              <p className="text-red-500">{errors.form}</p>
+                            )}
                             <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
                               <div className="flex flex-col gap-1 m-2 w-full">
                                 <label htmlFor="name"> Name </label>
@@ -341,7 +375,7 @@ const Shipping = () => {
             <div className="mt-8 p-6 bg-white inline-block text-left">
               <h2 className="text-3xl font-semibold mb-4 ">Order Items:</h2>
               <ul>
-                {cart.map((item, index) => (
+                {finalCart.map((item, index) => (
                   <li key={index} className="mb-2">
                     {item.productId.title} - Quantity: {item.quantity}
                   </li>
