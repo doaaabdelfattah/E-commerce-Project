@@ -1,4 +1,3 @@
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api2 } from "../../api/api";
 import { setProducts } from './sortedProductSlice';
@@ -9,6 +8,7 @@ const initialState = {
   discountedProducts: [],
   topRatedProducts: [],
   latestProducts: [],
+
   searchQuery: '',
   status: 'idle',
 };
@@ -25,33 +25,53 @@ export const fetchProductsByCategory = createAsyncThunk('products/fetchProductsB
     return dispatch(fetchProducts()).unwrap();
   } else {
     const response = await api2.get(`products/category/${category}`);
-    dispatch(setProducts(response.data)); 
+    dispatch(setProducts(response.data));
     return response.data;
   }
 });
 
 // Fetch products by rating 
-export const fetchByRating = createAsyncThunk('products/fetchByRating', 
-  async(_, { rejectWithValue }) => {
+export const fetchByRating = createAsyncThunk('products/fetchByRating',
+  async (_, { rejectWithValue }) => {
     try {
       const response = await api2.get('products');
       const TopRatedProducts = response.data
         .filter(product => product.rating)
         .sort((a, b) => b.rating - a.rating); // Sort by rating in descending order
       return TopRatedProducts;
-    } catch(error) {
+    } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.data);
     }
   }
 );
+
+
+export const fetchProductsByRating = createAsyncThunk(
+  'products/rating/:minRating',
+  async (minRating, { dispatch, rejectWithValue }) => {
+    try {
+      if (!minRating) {
+        return await dispatch(fetchProducts()).unwrap();
+      } else {
+        const response = await api2.get(`products/rating/${minRating}`);
+        return response.data;
+      }
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+
 // Fetch products by slider price
 export const fetchBySliderPrice = createAsyncThunk(
   'products/fetchBySliderPrice',
   async ({ minPrice, maxPrice }, { dispatch, rejectWithValue }) => {
     try {
       const response = await api2.get('products');
-      
+
       // Filter products based on the price range
       const productsOfSlider = response.data.filter(
         (product) => product.price >= minPrice && product.price <= maxPrice
@@ -67,7 +87,7 @@ export const fetchBySliderPrice = createAsyncThunk(
 
 // Fetch latest products
 export const fetchTheLatest = createAsyncThunk('products/fetchTheLatest',
-  async(_, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await api2.get('products');
       const latestProducts = response.data
@@ -119,6 +139,9 @@ const productsSlice = createSlice({
       })
       .addCase(fetchBySliderPrice.fulfilled, (state, action) => {
         state.products = action.payload; // Store filtered products in the same products array
+      })
+      .addCase(fetchProductsByRating.fulfilled, (state, action) => {
+        state.products = action.payload;
       });
   },
 });

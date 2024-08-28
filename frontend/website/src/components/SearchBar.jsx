@@ -69,7 +69,7 @@ function SearchBar() {
           </button>
         </div>
 
-        <div className="mt-4 absolute z-10 bg-white w-full md:w-[650px] md:m-0 sm:w-[410px] sm:mt-4 lg:w-[650px]">
+        <div className="mt-4 absolute z-10 bg-white w-full ">
           {loading && <p>Loading...</p>}
           {error && input ? (
             <p className="text-red-500 flex justify-center items-center">
@@ -77,11 +77,11 @@ function SearchBar() {
             </p>
           ) : (
             results.length > 0 && (
-              <ul className="w-full md:w-[650px] md:m-0 sm:w-[410px] sm:mt-4 lg:w-[650px]">
+              <ul className="w-full ">
                 {results.map((product) => (
                   <li
                     key={product._id}
-                    className="py-1 cursor-pointer hover:scale-105 transition-transform duration-300 hover:bg-gray-100 border-b md:w-[550px] md:m-0 sm:w-[410px] sm:mt-4 lg:w-[650px]"
+                    className="py-1 cursor-pointer hover:scale-105 transition-transform duration-300 hover:bg-gray-100 border-b"
                   >
                     <div className="flex items-center">
                       <img
