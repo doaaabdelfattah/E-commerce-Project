@@ -72,6 +72,7 @@ const Header = () => {
     navigate("/Login");
   };
 
+ 
   // ========================== Cart
 
   const totalQuantity = useSelector(selectTotalQuantity);
@@ -413,6 +414,7 @@ const Header = () => {
               >
                 <ul className="py-2 m-[10px] font-medium">
                   {categories.map((category) => (
+                    
                     <li
                       key={category.id}
                       className="flex justify-start m-[10px] relative hover:translate-x-3 transition-all duration-500 gap-2 items-center py-[6px] px-[24px]"
