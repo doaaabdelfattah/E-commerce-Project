@@ -5,13 +5,14 @@ import Footer from "../components/Footer";
 import Nav from "../components/nav";
 import { logInUser } from "../redux/reducers/authSlice";
 import { FaFacebookF, FaGooglePlusG } from "react-icons/fa";
+import Header from "../components/Header";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("")
+  const [name, setName] = useState("");
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
@@ -20,7 +21,7 @@ const Login = () => {
       .unwrap()
       .then((response) => {
         console.log("Logged in successfully:", response);
-        navigate('/');
+        navigate("/");
       })
       .catch((err) => {
         console.error("Failed to login:", err);
@@ -39,7 +40,7 @@ const Login = () => {
 
   return (
     <>
-      <Nav />
+      <Header />
       <div className="relative bg-no-repeat bg-[url('http://localhost:3000/images/banner/3.jpg')] flex items-center justify-center pl-5 min-h-screen">
         <div className="flex justify-center items-center absolute inset-0 bg-white opacity-50"></div>
         <div className="relative bg-white p-8 border-none max-w-md font-serif w-full">
