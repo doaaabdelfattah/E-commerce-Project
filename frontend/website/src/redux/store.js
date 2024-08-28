@@ -7,6 +7,7 @@ import searchReducer from './reducers/SearchResults'
 import authReducer from "./reducers/authSlice";
 import wishlistReducer from "./reducers/wishListSlice";
 import orderReducer from "./reducers/orderSlice";
+import contactReducer from "./reducers/contactSlice";
 //import paginatedProductsReducer from './reducers/paginatioSlice'
 
 
@@ -20,6 +21,7 @@ export const store = configureStore({
                 search: searchReducer,
                 wishlist: wishlistReducer,
                 order: orderReducer,
+                contact: contactReducer
                 //paginatedProducts: paginatedProductsReducer
 
         }
