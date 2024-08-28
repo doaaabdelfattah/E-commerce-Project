@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductsByCategory } from "../redux/reducers/productsSlice";
-import {
-  getUser,
-  loadUserFromToken,
-  logOutUser,
-} from "../redux/reducers/authSlice";
+
+import { loadUserFromToken, logOutUser } from "../redux/reducers/authSlice";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
@@ -21,43 +17,29 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import SearchBar from "./SearchBar";
-import { selectTotalQuantity } from "../redux/reducers/cartSlice";
-
 
 const Header = () => {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.categories);
   const { userId, userName, isAuthenticated } = useSelector(
     (state) => state.auth
-);
+  );
 
   // handle wishList icon
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const navigate = useNavigate();
   const handleWishlistClick = () => {
-   if (isAuthenticated) {
+    if (isAuthenticated) {
       navigate("/Wishlist");
-    }else{
+    } else {
       navigate("/login");
-      
     }
   };
-
 
   const handleCartClick = () => {
     navigate("/cart");
   };
   const { pathname } = useLocation();
   const [showSideBar, setshowSideBar] = useState(true);
-  const [showCategory, setshowCategory] = useState(true);
-
-
-
-  const handleCategoryClick = (categoryId) => {
-    dispatch(fetchProductsByCategory(categoryId));
-  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -74,8 +56,6 @@ const Header = () => {
 
  
   // ========================== Cart
-
-  const totalQuantity = useSelector(selectTotalQuantity);
   const cart = useSelector((state) => state.cart.items);
   const totalItems = cart.length;
 
@@ -152,7 +132,7 @@ const Header = () => {
       {/*  ============== Main HEADER ======== */}
 
       <div className="w-white mt-6 pt-4">
-        <div className="w-[85%] h-[120px] md-lg:h[120px] lg:w[90%] mx-auto">
+        <div className="w-[85%] h-[120px] md-lg:h[120px] lg:w[90%] mx-auto  border-b">
           <div className=" md-lg:h[100px] flex justify-between items-center flex-wrap">
             {/* ===== Left part ====== */}
             <div className="md-lg:w-full w-3/12 ">
@@ -215,6 +195,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/contact"
                       className={`p-2 block ${
                         pathname === "/contact"
                           ? "text-[#BC9B80]"
@@ -248,9 +229,9 @@ const Header = () => {
                       <span className="text-3xl">
                         <FaRegHeart onClick={handleWishlistClick} />
                       </span>
-                      
+
                       <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                      {userId ? wishlistItems.length : 0}
+                        {userId ? wishlistItems.length : 0}
                       </div>
                     </div>
                     {/* Shopping Cart */}
@@ -316,6 +297,7 @@ const Header = () => {
             </li>
             <li>
               <Link
+                to="/contact"
                 className={`py-2 block ${
                   pathname === "/contact" ? "text-[#BC9B80]" : "text-slate-600"
                 } hover:text-[#BC9B80]`}
@@ -386,6 +368,7 @@ const Header = () => {
       </div>
 
       {/* =============== Second Line Main HEADER ============= */}
+<<<<<<< HEAD
 
       <div className="w-[85%] border-t-[1.5px] lg:w-[90%] mx-auto">
         <div className="flex w-full flex-wrap md-lg:gap-4">
@@ -435,6 +418,7 @@ const Header = () => {
           <SearchBar />
         </div>
       </div>
+
     </div>
   );
 };

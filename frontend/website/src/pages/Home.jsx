@@ -5,10 +5,12 @@ import Category from "../components/Category";
 import FeaturedProducts from "../components/product/FeaturedProducts";
 import Products from "../components/product/Products";
 import Footer from "../components/Footer";
+import HeaderSecond from "../components/HeaderSecond";
 const Home = () => {
   return (
     <div>
       <Header />
+      <HeaderSecond />
       <Banner />
       <Category />
       <div className="py-[50px]">
