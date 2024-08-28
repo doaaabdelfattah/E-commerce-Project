@@ -42,9 +42,9 @@ function SearchBar() {
   };
 
   return (
-    <div className="w-full flex justify-center md:w-[570px] md:m-2 sm:w-[410px] sm:mt-4 ">
+    <div className="w-full">
       <div className="flex-1">
-        <div className="flex border h-12  relative gap-2">
+        <div className="flex border h-[60px] mt-5 relative items-center gap-6">
           {/* - - - search input - - -  */}
           <input
             className="border-0 bg-transparent w-full text-slate-500 outline-none px-3 h-full"
@@ -55,7 +55,7 @@ function SearchBar() {
           />
           {results.length > 0 && (
             <button
-              className="h-full uppercase font-semibold px-4 text-slate-600"
+              className="h-full uppercase font-semibold px-8 text-slate-600"
               onClick={() => {
                 dispatch(clearResults(input));
                 setInput("");
@@ -72,12 +72,14 @@ function SearchBar() {
         <div className="mt-4 absolute z-10 bg-white w-full md:w-[650px] md:m-0 sm:w-[410px] sm:mt-4 lg:w-[650px]">
           {loading && <p>Loading...</p>}
           {error && input ? (
-            <p className="text-red-500 flex justify-center items-center">{error.message}</p>
+            <p className="text-red-500 flex justify-center items-center">
+              {error.message}
+            </p>
           ) : (
             results.length > 0 && (
               <ul className="w-full md:w-[650px] md:m-0 sm:w-[410px] sm:mt-4 lg:w-[650px]">
                 {results.map((product) => (
-                  <li 
+                  <li
                     key={product._id}
                     className="py-1 cursor-pointer hover:scale-105 transition-transform duration-300 hover:bg-gray-100 border-b md:w-[550px] md:m-0 sm:w-[410px] sm:mt-4 lg:w-[650px]"
                   >
