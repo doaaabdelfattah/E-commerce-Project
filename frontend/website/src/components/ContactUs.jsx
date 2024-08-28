@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useDispatch } from "react-redux";
+import { contactSendEmail } from "../redux/reducers/contactSlice";
+import { useSelector } from "react-redux";
 const ContactUs = () => {
+  const dispatch = useDispatch();
+  const { status, message } = useSelector((state) => state.contact);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +21,8 @@ const ContactUs = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(contactSendEmail(formData));
+
     // Handle form submission (e.g., send form data to a server)
     console.log("Form submitted:", formData);
     // Reset the form after submission
@@ -30,11 +37,11 @@ const ContactUs = () => {
       <Header />
       <div className="max-w-md mx-auto mt-10">
         <h2 className="text-3xl font-semibold text-center mb-6">Contact Us</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 mb-10">
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-md font-medium text-gray-700"
             >
               Name
             </label>
@@ -52,7 +59,7 @@ const ContactUs = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-md font-medium text-gray-700"
             >
               Email
             </label>
@@ -70,7 +77,7 @@ const ContactUs = () => {
           <div>
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-md font-medium text-gray-700"
             >
               Message
             </label>
@@ -87,10 +94,22 @@ const ContactUs = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="h-full uppercase font-semibold px-[4rem] text-white bg-[#1F212A] hover:bg-[#BC9B80] transition-all duration-300 py-3"
             >
               Send Message
             </button>
+          </div>
+          <div className="mx-auto text-center">
+            {status === "succeeded" && (
+              <p className="mb-4 text-green-600">
+                Your message has been sent. Thank you!
+              </p>
+            )}
+            {status === "failed" && (
+              <p className="mt-4 text-red-600">
+                Something went wrong. Please try again.
+              </p>
+            )}
           </div>
         </form>
       </div>

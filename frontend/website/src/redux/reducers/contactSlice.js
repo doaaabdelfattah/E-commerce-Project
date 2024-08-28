@@ -4,7 +4,8 @@ import { api2 } from '../../api/api';
 
 // Initial state with a more structured format
 const initialState = {
-  content: [],
+  message: '',
+  status: 'idle'
 };
 
 export const contactSendEmail = createAsyncThunk('contact/SendEmail', async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -30,8 +31,10 @@ const contactSlice = createSlice({
 
       .addCase(contactSendEmail.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // console.log('Action payload:', action.payload); // Log action payload
-        state.content = action.payload;
+        console.log('Action payload contact:', action.payload); // Log action payload
+        state.message = action.payload.message;
+
+
       });
   },
 });

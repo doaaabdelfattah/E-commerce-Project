@@ -53,7 +53,7 @@ const OrderDetails = ({ order }) => {
   console.log("details:", productDetails);
 
   return (
-    <div className="flex justify-around w-full mx-auto border-b-2 border-black mb-4 p-4">
+    <div className="flex justify-around flex-wrap w-full mx-auto border-b-2 border-black mb-4 p-4">
       <div className="leading-relaxed mt-8 p-6inline-block text-left">
         <div className="mb-5">
           <h2 className="text-2xl font-semibold">
