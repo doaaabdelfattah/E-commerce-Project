@@ -50,7 +50,8 @@ const Banner = () => {
           <h2>Top Categories</h2>
           <div className="w-[100px] h-[2px] bg-[#BC9B80] mt-4"></div>
         </div>
-        <Carousel className="z-0" 
+        <Carousel
+          className="z-0"
           autoPlay={true}
           infinite={true}
           arrows={true}
@@ -62,6 +63,10 @@ const Banner = () => {
               className="h-fit block"
               key={category.id}
               to={`/category/${category.id}`}
+              state={{
+                categoryId: category.id,
+                categoryName: category.name,
+              }} // Pass state
               onClick={() => handleCategoryClick(category.id)}
             >
               <div className="w-full h-full relative custom-hover-effect transform transition-all duration-500 p-3">

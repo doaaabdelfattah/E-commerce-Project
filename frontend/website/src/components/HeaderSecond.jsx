@@ -3,18 +3,22 @@ import SearchBar from "./SearchBar";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsByCategory } from "../redux/reducers/productsSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const HeaderSecond = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const navigate = useNavigate();
 
-  const [showCategory, setShowCategory] = useState(false); // Start with dropdown hidden
+  const [showCategory, setShowCategory] = useState(false);
   const categoryRef = useRef(null);
 
-  const handleCategoryClick = (categoryId) => {
+  const handleCategoryClick = (categoryId, categoryName) => {
     dispatch(fetchProductsByCategory(categoryId));
     setShowCategory(false); // Close dropdown after selection
+    navigate(`/category/${categoryId}`); // Navigate to the new page with categoryId
+    setSelectedCategory(categoryName);
   };
 
   // Close dropdown when clicking outside
@@ -44,7 +48,7 @@ const HeaderSecond = () => {
             >
               <div className="flex justify-center items-center gap-3">
                 <span className="text-2xl"></span>
-                <span>All categories</span>
+                <span>{selectedCategory}</span>
               </div>
               <span className="text-2xl">
                 <MdKeyboardArrowDown />
@@ -65,7 +69,14 @@ const HeaderSecond = () => {
                   >
                     <Link
                       className="block"
-                      onClick={() => handleCategoryClick(category.id)}
+                      to={`/category/${category.id}`}
+                      state={{
+                        categoryId: category.id,
+                        categoryName: category.name,
+                      }} // Pass state
+                      onClick={() =>
+                        handleCategoryClick(category.id, category.name)
+                      }
                     >
                       {category.name}
                     </Link>
