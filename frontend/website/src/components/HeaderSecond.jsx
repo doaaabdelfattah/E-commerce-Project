@@ -10,6 +10,7 @@ const HeaderSecond = () => {
   const categories = useSelector((state) => state.categories.categories);
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const navigate = useNavigate();
+  console.log("categories:", categories);
 
   const [showCategory, setShowCategory] = useState(false);
   const categoryRef = useRef(null);

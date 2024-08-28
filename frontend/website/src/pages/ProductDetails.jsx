@@ -9,11 +9,30 @@ import Footer from "../components/Footer";
 import AddToCartButton from "../utils/AddToCartButton.jsx";
 
 const ProductDetails = () => {
-  const dispatch = useDispatch();
+  const [discountPrice, setDiscountPrice] = useState(0);
   const [productDetails, setProductsDetails] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { products } = useSelector((state) => state.products);
+  const { categories } = useSelector((state) => state.categories);
   const { userId } = useSelector((state) => state.auth);
+
+  const categoryDetails = categories.find(
+    (category) => productDetails?.category === category.id
+  );
+  const categoryName = categoryDetails
+    ? categoryDetails.name
+    : "Unknown Category";
+
+  // Calculate the discounted price
+  useEffect(() => {
+    if (productDetails?.discount) {
+      const calculatedDiscountPrice = (
+        productDetails.price -
+        (productDetails.price * productDetails.discount) / 100
+      ).toFixed(2);
+      setDiscountPrice(calculatedDiscountPrice);
+    }
+  }, [productDetails]);
 
   const { id } = useParams();
 
@@ -22,10 +41,13 @@ const ProductDetails = () => {
   console.log("product Details: ", productDetails);
 
   // ======== Get Product details
+
   useEffect(() => {
     const findDetails = products.find((product) => product.id === id);
     if (findDetails) {
       setProductsDetails(findDetails);
+    } else {
+      setProductsDetails(null);
     }
   }, [id, products]);
 
@@ -42,11 +64,11 @@ const ProductDetails = () => {
       {productDetails ? (
         <div className="mx-auto w-[85%] md-lg:h-fit md-lg:mb-5 md-lg:pb-10 h-screen mt-[100px]">
           <div className="grid grid-cols-2 md-lg:flex md-lg:flex-col  mt-9 mx-auto px-[20px]">
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center p-5">
               <img
                 src={productDetails.image}
                 alt=""
-                className="w-[400px] p-10"
+                className="w-full p-10"
               ></img>
             </div>
 
@@ -55,7 +77,7 @@ const ProductDetails = () => {
                 {productDetails.title}
               </h1>
               <h3 className="pt-3 overflow-hidden mb-5 hover:text-[#BC9B80]">
-                <Link to="">{productDetails.category}</Link>
+                <Link to="">{categoryName}</Link>
               </h3>
               {/* ============ */}
               <hr></hr>
@@ -65,12 +87,23 @@ const ProductDetails = () => {
               {/* ============ */}
               <hr></hr>
 
-              <div className="p-5">
+              <div className="p-5 flex justify-center items-center flex-col">
                 <div className="mt-5 px-10 gap-4 flex md-lg:justify-center md-lg:flex-wrap items-center">
                   <h3 className="text-xl">Price:</h3>
-                  <p className="text-5xl font-semibold">
-                    {productDetails.price}$
-                  </p>
+                  <div className="text-2xl flex">
+                    {productDetails.discount ? (
+                      <>
+                        <h2 className="line-through mr-5">
+                          {productDetails.price}$
+                        </h2>
+                        <h2 className=" font-semibold">{discountPrice}$</h2>
+                      </>
+                    ) : (
+                      <span className="line-through">
+                        {productDetails.price}$
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="mt-5 gap-4 px-10 flex md-lg:justify-center md-lg:flex-wrap items-center">
                   <h3 className="text-xl">Rating:</h3>
