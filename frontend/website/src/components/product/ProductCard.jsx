@@ -20,6 +20,12 @@ const ProductCard = ({ product }) => {
   }, [product.id]);
 
   const handleWishlistClick = () => {
+    if (!userId) {
+      // Optionally, you can show a message to the user indicating they need to log in
+      console.log("User must be logged in to modify the wishlist.");
+      navigate("/login");
+      return;
+    }
     const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     if (isInWishlist) {
       dispatch(removeProductFromWishList({ userId, productId: product.id }));
