@@ -24,25 +24,28 @@ import { FiShoppingCart } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import SearchBar from "./SearchBar";
 import { selectTotalQuantity } from "../redux/reducers/cartSlice";
-import {
-  fetchWishlistItems,
-  addProductToWishList,
-} from "../redux/reducers/wishListSlice";
+
+
 const Header = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
   const { userId, userName, isAuthenticated } = useSelector(
     (state) => state.auth
-  );
+);
 
   // handle wishList icon
   const wishlistItems = useSelector((state) => state.wishlist.items);
-
+  const navigate = useNavigate();
   const handleWishlistClick = () => {
-    navigate("/Wishlist");
+   if (isAuthenticated) {
+      navigate("/Wishlist");
+    }else{
+      navigate("/login");
+      
+    }
   };
 
-  const navigate = useNavigate();
+
   const handleCartClick = () => {
     navigate("/cart");
   };
@@ -50,7 +53,7 @@ const Header = () => {
   const [showSideBar, setshowSideBar] = useState(true);
   const [showCategory, setshowCategory] = useState(true);
 
-  const [wishlist, setWishlist] = useState(0);
+
 
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchProductsByCategory(categoryId));
@@ -244,8 +247,9 @@ const Header = () => {
                       <span className="text-3xl">
                         <FaRegHeart onClick={handleWishlistClick} />
                       </span>
+                      
                       <div className="absolute w-[20px] h-[20px] bg-[#BC9B80] text-white flex justify-center items-center rounded-full -top-[3px] -right-[6px]">
-                        {wishlistItems.length}
+                      {userId ? wishlistItems.length : 0}
                       </div>
                     </div>
                     {/* Shopping Cart */}
